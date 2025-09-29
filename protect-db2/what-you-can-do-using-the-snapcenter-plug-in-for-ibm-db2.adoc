@@ -1,0 +1,23 @@
+---
+permalink: protect-db2/what-you-can-do-using-the-snapcenter-plug-in-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: 環境に IBM Db2 用プラグインをインストールすると、 SnapCenterを使用して IBM Db2 とそのリソースをバックアップ、復元、複製できます。これらの処理をサポートするタスクも実行できます。 
+---
+= SnapCenter Plug-in for IBM Db2の機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for IBM Db2 Databaseをインストールした環境では、SnapCenterを使用してIBM Db2データベースとそのリソースをバックアップ、リストア、クローニングできます。これらの処理をサポートするタスクも実行できます。
+
+* データベースを追加します。
+* バックアップを作成します。
+* バックアップからリストアします。
+* バックアップをクローニングします。
+* バックアップ処理のスケジュールを設定します。
+* バックアップ、リストア、クローニングの各処理を監視します。
+* バックアップ、リストア、クローニングの各処理のレポートを表示します。
+

@@ -1,0 +1,25 @@
+---
+permalink: install/register-snapcenter-software.html 
+sidebar: sidebar 
+keywords: register, new customer, NetApp account, enable support 
+summary: 既存のNetAppアカウントをお持ちでない場合は、サポートを有効にするために製品を登録する必要があります。 
+---
+= SnapCenterを登録する
+:allow-uri-read: 
+
+
+[role="lead"]
+NetApp製品を初めて使用し、既存のNetAppアカウントを持っていない場合は、サポートを有効にするためにSnapCenterを登録する必要があります。
+
+.手順
+. SnapCenterをインストールした後、*ヘルプ > バージョン情報*に移動します。
+. [SnapCenter について] ダイアログ ボックスで、971 で始まる 20 桁の番号であるSnapCenterインスタンスをメモします。
+. クリック https://register.netapp.com[]。
+. *私はNetAppの登録顧客ではありません* をクリックします。
+. ご自身の情報を指定して、登録します。
+. [NetApp Reference SN]フィールドは空白のままにします。
+. 製品ラインドロップダウンから* SnapCenter*を選択します。
+. 課金プロバイダを選択します。
+. 20桁のSnapCenterインスタンスIDを入力します。
+. *送信*をクリックします。
+

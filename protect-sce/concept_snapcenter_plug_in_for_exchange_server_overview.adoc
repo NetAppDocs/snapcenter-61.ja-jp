@@ -1,0 +1,28 @@
+---
+permalink: protect-sce/concept_snapcenter_plug_in_for_exchange_server_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Exchange Server 
+summary: Microsoft Exchange Server 用のSnapCenterプラグインは、Exchange データベースのアプリケーション対応のデータ保護管理を可能にする NetAppSnapCenter ソフトウェアのホスト側コンポーネントです。Plug-in for Exchangeを使用すると、SnapCenter環境でのExchangeデータベースのバックアップとリストアが自動化されます。 
+---
+= SnapCenter Plug-in for Microsoft Exchange Serverの概要
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft Exchange Serverは、Exchangeデータベースに対するアプリケーション対応データ保護管理を可能にする、NetApp SnapCenterソフトウェアのホスト側コンポーネントです。Plug-in for Exchangeを使用すると、SnapCenter環境でのExchangeデータベースのバックアップとリストアが自動化されます。
+
+Plug-in for Exchangeをインストールすると、SnapCenterでNetApp SnapMirrorテクノロジを使用して別のボリュームにバックアップ セットのミラー コピーを作成できるほか、NetApp SnapVaultテクノロジを使用して標準への準拠やアーカイブを目的としたディスクツーディスク バックアップ レプリケーションを実行できます。
+
+Exchangeデータベース全体ではなく、メールやメールボックスの単位でリストアとリカバリを実行する場合は、Single Mailbox Recovery（SMBR）ソフトウェアを使用できます。NetApp® Single Mailbox Recoveryは、2023年5月12日に販売終了（EOA）になりました。2020年6月24日に導入された販売用パーツ番号を通じてメールボックスの容量、メンテナンス、サポートを購入されたお客様には、サポート対象の期間中は引き続きサポートを提供いたします。
+
+NetApp Single Mailbox Recoveryは、Ontrackが提供するパートナー製品です。Ontrack PowerControlsには、NetApp Single Mailbox Recoveryと同様の機能が用意されています。お客様は、新しいOntrack PowerControlsソフトウェア ライセンスとOntrack PowerControlsのメンテナンスおよびサポート更新をOntrackから（licensingteam@ontrack.com経由で）購入して、メールボックスをきめ細かくリカバリできます。
+
+Exchange 用プラグインは、サイト全体に障害が発生した場合でもビジネス サービスの運用を継続できるようにするSnapMirrorアクティブ シンク (当初はSnapMirror Business Continuity [SM-BC] としてリリース) をサポートし、セカンダリ コピーを使用してアプリケーションを透過的にフェイルオーバーできるようにします。SnapMirrorアクティブ同期でフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+
+SnapMirrorアクティブ同期の非対称モード、フェイルオーバー モード、または非二重モードがサポートされます。これは、最適パスがプライマリ側のLUNの所有者ノードからのみであるソリューションを意味します。セカンダリ クラスタ パス上のI/Oは、プロキシ経由でプライマリ クラスタに提供されます。同期レプリケーションは、プライマリからセカンダリへの一方向です。
+
+* SnapCenter環境のMicrosoft Exchange Serverデータベースとデータベース可用性グループ（DAG）に対するアプリケーション対応のバックアップとリストアの各処理が自動化されます。
+* SnapCenter Plug-in for VMware vSphereを展開し、そのプラグインをSnapCenterに登録すると、RDM LUN 上の仮想化された Exchange Server がサポートされます。
+

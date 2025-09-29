@@ -1,0 +1,43 @@
+---
+permalink: protect-nsp/what_you_can_do_with_the_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: データ保護操作には、 NetAppがサポートするプラグインを使用できます。 
+---
+= NetAppがサポートしているプラグインの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+データ保護操作には、MongoDB、ORASCPM、Oracle Applications、SAP ASE、SAP MaxDB、ストレージ プラグインなどのNetAppがサポートするプラグインを使用できます。
+
+* データベース、インスタンス、ドキュメント、表領域などのリソースを追加します。
+* バックアップを作成します。
+* バックアップからリストアします。
+* バックアップをクローニングします。
+* バックアップ処理のスケジュールを設定します。
+* バックアップ、リストア、クローニングの各処理を監視します。
+* バックアップ、リストア、クローニングの各処理のレポートを表示します。
+
+
+データ保護操作には、 NetAppがサポートするプラグインを使用できます。
+
+* ONTAPクラスタ間でストレージ ボリュームの整合グループSnapshotを作成します。
+* 組み込みのプレ / ポスト スクリプト フレームワークを使用して、カスタム アプリケーションをバックアップします。
++
+ONTAPボリューム、LUN、またはqtreeをバックアップできます。
+
+* SnapCenterポリシーを使用して、既存のレプリケーション関係（SnapVault / SnapMirror /ユニファイド レプリケーション）を利用して、プライマリで作成されたSnapshotをONTAPセカンダリに更新します。
++
+ONTAPプライマリおよびセカンダリには、 ONTAP FAS、 AFF、 ASA、 ONTAP Select、またはCloud Volumes ONTAP を使用できます。
+
+* ONTAPボリューム、LUN、またはファイル全体をリカバリします。
++
+ブラウズ機能またはインデックス機能が製品に組み込まれていないため、それぞれのファイル パスを手動で指定する必要があります。
+
++
+qtreeまたはディレクトリのリストアはサポートされていませんが、バックアップ範囲がqtreeレベルで定義されている場合は、qtreeに限りクローニングとエクスポートを実行できます。
+
+

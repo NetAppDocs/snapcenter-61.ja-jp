@@ -1,0 +1,94 @@
+---
+permalink: protect-sco/concept_snapcenter_plug_in_for_oracle_database_features.html 
+sidebar: sidebar 
+keywords: plug-in for Oracle features 
+summary: Plug-in for Oracle Databaseは、LinuxまたはAIXホスト上でOracleデータベースと統合されるほか、ストレージ システム上でNetAppのテクノロジと統合されます。 
+---
+= Plug-in for Oracle Databaseの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for Oracle Databaseは、LinuxまたはAIXホスト上でOracleデータベースと統合されるほか、ストレージ システム上でNetAppのテクノロジと統合されます。
+
+* 統一されたグラフィカル ユーザ インターフェイス
++
+SnapCenterのインターフェイスは、すべてのプラグインと環境で標準化され、一貫しています。どのプラグインでも、SnapCenterのインターフェイスから、バックアップ、リストア、リカバリ、クローニングの各処理を一貫した方法で実行できるほか、ダッシュボード ビューで概要を把握したり、ロールベース アクセス制御（RBAC）を設定したり、ジョブを監視したりすることができます。
+
+* 自動化された全体管理
++
+バックアップ処理とクローン処理のスケジュールを設定したり、ポリシーベースのバックアップ保持を設定したり、リストア処理を実行したりできます。SnapCenterからのEメール アラートの送信を設定して、環境をプロアクティブに監視することもできます。
+
+* 無停止のNetApp Snapshotテクノロジ
++
+SnapCenterでは、Plug-in for Oracle DatabaseおよびPlug-in for UNIXでNetApp Snapshotテクノロジを使用してデータベースがバックアップされます。Snapshotはストレージ スペースを最小限しか消費しません。
+
+
+
+Plug-in for Oracle Databaseには、次の利点もあります。
+
+* バックアップ、リストア、クローニング、マウント、アンマウント、検証の各処理のワークフローがサポートされます。
+* ホスト上に構成されたOracleデータベースの自動検出
+* Oracle Recovery Manager（RMAN）を使用したカタログ化とカタログ化解除がサポートされます。
+* セキュリティがRBACでサポートされ、ロール委譲が一元化されます。
++
+クレデンシャルを設定して、許可されたSnapCenterユーザにアプリケーションレベルのアクセス権を付与することもできます。
+
+* リストア処理とクローニング処理でのアーカイブ ログ管理（ALM）のサポート
+* NetApp FlexCloneテクノロジを使用して、テストまたはデータ抽出に使用する本番環境データベースのコピー（スペース効率に優れたポイントインタイム コピー）を作成できます。
++
+クローンを作成するストレージ システムにFlexCloneライセンスが必要です。
+
+* SAN環境およびASM環境でバックアップを作成する際に、ONTAPの整合グループ（CG）機能がサポートされます。
+* 自動化された無停止のバックアップ検証を利用できます。
+* 複数のデータベース ホストで同時に複数のバックアップを実行できます。
++
+1回の処理で、1つのホストの複数のデータベースが同じボリュームを共有する場合に複数のSnapshotが統合されます。
+
+* 物理インフラと仮想インフラがサポートされます。
+* NFS、iSCSI、ファイバチャネル（FC）、RDM、NFSおよびVMFS経由のVMDK、NFS、SAN、RDM、およびVMDK経由のASMがサポートされます。
+* ONTAPの選択的LUNマップ（SLM）機能がサポートされます。
++
+デフォルトで有効になるSLM機能は、最適パスを持たないLUNを定期的に検出して修正します。SLMを設定するには、/var/opt/snapcenter/scu/etcにあるscu.propertiesファイルのパラメータを変更します。
+
++
+** ENABLE_LUNPATH_MONITORING パラメータの値を false に設定することで、これを無効にすることができます。
+** LUNPATH_MONITORING_INTERVAL パラメータに値 (時間単位) を割り当てることで、LUN パスが自動的に修正される頻度を指定できます。  SLMの詳細については、 https://docs.netapp.com/us-en/ontap/san-admin/index.html["ONTAP 9 SAN管理セクション"^] 。
+
+
+* LinuxでNon-Volatile Memory express（NVMe）がサポートされます。
++
+** NVMeユーティリティがホストにインストールされている必要があります。
++
+代替ホストにクローニングまたはマウントするには、NVMeユーティリティをインストールする必要があります。
+
+** バックアップ、リストア、クローニング、マウント、アンマウント、カタログ化、カタログ化解除、検証の処理は、RDMなどの仮想環境を除き、NVMeハードウェアでサポートされます。
++
+上記の処理は、パーティションのないデバイスまたは単一パーティションのデバイスでサポートされています。
+
++
+
+NOTE: NVMeデバイス用にマルチパス ソリューションを設定するには、カーネルでネイティブ マルチパス オプションを設定します。デバイス マッパー（DM）マルチパスはサポートされていません。
+
+** NVMe over TCP/IPでは、バックアップ、リストア、クローニング、マウント、アンマウント、カタログ化、カタログ化解除、検証の各ワークフローがサポートされます。
+** NVMe over TCP/IP上に作成されたVMDKレイアウトでは、バックアップ、リストア、クローニング、マウント、アンマウント、カタログ化、カタログ化解除、検証の各ワークフローがサポートされます。
+
+
+* サイト全体の障害時でもビジネス サービスの運用を継続できるようにするSnapMirrorアクティブ シンク (当初はSnapMirror Business Continuity [SM-BC] としてリリース) をサポートし、セカンダリ コピーを使用してアプリケーションを透過的にフェイルオーバーできるようにします。SnapMirrorアクティブ同期でフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+* デフォルト（oracleとgrid）以外の任意のユーザをサポートします。
++
+デフォルト以外のユーザーをサポートするには、_file /var/opt/snapcenter/sco/etc/_ にある *sco.properties* ファイル内のパラメーターの値を変更して、デフォルト以外のユーザーを設定する必要があります。
+
++
+パラメータのデフォルト値はoracleおよびgridに設定されています。
+
++
+** DB_USER=oracle
+** DB_GROUP=oinstall
+** GI_USER=grid
+** GI_GROUP=oinstall
+
+
+

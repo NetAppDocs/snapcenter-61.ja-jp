@@ -1,0 +1,189 @@
+---
+permalink: install/task_install_the_snapcenter_server_using_the_install_wizard.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install wizard, features enabled 
+summary: SnapCenter Serverインストーラの実行ファイルを使用して、SnapCenter Serverをインストールできます。 
+---
+= WindowsホストへのSnapCenter Serverのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Serverインストーラの実行ファイルを使用して、SnapCenter Serverをインストールできます。
+
+必要に応じて、PowerShellコマンドレットを使用して複数のインストール手順や設定手順を実行することもできます。PowerShell 7.4.2 以降を使用する必要があります。
+
+
+NOTE: コマンドラインからのSnapCenter Serverのサイレント インストールは、サポートされていません。
+
+.開始する前に
+* SnapCenter ServerホストにWindowsの最新の更新プログラムが適用されていて、システムの再起動が完了している必要があります。
+* SnapCenter ServerをインストールするホストにMySQL Serverがインストールされていないことを確認しておく必要があります。
+* Windowsインストーラのデバッグを有効にしておく必要があります。
++
+有効化の詳細については、MicrosoftのWebサイトを参照してください。 https://support.microsoft.com/kb/223300["Windowsインストーラのログ"^] 。
+
++
+
+NOTE: Microsoft Exchange Server、Active Directory、またはドメイン ネーム サーバが配置されたホストには、SnapCenter Serverをインストールしないでください。
+
+
+
+.手順
+. SnapCenter Serverのインストールパッケージを以下からダウンロードします。 https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetAppサポート サイト"^] 。
+. ダウンロードした.exeファイルをダブルクリックして、SnapCenter Serverのインストールを開始します。
++
+インストールを開始すると、すべての事前確認が実行されます。最小要件を満たしていない場合は、対応するエラーまたは警告メッセージが表示されます。
+
++
+警告メッセージは無視してインストールを続行できますが、エラーは修正する必要があります。
+
+. SnapCenter Serverのインストールに必要な入力済みの値を確認し、必要に応じて変更します。
++
+MySQL Serverリポジトリ データベースのパスワードを指定する必要はありません。SnapCenter Serverのインストール時には、パスワードが自動生成されます。
+
++
+
+NOTE: 特殊文字「`%`" is not supported in the custom path for the repository database. If you include "`パスに「%`」が含まれていると、インストールは失敗します。
+
+. *今すぐインストール*をクリックします。
++
+無効な値を指定すると、対応するエラー メッセージが表示されます。値を再入力してからインストールを開始してください。
+
++
+
+NOTE: *キャンセル*ボタンをクリックすると、実行中のステップが完了し、ロールバック操作が開始されます。SnapCenter Serverはホストから完全に削除されます。
+
++
+ただし、「SnapCenter Server サイトの再起動」または「 SnapCenter Server の起動を待機中」の操作の実行中に [*キャンセル*] をクリックすると、操作はキャンセルされずにインストールが続行されます。
+
++
+ログ ファイルは常にadminユーザの%temp%フォルダに（古い順に）表示されます。ログの場所をリダイレクトする場合は、次のコマンドを実行して、コマンド プロンプトからSnapCenter Server のインストールを開始します。``C:\installer_location\installer_name.exe /log"C:\"``
+
+
+
+
+
+== インストール中に Windows ホストで有効になる機能
+
+SnapCenter Serverインストーラでのインストール中、WindowsホストでWindowsの機能とロールが有効になります。これらは、ホスト システムのトラブルシューティングと保守に役立つ可能性があります。
+
+|===
+| カテゴリ | 特徴 
+
+
+ a| 
+Webサーバー
+ a| 
+* インターネット インフォメーション サービス
+* World Wide Webサービス
+* HTTP共通機能
++
+** 既定のドキュメント
+** ディレクトリの参照
+** HTTPエラー
+** HTTPリダイレクション
+** 静的なコンテンツ
+** WebDAV発行
+
+
+* 状態と診断
++
+** カスタム ログ
+** HTTPログ
+** ログ ツール
+** 要求監視
+** トレース
+
+
+* パフォーマンス機能
++
+** 静的なコンテンツの圧縮
+
+
+* セキュリティ
++
+** IPセキュリティ
+** 基本認証
+** 一元的なSSL証明書のサポート
+** クライアント証明書マッピング認証
+** IIS クライアント証明書マッピング認証
+** IPおよびドメインの制限
+** 要求フィルター
+** URL承認
+** Windows認証
+
+
+* アプリケーション開発機能
++
+** .NET拡張機能4.5
+** アプリケーションの初期化
+** ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+** サーバー側インクルード
+** WebSocketプロトコル
+
+
+* 管理ツール
++
+** IIS管理コンソール
+
+
+
+
+
+
+ a| 
+IIS管理スクリプトおよびツール
+ a| 
+* IIS管理サービス
+* Web管理ツール
+
+
+
+
+ a| 
++.NET Framework 8.0.12 の機能+
+ a| 
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+* Windows Communication Foundation (WCF) HTTP Activation45
++
+** TCPアクティブ化
+** HTTPアクティブ化
+
+
+
+
+.NET特有のトラブルシューティング情報については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["インターネットに接続できないレガシーシステムでは、 SnapCenter のアップグレードまたはインストールが失敗します。"^] 。
+
+
+
+ a| 
+メッセージ キュー
+ a| 
+* メッセージ キュー サービス
++
+
+NOTE: SnapCenterで作成および管理するMSMQサービスが他のアプリケーションで使用されていないことを確認してください。
+
+* RabbitMQ
+* Erlang
+
+
+
+
+ a| 
+Windowsプロセス アクティブ化サービス
+ a| 
+* プロセス モデル
+
+
+
+
+ a| 
+構成API
+ a| 
+All
+
+|===

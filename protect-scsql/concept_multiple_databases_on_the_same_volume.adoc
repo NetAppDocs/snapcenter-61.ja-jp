@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_multiple_databases_on_the_same_volume.html 
+sidebar: sidebar 
+keywords: Multiple databases 
+summary: 'バックアップ ポリシーにはバックアップあたりの最大データベース数を設定するオプションがあるため (デフォルト値は 100)、すべてのデータベースを同じボリュームに配置できます。' 
+---
+= 同じボリューム上の複数のデータベース
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+バックアップ ポリシーには、バックアップあたりの最大データベース数を設定するオプション（デフォルト値は100）があるため、すべてのデータベースを同じボリュームに配置できます。
+
+たとえば、同じボリュームに200個のデータベースがある場合、100個のデータベースを含むSnapshotが2つ作成されます。

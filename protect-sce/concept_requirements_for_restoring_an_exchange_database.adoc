@@ -1,0 +1,27 @@
+---
+permalink: protect-sce/concept_requirements_for_restoring_an_exchange_database.html 
+sidebar: sidebar 
+keywords: restoring an Exchange database 
+summary: SnapCenter Plug-in for Microsoft Exchange ServerのバックアップからExchange Serverデータベースをリストアする前に、以下の要件を満たしていることを確認する必要があります。 
+---
+= Exchangeデータベースをリストアする際の要件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft Exchange ServerのバックアップからExchange Serverデータベースをリストアする前に、以下の要件を満たしていることを確認する必要があります。
+
+
+NOTE: すべてのリストア機能を使用するには、SnapCenter ServerとSnapCenter Plug-in for Exchangeデータベースの両方を4.6にアップグレードする必要があります。
+
+* Exchange Serverがオンラインで、稼働している必要があります。
+* データベースがExchange Server上に存在している必要があります。
++
+
+NOTE: 削除したデータベースのリストアはサポートされていません。
+
+* データベースのSnapCenterスケジュールは、一時停止する必要があります。
+* SnapCenter ServerとSnapCenter Plug-in for Microsoft Exchange Serverホストが、リストア対象のバックアップが格納されているプライマリ ストレージとセカンダリ ストレージに接続されている必要があります。
+

@@ -1,0 +1,61 @@
+---
+permalink: protect-scsql/concept_snapcenter_plug_in_for_microsoft_sql_server_features.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Plug-in for SQL Serverは、Windowsホスト上でMicrosoft SQL Serverデータベースと統合されるほか、システム上でNetApp Snapshotテクノロジと統合されます。Plug-in for SQL Serverの操作には、SnapCenterのインターフェイスを使用します。 
+---
+= SnapCenter Plug-in for Microsoft SQL Serverの特長
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for SQL Serverは、Windowsホスト上でMicrosoft SQL Serverデータベースと統合されるほか、システム上でNetApp Snapshotテクノロジと統合されます。Plug-in for SQL Serverの操作には、SnapCenterのインターフェイスを使用します。
+
+Plug-in for SQL Serverの主な機能は次のとおりです。
+
+* * SnapCenterによる統合グラフィカル ユーザー インターフェイス*
++
+SnapCenterのインターフェイスは、すべてのプラグインと環境で標準化され、一貫しています。どのプラグインでも、SnapCenterのインターフェイスから、バックアップ プロセスとリストア プロセスを一貫した方法で実行できるほか、ダッシュボード ビューで概要を把握したり、ロールベース アクセス制御（RBAC）を設定したり、ジョブを監視したりすることができます。また、SnapCenterでは、バックアップとクローニングの処理に対応したスケジュールとポリシーの一元管理もサポートされます。
+
+* *自動化された中央管理*
++
+日常的なSQL Serverバックアップのスケジュールを設定したり、ポリシーベースのバックアップ保持、ポイントインタイムのリストア処理、および最新の状態へのリストア処理を設定することができます。SnapCenterからのEメール アラートの送信を設定して、SQL Server環境をプロアクティブに監視することもできます。
+
+* *無停止のNetAppスナップショットテクノロジー*
++
+Plug-in for SQL Serverは、NetApp SnapCenter Plug-in for Microsoft WindowsでNetApp Snapshotテクノロジを使用します。これにより、データベースを数秒でバックアップし、SQL Serverをオフラインにすることなく迅速にリストアすることが可能です。Snapshotはストレージ スペースを最小限しか消費しません。
+
+
+
+Plug-in for SQL Serverには、上記の主要な機能以外にも次のようなメリットがあります。
+
+* バックアップ、リストア、クローニング、および検証のワークフローがサポートされます。
+* セキュリティがRBACでサポートされ、ロール委譲が一元化されます。
+* NetApp FlexCloneテクノロジを使用して、テストまたはデータ抽出に使用する本番環境データベースのコピー（スペース効率に優れたポイントインタイム コピー）を作成できます。
++
+クローンを保持するストレージ システムにFlexCloneライセンスが必要です。
+
+* 自動化された無停止のバックアップ検証を利用できます。
+* 複数のサーバで同時に複数のバックアップを実行できます。
+* PowerShellコマンドレットを使用して、バックアップ、検証、リストア、クローニングの処理のスクリプトを作成できます。
+* SQL ServerのAlwaysOn可用性グループ（AG）をサポートしているため、AGのセットアップ、バックアップ、リストアの各処理を迅速に実行できます。
+* SQL Server 2014の機能であるインメモリ データベースとバッファ プール拡張（BPE）がサポートされます。
+* LUNと仮想マシン ディスク（VMDK）のバックアップがサポートされます。
+* 物理インフラと仮想インフラがサポートされます。
+* iSCSI、ファイバチャネル、FCoE、rawデバイス マッピング（RDM）、およびNFS / VMFS経由のVMDKがサポートされます。
++
+
+NOTE: NASボリュームに、Storage Virtual Machine（SVM）のデフォルト エクスポート ポリシーが必要です。
+
+* SQL Serverのスタンドアロン データベースで、FileStreamとファイル グループがサポートされます。
+* Windows Server 2022でNon-Volatile Memory express（NVMe）がサポートされます。
++
+** NVMe over TCP/IPで作成されたVMDKレイアウト上のバックアップ、リストア、クローニング、検証の各ワークフロー。
+** ESX 8.0 Update 2以降のNVMeファームウェア バージョン1.3をサポートします。仮想マシン ハードウェア バージョン21が必要です。
+** Windows Serverフェイルオーバー クラスタリング（WSFC）は、NVMe over TCP/IP上のVMDKを介したアプリケーションではサポートされません。
+
+
+* サイト全体の障害時でもビジネス サービスの運用を継続できるようにするSnapMirrorアクティブ シンク (当初はSnapMirror Business Continuity [SM-BC] としてリリース) をサポートし、セカンダリ コピーを使用してアプリケーションを透過的にフェイルオーバーできるようにします。SnapMirrorアクティブ同期でフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+

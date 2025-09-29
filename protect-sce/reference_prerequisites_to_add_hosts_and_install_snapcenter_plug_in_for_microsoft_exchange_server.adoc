@@ -1,0 +1,183 @@
+---
+permalink: protect-sce/reference_prerequisites_to_add_hosts_and_install_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: ホストを追加してプラグイン パッケージをインストールする前に、すべての要件を満たしておく必要があります。 
+---
+= ホストを追加してSnapCenter Plug-in for Microsoft Exchange Serverをインストールするための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ホストを追加してプラグイン パッケージをインストールする前に、すべての要件を満たしておく必要があります。
+
+* iSCSIを使用している場合は、iSCSIサービスが実行されている必要があります。
+* ローカル管理者権限があり、リモート ホストに対してローカル ログインのアクセス許可があるドメイン ユーザが必要です。
+* スタンドアロン構成およびデータベース可用性グループ構成にMicrosoft Exchange Server 2013、2016、または2019を使用している必要があります。
+* Windowsホストにプラグインをインストールする際、組み込みでないクレデンシャルを指定する場合や、ユーザがローカル ワークグループに属している場合は、ホストのUACを無効にする必要があります。
+* SnapCenterでクラスタ ノードを管理する場合は、クラスタ内のすべてのノードに対する管理者権限があるユーザが必要です。
+* Exchange Serverの管理権限があるユーザが必要です。
+* SnapManager for Microsoft Exchange ServerとSnapDrive for Windowsがすでにインストールされている場合は、SnapCenterを使用してデータを確実に保護するために、同じExchange ServerにPlug-in for Exchangeをインストールする前にSnapDrive for Windowsが使用するVSSハードウェア プロバイダの登録を解除しておく必要があります。
+* SnapManager for Microsoft Exchange ServerとPlug-in for Exchangeが同じサーバにインストールされている場合は、SnapManager for Microsoft Exchange Serverで作成したすべてのスケジュールをWindowsスケジューラで中断または削除する必要があります。
+* サーバからホストを完全修飾ドメイン名（FQDN）に解決できる必要があります。ホスト ファイルが解決可能になるように変更され、ホスト ファイルで短縮名と FQDN の両方が指定されている場合は、 SnapCenterホスト ファイルに次の形式でエントリを作成します: _<ip_address> <host_fqdn> <host_name>_。
+* 次のポートがファイアウォールでブロックされていないことを確認します。ブロックされていると、ホストの追加処理に失敗します。この問題を解決するには、動的ポート範囲を設定する必要があります。詳細については、以下を参照してください。  https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-rpc-dynamic-port-allocation-with-firewalls["Microsoftのドキュメント"^] 。
++
+** Windows 2016とExchange 2016のポート範囲は50,000～51,000です。
+** Windows Server 2012 R2とExchange 2013のポート範囲は6,000～6,500です。
+** Windows 2019のポート範囲は49,152～65,536です。
+
+
+
+
+[NOTE]
+====
+ポート範囲を特定するには、次のコマンドを実行します。
+
+* netsh int ipv4 show dynamicport tcp
+* netsh int ipv4 show dynamicport udp
+* netsh int ipv6 show dynamicport tcp
+* netsh int ipv6 show dynamicport udp
+
+
+====
+
+
+== SnapCenter Plug-ins Package for Windowsをインストールするホストの要件
+
+SnapCenter Plug-ins Package for Windowsをインストールする前に、ホスト システムのスペースとサイジングに関する基本的な要件を理解しておく必要があります。
+
+|===
+| 項目 | 要件 
+
+
+ a| 
+オペレーティング システム
+ a| 
+Microsoft Windows
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要な最小RAM
+ a| 
+1 GB
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要なインストールおよびログの最小スペース
+ a| 
+5 GB
+
+
+NOTE: 十分なディスク スペースを割り当てて、ログ フォルダによるストレージ消費を監視する必要があります。必要なログ スペースは、保護対象のエンティティの数とデータ保護処理の頻度によって異なります。十分なディスク スペースがない場合は、最近実行した処理のログが作成されません。
+
+
+
+ a| 
+必要なソフトウェア パッケージ
+ a| 
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+* PowerShell Core 7.4.2
+* Java 11 Oracle JavaおよびOpenJDK
++
+Java 11 Oracle Java および OpenJDK は、SAP HANA、IBM Db2、PostgreSQL、MySQL、 NetApp対応プラグイン、および Windows ホストにインストールできるその他のカスタム アプリケーションにのみ必要です。
+
+
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+.NET特有のトラブルシューティング情報については、以下を参照してください。 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["インターネットに接続できないレガシー システムでは、 SnapCenter のアップグレードまたはインストールは失敗します。"]
+
+|===
+
+
+== 必要とされるExchange Serverの権限
+
+SnapCenterでExchange ServerまたはDAGを追加し、SnapCenter Plug-in for Microsoft Exchange ServerをホストまたはDAGにインストールできるようにするには、最小限の権限とアクセス許可を持つユーザのクレデンシャルを使用してSnapCenterを設定する必要があります。
+
+ドメイン ユーザには、ローカル管理者権限、リモートExchangeホストに対するローカル ログイン権限、およびDAG内のすべてのノードに対する管理権限が必要です。ドメイン ユーザに必要な最小権限は次のとおりです。
+
+* Add-MailboxDatabaseCopy
+* Dismount-Database
+* Get-AdServerSettings
+* Get-DatabaseAvailabilityGroup
+* Get-ExchangeServer
+* Get-MailboxDatabase
+* Get-MailboxDatabaseCopyStatus
+* Get-MailboxServer
+* Get-MailboxStatistics
+* Get-PublicFolderDatabase
+* Move-ActiveMailboxDatabase
+* Move-DatabasePath -ConfigurationOnly:$true
+* Mount-Database
+* New-MailboxDatabase
+* New-PublicFolderDatabase
+* Remove-MailboxDatabase
+* Remove-MailboxDatabaseCopy
+* Remove-PublicFolderDatabase
+* Resume-MailboxDatabaseCopy
+* Set-AdServerSettings
+* Set-MailboxDatabase -allowfilerestore:$true
+* Set-MailboxDatabaseCopy
+* Set-PublicFolderDatabase
+* Suspend-MailboxDatabaseCopy
+* Update-MailboxDatabaseCopy
+
+
+
+
+== SnapCenter Plug-ins Package for Windowsをインストールするホストの要件
+
+SnapCenter Plug-ins Package for Windowsをインストールする前に、ホスト システムのスペースとサイジングに関する基本的な要件を理解しておく必要があります。
+
+|===
+| 項目 | 要件 
+
+
+ a| 
+オペレーティング システム
+ a| 
+Microsoft Windows
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要な最小RAM
+ a| 
+1 GB
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要なインストールおよびログの最小スペース
+ a| 
+5 GB
+
+
+NOTE: 十分なディスク スペースを割り当てて、ログ フォルダによるストレージ消費を監視する必要があります。必要なログ スペースは、保護対象のエンティティの数とデータ保護処理の頻度によって異なります。十分なディスク スペースがない場合は、最近実行した処理のログが作成されません。
+
+
+
+ a| 
+必要なソフトウェア パッケージ
+ a| 
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+* PowerShell Core 7.4.2
+* Java 11 Oracle JavaおよびOpenJDK
++
+Java 11 Oracle Java および OpenJDK は、SAP HANA、IBM Db2、PostgreSQL、MySQL、 NetApp対応プラグイン、および Windows ホストにインストールできるその他のカスタム アプリケーションにのみ必要です。
+
+
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+.NET特有のトラブルシューティング情報については、以下を参照してください。 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["インターネットに接続できないレガシー システムでは、 SnapCenter のアップグレードまたはインストールは失敗します。"]
+
+|===

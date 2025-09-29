@@ -1,0 +1,35 @@
+---
+permalink: protect-nsp/types_of_restore_strategies_supported_for_manually_added_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。手動で追加したNetAppがサポートしているプラグイン リソースのリストア戦略には、2つのタイプがあります。手動で追加したNetAppがサポートしているプラグイン リソースはリカバリできません。 
+---
+= 手動で追加したNetAppがサポートしているプラグイン リソースでサポートされるリストア戦略のタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。手動で追加したNetAppがサポートしているプラグイン リソースのリストア戦略には、2つのタイプがあります。
+
+
+NOTE: 手動で追加したNetAppがサポートしているプラグイン リソースはリカバリできません。
+
+
+
+== リソース全体のリストア
+
+* リソースのすべてのボリューム、qtree、およびLUNをリストア
+
+
+
+NOTE: リソースにボリュームまたはqtreeが含まれている場合、そのボリュームまたはqtreeのリストア用のSnapshotが選択されたあとに作成されたSnapshotは削除され、リカバリすることはできません。また、同じボリュームまたはqtreeで他のリソースがホストされている場合、そのリソースも削除されます。
+
+
+
+== ファイルレベルのリストア
+
+* ボリューム、qtree、またはディレクトリからファイルをリストア
+* 選択したLUNのみをリストア
+

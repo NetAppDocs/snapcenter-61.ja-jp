@@ -1,0 +1,106 @@
+---
+permalink: protect-db2/minimum-privileges-required-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: Minimum ONTAP privileges 
+summary: 必要な最小ONTAP権限は、データ保護に使用するSnapCenterプラグインによって異なります。 
+---
+= IBM Db2プラグインに必要な最小ONTAP権限
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+必要な最小ONTAP権限は、データ保護に使用するSnapCenterプラグインによって異なります。
+
+* 全アクセス コマンド: ONTAP 9.12.1 以降に必要な最小限の権限
++
+** event generate-autosupport-log
+** job history show
+** job stop
+** lun
+** lun create
+** lun create
+** lun create
+** lun delete
+** lun igroup add
+** lun igroup create
+** lun igroup delete
+** lun igroup rename
+** lun igroup rename
+** lun igroup show
+** lun mapping add-reporting-nodes
+** lun mapping create
+** lun mapping delete
+** lun mapping remove-reporting-nodes
+** lun mapping show
+** lun modify
+** lun move-in-volume
+** lun offline
+** lun online
+** lun persistent-reservation clear
+** lun resize
+** lun serial
+** lun show
+** snapmirror policy add-rule
+** snapmirror policy modify-rule
+** snapmirror policy remove-rule
+** snapmirror policy show
+** snapmirror restore
+** snapmirror show
+** snapmirror show-history
+** snapmirror update
+** snapmirror update-ls-set
+** snapmirror list-destinations
+** version
+** volume clone create
+** volume clone show
+** volume clone split start
+** volume clone split stop
+** volume create
+** volume destroy
+** volume file clone create
+** volume file show-disk-usage
+** volume offline
+** volume online
+** volume modify
+** volume qtree create
+** volume qtree delete
+** volume qtree modify
+** volume qtree show
+** volume restrict
+** volume show
+** volume snapshot create
+** volume snapshot delete
+** volume snapshot modify
+** volume snapshot modify-snaplock-expiry-time
+** volume snapshot rename
+** volume snapshot restore
+** volume snapshot restore-file
+** volume snapshot show
+** volume unmount
+** vserver cifs
+** vserver cifs share create
+** vserver cifs share delete
+** vserver cifs shadowcopy show
+** vserver cifs share show
+** vserver cifs show
+** vserver export-policy
+** vserver export-policy create
+** vserver export-policy delete
+** vserver export-policy rule create
+** vserver export-policy rule show
+** vserver export-policy show
+** vserver iscsi
+** vserver iscsi connection show
+** vserver show
+
+
+* 読み取り専用コマンド: ONTAP 8.3.0以降に必要な最小限の権限
++
+** ネットワークインターフェース
+** network interface show
+** SVM
+
+
+

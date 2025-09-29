@@ -1,0 +1,20 @@
+---
+permalink: protect-sce/concept_back_up_exchange_resources.html 
+sidebar: sidebar 
+keywords: Backup workflow 
+summary: SnapCenter Plug-in for Microsoft Exchange Serverをインストールした環境では、SnapCenterを使用してExchangeリソースをバックアップすることができます。 
+---
+= バックアップのワークフロー
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft Exchange Serverをインストールした環境では、SnapCenterを使用してExchangeリソースをバックアップすることができます。
+
+スケジュールを設定して、複数のサーバで同時に複数のバックアップを実行することができます。同じリソースに対してバックアップ処理とリストア処理を同時に実行することはできません。同じボリューム上でのアクティブ バックアップ コピーとパッシブ バックアップ コピーはサポートされていません。
+
+次のワークフローは、バックアップ処理の実行順序を示しています。
+
+image:../media/sce_backup_workflow.gif["ワークフロー エクスチェンジャー サーバー データベースのバックアップ"]

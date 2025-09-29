@@ -1,0 +1,74 @@
+---
+permalink: protect-scu/task_clone_unix_file_systems_backup.html 
+sidebar: sidebar 
+keywords: alternate host, clone, Unix file systems, file systems 
+summary: SnapCenterを使用すると、ファイルシステムのバックアップを使用して Unix ファイルシステム データベースのクローンを作成できます。 
+---
+= UNIXファイルシステムのバックアップのクローニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用すると、ファイルシステムのバックアップを使用してUNIXファイルシステムをクローニングできます。
+
+.開始する前に
+* _/opt/ NetApp/snapcenter/scc/etc_ にある _agent.properties_ ファイルで _SKIP_FSTAB_UPDATE_ の値を *true* に設定することで、fstab ファイルの更新をスキップできます。
+* _/opt/ NetApp/snapcenter/scc/etc_ にある _agent.properties_ ファイルで _USE_CUSTOM_CLONE_VOLUME_NAME_FORMAT_ の値を *true* に設定することで、静的なクローン ボリューム名とジャンクション パスを設定できます。ファイルを更新した後、次のコマンドを実行してSnapCenterプラグイン作成者サービスを再起動する必要があります。 `/opt/NetApp/snapcenter/scc/bin/scc restart` 。
++
+例: このプロパティがない場合、クローン ボリューム名とジャンクション パスは <Source_volume_name>_Clone_<Timestamp> のようになりますが、このプロパティを使用すると <Source_volume_name>_Clone_<Clone_Name> になります。
+
++
+これにより名前が一定に保たれ、SnapCenterによってfstabが更新されるのが好ましくない場合に、fstabファイルを手動で更新できるようになります。
+
+
+
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [リソース] ページで、[表示] リストから [パス] または [リソース グループ] のいずれかを選択します。
+. 詳細ビューまたはリソース グループの詳細ビューでファイルシステムを選択します。
++
+トポロジ ページが表示されます。
+
+. [Manage Copies]ビューで、ローカル コピー（プライマリ）、ミラー コピー（セカンダリ）、バックアップ コピー（セカンダリ）のいずれかのバックアップを選択します。
+. 表からバックアップを選択し、*をクリックします。image:../media/clone_icon.gif["クローンアイコン"] *。
+. [Location]ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+Clone server
+ a| 
+ソース ホストがデフォルトで入力されています。
+
+
+
+ a| 
+Clone mount point
+ a| 
+ファイルシステムをマウントするパスを指定します。
+
+|===
+. [Scripts]ページで、次の手順を実行します。
++
+.. クローニング処理の前後に実行するプリコマンドやポストコマンドを入力します。
++
+
+NOTE: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_ パスからプラグイン ホスト上で使用可能なコマンド リストにコマンドが存在するかどうかを確認する必要があります。
+
+
+
+. 通知ページの *電子メール設定* ドロップダウン リストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。実行されたクローン操作のレポートを添付する場合は、「*ジョブ レポートの添付*」を選択します。
+
++
+
+NOTE: Eメール通知を利用する場合は、GUIまたはPowerShellのSet-SmSmtpServerコマンドを使用して、SMTPサーバの詳細を指定しておく必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+

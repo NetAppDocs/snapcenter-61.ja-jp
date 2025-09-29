@@ -1,0 +1,315 @@
+---
+permalink: install/concept_configure_secured_mysql_connections_with_snapcenter_server.html 
+sidebar: sidebar 
+keywords: Secure Sockets Layer, secure MYSQL connections, standalone configuration, HA configuration, SSL 
+summary: 'スタンドアロン構成またはネットワーク負荷分散 (NLB) 構成でSnapCenter Server と MySQL Server 間の通信を保護する場合は、Secure Sockets Layer (SSL) 証明書とキー ファイルを生成できます。' 
+---
+= SnapCenter ServerとのセキュアなMySQL接続の設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+スタンドアロン構成またはNetwork Load Balancing（NLB）構成でSnapCenter ServerとMySQLサーバの間の通信を保護する場合は、Secure Sockets Layer（SSL）証明書とキー ファイルを生成します。
+
+
+
+== スタンドアロンSnapCenter Server構成用のセキュアなMySQL接続の設定
+
+SnapCenter ServerとMySQLサーバの間の通信を保護するには、Secure Sockets Layer（SSL）証明書とキー ファイルを生成します。証明書とキー ファイルは、MySQLサーバとSnapCenter Serverで設定する必要があります。
+
+次の証明書が生成されます。
+
+* CA証明書
+* サーバのパブリック証明書と秘密鍵ファイル
+* クライアントのパブリック証明書と秘密鍵ファイル
+
+
+*手順*
+
+. opensslコマンドを使用して、WindowsのMySQLサーバおよびクライアントのSSL証明書とキー ファイルを設定します。
++
+詳細については、 https://dev.mysql.com/doc/refman/5.7/en/creating-ssl-files-using-openssl.html["MySQL バージョン 5.7: openssl を使用した SSL 証明書とキーの作成"^]
+
++
+
+NOTE: サーバ証明書、クライアント証明書、およびキー ファイルに使用する共通名は、それぞれCA証明書の共通名と異なる必要があります。共通名が同じ場合、それらの証明書とキー ファイルはOpenSSLを使用してコンパイルされたサーバでエラーになります。
+
++
+|===
+
+
+| *ベスト プラクティス:* サーバー証明書の共通名として、サーバーの完全修飾ドメイン名 (FQDN) を使用する必要があります。 
+|===
+. SSL証明書とキー ファイルをMySQLのデータ フォルダにコピーします。
++
+デフォルトのMySQLデータフォルダのパスは `C:\ProgramData\NetApp\SnapCenter\MySQL Data\Data\`。
+
+. MySQLサーバ構成ファイル（my.ini）で、CA証明書、サーバ パブリック証明書、クライアント パブリック証明書、サーバ秘密鍵、およびクライアント秘密鍵のパスを更新します。
++
+デフォルトのMySQLサーバー設定ファイル（my.ini）のパスは `C:\ProgramData\NetApp\SnapCenter\MySQL Data\my.ini`。
+
++
+
+NOTE: MySQL サーバー構成ファイル (my.ini) の [mysqld] セクションで、CA 証明書、サーバー公開証明書、およびサーバー秘密キーのパスを指定する必要があります。
+
++
+MySQL サーバー構成ファイル (my.ini) の [client] セクションで、CA 証明書、クライアント公開証明書、およびクライアント秘密キーのパスを指定する必要があります。
+
++
+次の例は、デフォルトフォルダのmy.iniファイルの[mysqld]セクションにコピーされた証明書とキーファイルを示しています。 `C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data` 。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-key.pem"
+----
++
+次の例は、my.ini ファイルの [client] セクションで更新されたパスを示しています。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-key.pem"
+----
+. Internet Information Server（IIS）でSnapCenter Server Webアプリケーションを停止します。
+. MySQLサービスを再起動します。
+. SnapManager.Web.UI.dll.configファイルのMySQLProtocolキーの値を更新します。
++
+次の例では、SnapManager.Web.UI.dll.configファイルのMySQLProtocolキーの値が更新されています。
+
++
+[listing]
+----
+<add key="MySQLProtocol" value="SSL" />
+----
+. my.ini ファイルの [client] セクションで指定されたパスを使用して、 SnapManager.Web.UI.dll.config ファイルを更新します。
++
+次の例は、my.ini ファイルの [client] セクションで更新されたパスを示しています。
+
++
+[listing]
+----
+<add key="ssl-client-cert" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-cert.pem" />
+----
++
+[listing]
+----
+<add key="ssl-client-key" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-key.pem" />
+----
++
+[listing]
+----
+<add key="ssl-ca" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem" />
+----
+. IISでSnapCenter Server Webアプリケーションを起動します。
+
+
+
+
+== HA構成用のセキュアなMySQL接続の設定
+
+SnapCenter ServerとMySQLサーバの間の通信を保護する場合は、両方の高可用性（HA）ノード用にSecure Sockets Layer（SSL）証明書とキー ファイルを生成します。証明書とキー ファイルは、MySQLサーバとHAノードで設定する必要があります。
+
+次の証明書が生成されます。
+
+* CA証明書
++
+一方のHAノードでCA証明書を生成し、もう一方のHAノードにコピーします。
+
+* 両方のHAノードのサーバ パブリック証明書とサーバ秘密鍵ファイル
+* 両方のHAノードのクライアント パブリック証明書とクライアント秘密鍵ファイル
+
+
+*手順*
+
+. 1つ目のHAノードで、opensslコマンドを使用して、WindowsのMySQLサーバおよびクライアントのSSL証明書とキー ファイルを設定します。
++
+詳細については、 https://dev.mysql.com/doc/refman/5.7/en/creating-ssl-files-using-openssl.html["MySQL バージョン 5.7: openssl を使用した SSL 証明書とキーの作成"^]
+
++
+
+NOTE: サーバ証明書、クライアント証明書、およびキー ファイルに使用する共通名は、それぞれCA証明書の共通名と異なる必要があります。共通名が同じ場合、それらの証明書とキー ファイルはOpenSSLを使用してコンパイルされたサーバでエラーになります。
+
++
+|===
+
+
+| *ベスト プラクティス:* サーバー証明書の共通名として、サーバーの完全修飾ドメイン名 (FQDN) を使用する必要があります。 
+|===
+. SSL証明書とキー ファイルをMySQLのデータ フォルダにコピーします。
++
+MySQLのデータ フォルダのデフォルト パスは、C:\ProgramData\NetApp\SnapCenter\MySQL Data\Data\です。
+
+. MySQLサーバ構成ファイル（my.ini）で、CA証明書、サーバ パブリック証明書、クライアント パブリック証明書、サーバ秘密鍵、およびクライアント秘密鍵のパスを更新します。
++
+MySQLサーバ構成ファイル（my.in）のデフォルト パスは、C:\ProgramData\NetApp\SnapCenter\MySQL Data\my.iniです
+
++
+
+NOTE: MySQL サーバー構成ファイル (my.ini) の [mysqld] セクションで、CA 証明書、サーバー公開証明書、およびサーバー秘密キーのパスを指定する必要があります。
+
++
+MySQL サーバー構成ファイル (my.ini) の [client] セクションで、CA 証明書、クライアント公開証明書、およびクライアント秘密キーのパスを指定する必要があります。
+
++
+次の例は、デフォルト フォルダ C:/ProgramData/ NetApp/ SnapCenter/MySQL Data/Data にある my.ini ファイルの [mysqld] セクションにコピーされた証明書とキー ファイルを示しています。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-key.pem"
+----
++
+次の例は、my.ini ファイルの [client] セクションで更新されたパスを示しています。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-key.pem"
+----
+. 2つ目のHAノードで、次の手順に従ってCA証明書をコピーし、サーバ パブリック証明書、サーバ秘密鍵ファイル、クライアント パブリック証明書、およびクライアント秘密鍵ファイルを生成します。
++
+.. 1つ目のHAノードで生成したCA証明書を2つ目のHAノードのMySQLのデータ フォルダにコピーします。
++
+MySQLのデータ フォルダのデフォルト パスは、C:\ProgramData\NetApp\SnapCenter\MySQL Data\Data\です。
+
++
+
+NOTE: CA証明書は新しく作成しないでください。サーバ パブリック証明書、クライアント パブリック証明書、サーバ秘密鍵ファイル、クライアント秘密鍵ファイルのみを作成します。
+
+.. 1つ目のHAノードで、opensslコマンドを使用して、WindowsのMySQLサーバおよびクライアントのSSL証明書とキー ファイルを設定します。
++
+https://dev.mysql.com/doc/refman/5.7/en/creating-ssl-files-using-openssl.html["MySQL バージョン 5.7: openssl を使用した SSL 証明書とキーの作成"]
+
++
+
+NOTE: サーバ証明書、クライアント証明書、およびキー ファイルに使用する共通名は、それぞれCA証明書の共通名と異なる必要があります。共通名が同じ場合、それらの証明書とキー ファイルはOpenSSLを使用してコンパイルされたサーバでエラーになります。
+
++
+サーバ証明書の共通名としてサーバのFQDNを使用することを推奨します。
+
+.. SSL証明書とキー ファイルをMySQLのデータ フォルダにコピーします。
+.. MySQLサーバ構成ファイル（my.ini）で、CA証明書、サーバ パブリック証明書、クライアント パブリック証明書、サーバ秘密鍵、およびクライアント秘密鍵のパスを更新します。
++
+
+NOTE: MySQL サーバー構成ファイル (my.ini) の [mysqld] セクションで、CA 証明書、サーバー公開証明書、およびサーバー秘密キーのパスを指定する必要があります。
+
++
+MySQL サーバー構成ファイル (my.ini) の [client] セクションで、CA 証明書、クライアント公開証明書、およびクライアント秘密キーのパスを指定する必要があります。
+
++
+次の例は、デフォルト フォルダ C:/ProgramData/ NetApp/ SnapCenter/MySQL Data/Data にある my.ini ファイルの [mysqld] セクションにコピーされた証明書とキー ファイルを示しています。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-key.pem"
+----
++
+次の例は、my.ini ファイルの [client] セクションで更新されたパスを示しています。
+
++
+[listing]
+----
+ssl-ca="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem"
+----
++
+[listing]
+----
+ssl-cert="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-cert.pem"
+----
++
+[listing]
+----
+ssl-key="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/server-key.pem"
+----
+
+
+. 両方のHAノードのInternet Information Server（IIS）でSnapCenter Server Webアプリケーションを停止します。
+. 両方のHAノードで、MySQLサービスを再起動します。
+. 両方のHAノードで、SnapManager.Web.UI.dll.configファイルのMySQLProtocolキーの値を更新します。
++
+次の例では、SnapManager.Web.UI.dll.configファイルのMySQLProtocolキーの値が更新されています。
+
++
+[listing]
+----
+<add key="MySQLProtocol" value="SSL" />
+----
+. 両方の HA ノードの my.ini ファイルの [client] セクションで指定したパスを使用して、 SnapManager.Web.UI.dll.config ファイルを更新します。
++
+次の例は、my.ini ファイルの [client] セクションで更新されたパスを示しています。
+
++
+[listing]
+----
+<add key="ssl-client-cert" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-cert.pem" />
+----
++
+[listing]
+----
+<add key="ssl-client-key" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/client-key.pem" />
+----
++
+[listing]
+----
+<add key="ssl-ca" value="C:/ProgramData/NetApp/SnapCenter/MySQL Data/Data/ca.pem" />
+----
+. 両方のHAノードのIISでSnapCenter Server Webアプリケーションを起動します。
+. 一方のHAノードで、PowerShellのSet-SmRepositoryConfig -RebuildSlave -Forceコマンドレット（-Forceオプションを指定）を使用して、両方のHAノードにセキュアなMySQLレプリケーションを確立します。
++
+レプリケーションが健全な状態であっても、-Forceオプションを指定するとスレーブ リポジトリを再構築できます。
+
+

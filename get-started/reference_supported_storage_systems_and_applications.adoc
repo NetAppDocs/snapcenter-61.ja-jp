@@ -1,0 +1,38 @@
+---
+permalink: get-started/reference_supported_storage_systems_and_applications.html 
+sidebar: sidebar 
+keywords: storage system, ONTAP version, ASA r2 systems 
+summary: サポートされるストレージ システム、アプリケーション、およびデータベースを把握しておく必要があります。 
+---
+= SnapCenterでサポートされるストレージ システムとアプリケーション
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでサポートされているストレージ システム、アプリケーション、およびデータベースを知っておく必要があります。
+
+
+
+== サポートされているストレージシステム
+
+* NetApp ONTAP 9.12.1以降
+* Azure NetApp Files
+* Amazon FSx for NetApp ONTAP
++
+Non-Volatile Memory Express（NVMe）over Transport Control Protocol（TCP）をサポートします。
+
++
+Amazon FSx for NetApp ONTAPの詳細については、以下を参照してください。 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Amazon FSx for NetApp ONTAPドキュメント"^] 。
+
+* NetApp ONTAP 9.16.1 を実行しているNetApp ASA r2 システム。
+
+
+
+
+== サポートされているアプリケーションとデータベース
+
+SnapCenterでは、さまざまなアプリケーションやデータベースの保護がサポートされています。サポートされているアプリケーションとデータベースの詳細については、以下を参照してください。 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+SnapCenter は、VMware Cloud on Amazon Web Services (AWS) ソフトウェア定義データセンター (SDDC) 環境での Oracle および Microsoft SQL ワークロードの保護をサポートします。https://community.netapp.com/t5/Tech-ONTAP-Blogs/Protect-Oracle-MS-SQL-workloads-using-NetApp-SnapCenter-in-VMware-Cloud-on-AWS/ba-p/449168["詳細情報"^] 。

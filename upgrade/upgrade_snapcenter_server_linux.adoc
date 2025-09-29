@@ -1,0 +1,52 @@
+---
+permalink: upgrade/upgrade_snapcenter_server_linux.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, linux 
+summary: SnapCenter Serverインストーラ ファイルを使用して、SnapCenter Serverをアップグレードできます。 
+---
+= LinuxホストでのSnapCenter Serverのアップグレード
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Serverインストーラ ファイルを使用して、SnapCenter Serverをアップグレードできます。
+
+*手順*
+
+. いずれかの操作を実行して、SnapCenter Serverをアップグレードします。
++
+|===
+| 実行する処理 | 操作 
+
+
+ a| 
+非対話型アップグレード
+ a| 
+`sudo ./snapcenter-linux-server-(el8/el9/sles15).bin -i silent -DUPGRADE=<value> -DINSTALL_LOG_NAME=<filename>`
+
+例：sudo ./snapcenter_linux_server.bin -i silent -DUPGRADE=1 -DINSTALL_LOG_NAME=InstallerLog.log
+
+ログは _/var/opt/snapcenter/logs_ に保存されます。
+
+アップグレードするために渡すパラメータ：
+
+** DINSTALL_LOG_NAME: インストール ログが保存されるログ ファイル名。
+** DUPGRADE: デフォルト値は 0 です。SnapCenter Serverをアップグレードするには、このパラメータに0以外の任意の整数を指定します。
+
+
+
+
+ a| 
+対話型インストール
+ a| 
+`./snapcenter-linux-server-(el8/el9/sles15).bin`
+
+アップグレードの確認を求められます。SnapCenter Serverのアップグレードを確認するには、0以外の値を入力します。
+
+|===
+
+
+
+NOTE: SnapCenter GUIにアクセスするには、SnapCenterからログアウトしてログインし直すか、ブラウザを閉じてから新しく開き直す必要があります。

@@ -1,0 +1,40 @@
+---
+permalink: protect-scsql/concept_prerequisites_for_using_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: credential 
+summary: ユーザがPlug-in for SQL Serverの使用を開始するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。 
+---
+= SnapCenter Plug-in for Microsoft SQL Serverを使用するための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ユーザがPlug-in for SQL Serverの使用を開始するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。
+
+* SnapCenter Serverをインストールして設定します。
+* SnapCenterにログインします。
+* SnapCenter環境を設定するために、ストレージ システム接続の追加または割り当てを行い、クレデンシャルを作成します。
++
+
+NOTE: SnapCenterでは、別々のクラスタに属している場合でも、複数のSVMに同じ名前を付けることはサポートされません。SnapCenterでサポートするSVMには、すべて一意の名前を付ける必要があります。
+
+* ホストを追加し、プラグインをインストールし、リソースを検出（更新）し、プラグインを設定します。
+* Invoke-SmConfigureResourcesを実行し、既存のMicrosoft SQL Serverデータベースをローカル ディスクからNetApp LUNに（またはその逆）移動します。
++
+コマンドレットの実行方法については、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"]
+
+* SnapCenter Serverを使用してVMware RDM LUNまたはVMDK上のSQLデータベースを保護する場合は、SnapCenter Plug-in for VMware vSphereを導入してSnapCenterに登録する必要があります。詳細については、SnapCenter Plug-in for VMware vSphereのドキュメントを参照してください。
++
+https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"]
+
+* SnapCenter Plug-in for Microsoft Windowsを使用して、ホスト側のストレージをプロビジョニングします。
+* バックアップ レプリケーションが必要である場合は、SnapMirror関係とSnapVault関係をセットアップします。
+
+
+詳細については、SnapCenterのインストールに関する説明を参照してください。
+
+SnapCenter Plug-in for VMware vSphere 4.1.1のドキュメントには、SnapCenter 4.1.1のユーザ向けに、仮想データベースとファイルシステムの保護に関する情報が記載されています。NetApp Data Broker 1.0および1.0.1のドキュメントには、SnapCenter 4.2.xのユーザ向けに、LinuxベースのNetApp Data Broker仮想アプライアンス（オープン仮想アプライアンス形式）が提供するSnapCenter Plug-in for VMware vSphereを使用した仮想データベースとファイルシステムの保護に関する情報が記載されています。SnapCenter Plug-in for VMware vSphere 4.3のドキュメントには、SnapCenter 4.3.xのユーザ向けに、LinuxベースのSnapCenter Plug-in for VMware vSphere仮想アプライアンス（オープン仮想アプライアンス形式）を使用した仮想データベースとファイルシステムの保護に関する情報が記載されています。
+
+https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"]

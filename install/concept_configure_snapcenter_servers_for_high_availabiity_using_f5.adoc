@@ -1,0 +1,138 @@
+---
+permalink: install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html 
+sidebar: sidebar 
+keywords: F5, netwoek load balancer, NLB, high availability, elastic load balancing, ELB, Azure load balancing, Amazon Web Services, AWS 
+summary: F5、ネットワーク負荷分散、または Amazon Web Services を使用してSnapCenterで高可用性を構成する 
+---
+= SnapCenterサーバを高可用性向けに構成する
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Windows または Linux 上で実行されているSnapCenterで高可用性 (HA) をサポートするには、F5 ロード バランサをインストールできます。F5により、SnapCenter Serverは、同じ場所にある最大2つのホストでアクティブ / パッシブ構成をサポートできます。SnapCenterでF5ロード バランサを使用するには、SnapCenter Serverを設定し、F5ロード バランサを設定する必要があります。
+
+ネットワーク負荷分散 (NLB) を構成して、 SnapCenter の高可用性を設定することもできます。高可用性を実現するには、 SnapCenterインストールの外部で NLB を手動で構成する必要があります。
+
+クラウド環境では、Amazon Web Services (AWS) Elastic Load Balancing (ELB) と Azure ロードバランサーのいずれかを使用して高可用性を構成できます。
+
+[role="tabbed-block"]
+====
+.F5を使用した高可用性の設定
+--
+F5ロードバランサを使用して高可用性を実現するSnapCenterサーバの構成手順については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_SnapCenter_Servers_for_high_availability_using_F5_Load_Balancer["F5 ロードバランサを使用してSnapCenterサーバを高可用性に構成する方法"^] 。
+
+次のコマンドレットを使用してF5クラスタを追加および削除するには、（SnapCenterAdminロールが割り当てられた）SnapCenter Serverのローカル管理者グループのメンバーである必要があります。
+
+* Add-SmServerCluster
+* Add-SmServer
+* Remove-SmServerCluster
++
+ https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+
+
+追加情報
+
+* SnapCenterをインストールして高可用性を実現するための設定を行ったあとで、F5クラスタのIPを指すようにSnapCenterデスクトップのショートカットを編集します。
+* SnapCenter Server間のフェイルオーバーが発生し、SnapCenterの既存のセッションも存在する場合は、ブラウザを閉じてからSnapCenterに再度ログオンする必要があります。
+* ロード バランサ セットアップ (NLB または F5) で、NLB または F5 ホストによって部分的に解決されるホストを追加し、 SnapCenterホストがこのホストにアクセスできない場合、 SnapCenterホスト ページでは、ホストのダウン状態と実行状態が頻繁に切り替わります。この問題を解決するには、両方のSnapCenterホストが NLB または F5 ホストでホストを解決できることを確認する必要があります。
+* MFA 設定用のSnapCenterコマンドは、すべてのホストで実行する必要があります。証明書利用者の設定は、F5クラスタの詳細を使用してActive Directoryフェデレーション サービス（AD FS）サーバで行う必要があります。  MFA を有効にすると、ホスト レベルのSnapCenter UI アクセスがブロックされます。
+* フェイルオーバー中、監査ログ設定は 2 番目のホストに反映されません。したがって、F5 パッシブ ホストがアクティブになったときに、監査ログ設定を手動で繰り返す必要があります。
+
+
+--
+.ネットワーク負荷分散 (NLB) を使用して高可用性を構成する
+--
+ネットワーク負荷分散 (NLB) を構成して、 SnapCenter の高可用性を設定できます。高可用性を実現するには、 SnapCenterインストールの外部で NLB を手動で構成する必要があります。
+
+SnapCenterでネットワーク負荷分散（NLB）を構成する方法については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_NLB_and_ARR_with_SnapCenter["SnapCenterでNLBを構成する方法"^] 。
+
+--
+.AWS Elastic Load Balancing (ELB) を使用して高可用性を構成する
+--
+2 台のSnapCenterサーバーを別々のアベイラビリティーゾーン (AZ) に設定し、自動フェイルオーバーを構成することで、Amazon Web Services (AWS) で高可用性SnapCenter環境を構成できます。アーキテクチャには、仮想プライベート IP アドレス、ルーティング テーブル、アクティブおよびスタンバイ MySQL データベース間の同期が含まれます。
+
+.手順
+. AWS で仮想プライベートオーバーレイ IP を構成します。詳細については、 https://docs.aws.amazon.com/vpc/latest/userguide/replace-local-route-target.html["仮想プライベートオーバーレイIPを構成する"^] 。
+. Windowsホストを準備する
++
+.. IPv4 を IPv6 よりも優先させる:
++
+*** 場所: HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
+*** キー: DisabledComponents
+*** タイプ: REG_DWORD
+*** 値: 0x20
+
+
+.. 完全修飾ドメイン名が DNS またはローカル ホスト構成を介して IPv4 アドレスに解決できることを確認します。
+.. システム プロキシが構成されていないことを確認してください。
+.. Active Directory のないセットアップを使用し、サーバーが同じドメインにない場合は、両方の Windows Server で管理者パスワードが同じであることを確認します。
+.. 両方の Windows サーバーに仮想 IP を追加します。
+
+
+. SnapCenterクラスターを作成します。
++
+.. Powershell を起動し、 SnapCenterに接続します。
+`Open-SmConnection`
+.. クラスターを作成します。
+`Add-SmServerCluster -ClusterName <cluster_name> -ClusterIP <cluster_ip> -PrimarySCServerIP <primary_ip> -Verbose -Credential administrator`
+.. セカンダリ サーバーを追加します。
+`Add-SmServer -ServerName <server_name> -ServerIP <server_ip> -CleanUpSecondaryServer -Verbose -Credential administrator`
+.. 高可用性の詳細を取得します。
+`Get-SmServerConfig`
+
+
+. AWS CloudWatch によって監視されている仮想プライベート IP エンドポイントが使用できなくなった場合にルーティング テーブルを調整する Lambda 関数を作成します。詳細については、 https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html#getting-started-create-function["Lambda関数を作成する"^] 。
+. SnapCenterエンドポイントの可用性を監視するために、CloudWatch でモニターを作成します。エンドポイントに到達できない場合に Lambda 関数をトリガーするようにアラームが設定されています。 Lambda 関数はルーティング テーブルを調整して、トラフィックをアクティブなSnapCenterサーバーにリダイレクトします。詳細については、 https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Create.html["合成カナリアを作成する"^] 。
+. CloudWatch モニタリングの代替としてステップ関数を使用してワークフローを実装し、フェイルオーバー時間を短縮します。ワークフローには、 SnapCenter URL をテストするための Lambda プローブ関数、失敗数を保存するための DynamoDB テーブル、および Step Function 自体が含まれています。
++
+.. SnapCenter URL を調査するには、Lambda 関数を使用します。詳細については、 https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html["Lambda関数を作成する"^] 。
+.. 2 回の Step Function 反復間の失敗回数を保存するための DynamoDB テーブルを作成します。詳細については、 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html["DynamoDBテーブルを使い始める"^] 。
+.. ステップ関数を作成します。詳細については、 https://docs.aws.amazon.com/step-functions/["Step Function ドキュメント"^] 。
+.. 単一のステップをテストします。
+.. 完全な機能をテストします。
+.. IAM ロールを作成し、Lambda 関数を実行できるように権限を調整します。
+.. Step Function をトリガーするスケジュールを作成します。詳細については、 https://docs.aws.amazon.com/step-functions/latest/dg/using-eventbridge-scheduler.html["Amazon EventBridge Scheduler を使用して Step Functions を開始する"^] 。
+
+
+
+
+--
+.Azure ロード バランサーを使用して高可用性を構成する
+--
+Azure ロード バランサーを使用して、高可用性SnapCenter環境を構成できます。
+
+.手順
+. Azure ポータルを使用してスケール セット内に仮想マシンを作成します。 Azure 仮想マシン スケール セットを使用すると、負荷分散された仮想マシンのグループを作成して管理できます。仮想マシン インスタンスの数は、需要または定義されたスケジュールに応じて自動的に増加または減少します。詳細については、 https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/flexible-virtual-machine-scale-sets-portal["Azure ポータルを使用してスケール セットに仮想マシンを作成する"^] 。
+. 仮想マシンを構成した後、VM セット内の各仮想マシンにログインし、両方のノードにSnapCenter Server をインストールします。
+. ホスト 1 にクラスターを作成します。
+`Add-SmServerCluster -ClusterName <cluster_name> -ClusterIP <specify the load balancer front end virtual ip> -PrimarySCServerIP <ip address> -Verbose -Credential <credentials>`
+. セカンダリ サーバーを追加します。
+`Add-SmServer -ServerName <name of node2> -ServerIP <ip address of node2> -Verbose -Credential <credentials>`
+. 高可用性の詳細を取得します。
+`Get-SmServerConfig`
+. 必要に応じて、セカンダリ ホストを再構築します。
+`Set-SmRepositoryConfig -RebuildSlave -Verbose`
+. 2 番目のホストにフェイルオーバーします。
+`Set-SmRepositoryConfig ActiveMaster <name of node2> -Verbose`
+
+
+--
+== 高可用性のために NLB から F5 に切り替える
+
+SnapCenterのHA構成を、ネットワーク負荷分散（NLB）からF5ロード バランサに変更できます。
+
+*手順*
+
+. F5 を使用して、高可用性を実現するSnapCenterサーバーを構成します。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_SnapCenter_Servers_for_high_availability_using_F5_Load_Balancer["詳細情報"^] 。
+. SnapCenter Serverホストで、PowerShellを起動します。
+. Open-SmConnectionコマンドレットを使用してセッションを開始し、クレデンシャルを入力します。
+. Update-SmServerClusterコマンドレットを使用して、F5クラスタのIPアドレスを指すようにSnapCenter Serverを更新します。
++
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+
+
+====

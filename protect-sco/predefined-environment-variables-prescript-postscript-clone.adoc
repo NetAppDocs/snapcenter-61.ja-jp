@@ -1,0 +1,100 @@
+---
+permalink: protect-sco/predefined-environment-variables-prescript-postscript-clone.html 
+sidebar: sidebar 
+keywords: environment variable, predefined, prescript, postscript, clone 
+summary: SnapCenterでは、データベースのクローニング時にプリスクリプトとポストスクリプトを実行する際に、事前定義された環境変数を使用できます。 
+---
+= クローン固有のプリスクリプトとポストスクリプト用に事前定義された環境変数
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでは、データベースのクローニング時にプリスクリプトとポストスクリプトを実行する際に、事前定義された環境変数を使用できます。
+
+*データベースのクローン作成にサポートされている定義済み環境変数*
+
+* *SC_ORIGINAL_SID* は、ソース データベースの SID を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例：NFSB32
+
+* *SC_ORIGINAL_HOST* は、ソース ホストの名前を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例：asmrac1.gdl.englab.netapp.com
+
+* *SC_ORACLE_HOME* は、ターゲット データベースの Oracle ホーム ディレクトリのパスを指定します。
++
+例: /ora01/app/oracle/product/18.1.0/db_1
+
+* *SC_BACKUP_NAME*" はバックアップの名前を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例:
+
++
+** データベースがARCHIVELOGモードで実行されていない場合: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+** データベースが ARCHIVELOG モードで実行されている場合: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG:RG2_scspr2417819002_07-20-2021_12.16.48.9267_1,RG2_scspr2417819002_07-21-2021_12.16.48.9267_1,RG2_scspr2417819002_07-22-2021_12.16.48.9267_1
+
+
+* *SC_AV_NAME* はアプリケーション ボリュームの名前を指定します。
++
+例: AV1|AV2
+
+* *SC_ORIGINAL_OS_USER* は、ソース データベースのオペレーティング システムの所有者を指定します。
++
+例：Oracle
+
+* *SC_ORIGINAL_OS_GROUP* は、ソース データベースのオペレーティング システム グループを指定します。
++
+例：oinstall
+
+* *SC_TARGET_SID*" は、クローンされたデータベースの SID を指定します。
++
+PDBクローン ワークフローの場合、このパラメータの値は事前定義されません。
+
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例：clonedb
+
+* *SC_TARGET_HOST* は、データベースのクローンが作成されるホストの名前を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例：asmrac1.gdl.englab.netapp.com
+
+* *SC_TARGET_OS_USER* は、クローンされたデータベースのオペレーティング システムの所有者を指定します。
++
+PDBクローン ワークフローの場合、このパラメータの値は事前定義されません。
+
++
+例：Oracle
+
+* *SC_TARGET_OS_GROUP* は、クローンされたデータベースのオペレーティング システム グループを指定します。
++
+PDBクローン ワークフローの場合、このパラメータの値は事前定義されません。
+
++
+例：oinstall
+
+* *SC_TARGET_DB_PORT* は、クローンされたデータベースのデータベース ポートを指定します。
++
+PDBクローン ワークフローの場合、このパラメータの値は事前定義されません。
+
++
+例：1521
+
+
+
+区切り文字の詳細については、link:../protect-sco/predefined-environment-variables-prescript-postscript-backup.html#supported-delimiters["サポートされている区切り文字"^] 。

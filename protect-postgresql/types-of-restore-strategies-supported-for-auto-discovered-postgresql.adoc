@@ -1,0 +1,16 @@
+---
+permalink: protect-postgresql/types-of-restore-strategies-supported-for-auto-discovered-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。自動的に検出された PostgreSQL クラスターには、2 種類の復元戦略があります。 
+---
+= 自動検出されたPostgreSQLでサポートされるリストア戦略のタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。
+
+リソースの完全なリストアは、自動検出されたPostgreSQLクラスタに対してサポートされているリストア戦略です。この戦略では、リソースのすべてのボリューム、qtree、およびLUNがリストアされます。

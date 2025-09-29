@@ -1,0 +1,30 @@
+---
+permalink: protect-postgresql/delete-or-split-postgresql-clones-after-upgrading-snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL cluster 
+summary: 'SnapCenter 4.3にアップグレードすると、クローンは表示されなくなります。クローンを作成したリソースの[Topology]ページで、クローンの削除やスプリットを実行できます。' 
+---
+= SnapCenterアップグレード後のPostgreSQLクラスタのクローンの削除またはスプリット
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter 4.3にアップグレードすると、クローンは表示されなくなります。クローンを作成したリソースの[Topology]ページで、クローンの削除やスプリットを実行できます。
+
+.タスク概要
+非表示のクローンのストレージ フットプリントを見つける場合は、次のコマンドを実行します。 `Get-SmClone -ListStorageFootprint`
+
+.手順
+. remove-smbackupコマンドレットを使用して、クローニングされたリソースのバックアップを削除します。
+. remove-smresourcegroupコマンドレットを使用して、クローニングされたリソースのリソース グループを削除します。
+. remove-smprotectresourceコマンドレットを使用して、クローニングされたリソースの保護を解除します。
+. [Resources]ページで親リソースを選択します。
++
+リソースのトポロジ ページが表示されます。
+
+. [Manage Copies]ビューで、プライマリまたはセカンダリ（ミラー先またはレプリケート先）ストレージ システムからクローンを選択します。
+. クローンを選択し、クリックしますimage:../media/delete_icon.gif["削除アイコン"]クローンを削除するには、またはimage:../media/split_clone.gif["分割クローン"]クローンを分割します。
+. [OK]をクリックします。
+

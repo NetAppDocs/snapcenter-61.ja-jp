@@ -1,0 +1,71 @@
+---
+permalink: protect-sco/catalog-backups.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: SnapCenter がOracle データベースを検出する方法。 
+---
+= Oracle Recovery Managerを使用してバックアップをカタログ化する方法
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oracle Recovery Manager（RMAN）でOracleデータベースのバックアップをカタログ化することにより、Oracle RMANリポジトリにバックアップ情報を保存できます。
+
+カタログ化されたバックアップは、あとからブロックレベルのリストア処理や表領域のポイントインタイム リカバリ処理に使用できます。カタログ化されたバックアップが不要となった場合は、カタログ情報を削除できます。
+
+カタログ化するためには、データベースの状態が少なくともマウント済み状態であることが必要です。カタログ化を実行できるのは、データ バックアップ、アーカイブ ログ バックアップ、およびフル バックアップです。複数のデータベースを含むリソース グループのバックアップに対してカタログ化を有効にすると、データベースごとにカタログ化が実行されます。Oracle RACデータベースの場合は、データベースが少なくともマウント済み状態になっている優先ノードでカタログ化が実行されます。
+
+RACデータベースのバックアップをカタログ化する場合は、そのデータベースに対して他のジョブが実行されていないことを確認します。別のジョブが実行されている場合は、カタログ化処理がキューに登録されずに失敗します。
+
+
+
+== 外部カタログ データベース
+
+デフォルトでは、ターゲット データベースの制御ファイルがカタログ化に使用されます。外部カタログ データベースを追加する場合は、SnapCenterグラフィカル ユーザ インターフェイス（GUI）から[Database Settings]ウィザードを使用して外部カタログのクレデンシャルとTransparent Network Substrate（TNS）名を指定することにより、そのデータベースを設定できます。外部カタログ データベースはCLIから設定することもできます。その場合は、Configure-SmOracleDatabaseコマンドを、-OracleRmanCatalogCredentialNameオプションおよび-OracleRmanCatalogTnsNameオプションとともに実行します。
+
+
+
+== RMANコマンド
+
+SnapCenter GUIでOracleバックアップ ポリシーを作成する際にカタログ化オプションを有効にした場合は、バックアップ処理の一環としてOracle RMANを使用してバックアップがカタログ化されます。バックアップの遅延カタログ作成を実行するには、 `Catalog-SmBackupWithOracleRMAN`指示。
+
+バックアップをカタログ化した後、 `Get-SmBackupDetails`カタログ化されたデータファイルのタグ、制御ファイルのカタログ パス、カタログ化されたアーカイブ ログの場所などのカタログ化されたバックアップ情報を取得するコマンド。
+
+
+
+== 命名形式
+
+SnapCenter 3.0では、ASMディスク グループ名が16文字以上である場合に、バックアップに対してSC_HASHCODEofDISKGROUP_DBSID_BACKUPIDという命名形式が使用されます。一方、ディスク グループ名が16文字未満である場合は、バックアップに対してDISKGROUPNAME_DBSID_BACKUPIDという命名形式が使用されます。これはSnapCenter 2.0で使用される形式と同じです。
+
+HASHCODEofDISKGROUPは自動生成される2～10桁の番号で、各ASMディスク グループに固有です。
+
+
+
+== クロスチェック処理
+
+バックアップに関するRMANリポジトリ情報が古くなってバックアップのリポジトリ レコードがその物理ステータスと一致しなくなった場合は、クロスチェックを実行してリポジトリ情報を更新できます。たとえば、ユーザがオペレーティング システム コマンドでディスクからアーカイブ ログを削除した場合、実際にはディスクにログがないにもかかわらず、制御ファイルにはディスクにログがあることが示されます。
+
+クロスチェック処理では、制御ファイルの情報を更新できます。クロスチェックを有効にするには、Set-SmConfigSettingsコマンドを実行し、ENABLE_CROSSCHECKパラメータにTRUEを割り当てます。デフォルト値はFALSEです。
+
+`sccli Set-SmConfigSettings-ConfigSettingsTypePlugin-PluginCodeSCO-ConfigSettings "KEY=ENABLE_CROSSCHECK, VALUE=TRUE"`
+
+
+
+== カタログ情報の削除
+
+カタログ情報を削除するには、Uncatalog-SmBackupWithOracleRMANコマンドを実行します。SnapCenter GUIではカタログ情報を削除できません。ただし、バックアップを削除するとき、またはカタログ化されたバックアップに関連する保持設定とリソース グループを削除するときに、カタログ化されたバックアップの情報も削除されます。
+
+
+NOTE: SnapCenterホストを強制的に削除する場合は、そのホストに関連するカタログ化されたバックアップの情報が削除されません。ホストを強制的に削除する場合は、事前にそのホストに関連するすべてのカタログ化されたバックアップの情報を削除しておく必要があります。
+
+処理時間がORACLE_PLUGIN_RMAN_CATALOG_TIMEOUTパラメータに指定されたタイムアウト値を超えたためにカタログ化やカタログ化解除が失敗した場合は、次のコマンドを実行してパラメータの値を変更する必要があります。
+
+`/opt/Netapp/snapcenter/spl/bin/sccli Set-SmConfigSettings-ConfigSettingsType Plugin -PluginCode SCO-ConfigSettings "KEY=ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT,VALUE=user_defined_value"`
+
+パラメータの値を変更したら、次のコマンドを実行してSnapCenter Plug-in Loader（SPL）サービスを再起動します。
+
+`/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+コマンドで使用できるパラメータとその説明は、Get-Help command_nameを実行して確認できます。または、 https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenterソフトウェア コマンド リファレンス ガイド"^] 。

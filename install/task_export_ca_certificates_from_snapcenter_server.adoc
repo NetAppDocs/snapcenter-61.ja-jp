@@ -1,0 +1,61 @@
+---
+permalink: install/task_export_ca_certificates_from_snapcenter_server.html 
+sidebar: sidebar 
+keywords: security,authentication, export CA certificates 
+summary: SnapCenterサーバーからプラグイン ホストに CA 証明書をエクスポートする必要があります。 
+---
+= SnapCenter Serverからの認証局（CA）証明書のエクスポート
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Microsoft管理コンソール（MMC）を使用して、SnapCenter Serverからプラグイン ホストにCA証明書をエクスポートする必要があります。
+
+.開始する前に
+双方向SSLを設定しておく必要があります。
+
+*手順*
+
+. Microsoft 管理コンソール (MMC) に移動し、[ファイル] > [スナップインの追加と削除] をクリックします。
+. [スナップインの追加と削除] ウィンドウで、[証明書] を選択し、[追加] をクリックします。
+. 証明書スナップイン ウィンドウで、*コンピューター アカウント* オプションを選択し、*完了* をクリックします。
+. *コンソール ルート* > *証明書 - ローカル コンピューター* > *個人* > *証明書* をクリックします。
+. SnapCenter Server に使用される取得した CA 証明書を右クリックし、[すべてのタスク] > [エクスポート] を選択してエクスポート ウィザードを起動します。
+. ウィザードで次の操作を実行します。
+
+
+|===
+| オプション | 操作 
+
+
+ a| 
+秘密キーのエクスポート
+ a| 
+*いいえ、秘密キーをエクスポートしません*を選択し、*次へ*をクリックします。
+
+
+
+ a| 
+エクスポート ファイルの形式
+ a| 
+*次へ*をクリックします。
+
+
+
+ a| 
+ファイル名
+ a| 
+*参照*をクリックし、証明書を保存するファイル パスを指定して、*次へ*をクリックします。
+
+
+
+ a| 
+証明書のエクスポート ウィザードの完了
+ a| 
+概要を確認し、[完了] をクリックしてエクスポートを開始します。
+
+|===
+
+NOTE: 証明書ベースの認証は、SnapCenter HA構成およびSnapCenter Plug-in for VMware vSphereではサポートされません。

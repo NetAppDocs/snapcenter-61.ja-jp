@@ -1,0 +1,44 @@
+---
+permalink: protect-postgresql/configure-CA-certificate-with-Windows-host-plug-in-services.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: WindowsホストプラグインサービスでCA証明書を構成する 
+---
+= Windowsホスト プラグイン サービスでのCA証明書の設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+インストールされているデジタル証明書をアクティブ化するには、Windowsホスト プラグイン サービスを使用してCA証明書を設定する必要があります。
+
+SnapCenter Serverと、CA証明書がすでに導入されているすべてのプラグイン ホストで、次の手順を実行します。
+
+.手順
+. 次のコマンドを実行して、既存の証明書とSMCoreのデフォルト ポート8145とのバインドを削除します。
++
+`> netsh http delete sslcert ipport=0.0.0.0:_<SMCore Port>`
+
++
+例えば：
+
++
+ > netsh http delete sslcert ipport=0.0.0.0:8145
+. 次のコマンドを実行して、新しくインストールした証明書をWindowsホスト プラグイン サービスとバインドします。
++
+....
+> $cert = “_<certificate thumbprint>_”
+> $guid = [guid]::NewGuid().ToString("B")
+> netsh http add sslcert ipport=0.0.0.0: _<SMCore Port>_ certhash=$cert appid="$guid"
+....
++
+例えば：
+
++
+....
+> $cert = “a909502dd82ae41433e6f83886b00d4277a32a7b”
+> $guid = [guid]::NewGuid().ToString("B")
+> netsh http add sslcert ipport=0.0.0.0: _<SMCore Port>_ certhash=$cert appid="$guid"
+....
+

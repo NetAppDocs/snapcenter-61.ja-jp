@@ -1,0 +1,37 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-oracle.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, oracle, database 
+summary: ホストを追加し、プラグイン パッケージをインストールします。 
+---
+= ホストの追加とSnapCenter Plug-in for Oracle Databaseのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+[Add Host]ページを使用してホストを追加し、SnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXをインストールできます。プラグインは、自動的にリモート ホストにインストールされます。
+
+ホストの追加とプラグイン パッケージのインストールは、ホストごとまたはクラスタごとに実行できます。クラスタ（Oracle RAC）にプラグインをインストールする場合、プラグインはクラスタのすべてのノードにインストールされます。Oracle RAC One Nodeの場合は、このプラグインをアクティブ ノードとパッシブ ノードの両方にインストールする必要があります。
+
+.手順
+. 左側のナビゲーション ペインで、[*ホスト*] をクリックします。
+. *管理対象ホスト*タブが選択されていることを確認します。
+. *[追加]*をクリックします。
+. [Hosts]ページで、次の操作を実行します。
++
+.. [Host Type]フィールドで、ホスト タイプを選択します。
+.. [Host name]フィールドに、ホストの完全修飾ドメイン名（FQDN）またはIPアドレスを入力します。
+.. [Credentials]フィールドに、作成したクレデンシャルを入力します。
+
+
+. [Select Plug-ins to Install]セクションで、インストールするプラグインを選択します。
+. (オプション) [*その他のオプション*] をクリックして詳細を指定します。
+. *送信*をクリックします。
+. 指紋を確認して、「確認して送信」をクリックします。
++
+クラスタ セットアップでは、クラスタ内の各ノードのフィンガープリントを検証する必要があります。
+
+. インストールの進捗状況を監視します。
+

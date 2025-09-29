@@ -1,0 +1,30 @@
+---
+permalink: protect-postgresql/types-of-restore-performed-for-auto-discovered-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: 'SnapCenter は、自動的に検出された PostgreSQL クラスターに対して、ボリュームベースのSnapRestore (VBSR)、単一ファイルSnapRestore、および接続とコピーの復元タイプをサポートしています。' 
+---
+= 自動検出されたPostgreSQLのリストア処理のタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for PostgreSQLでは、自動検出されたPostgreSQLクラスタに対して、Single File SnapRestoreおよびConnect and Copyリストア タイプがサポートされます。
+
+
+
+== NFS環境でSingle File SnapRestoreを実行するシナリオは、次のとおりです。
+
+* *完全なリソース*オプションのみを選択した場合
+* 選択したバックアップがSnapMirrorまたはSnapVaultのセカンダリロケーションからのものであり、*完全なリソース*オプションが選択されている場合
+
+
+
+
+== SAN環境でSingle File SnapRestoreを実行するシナリオは、次のとおりです。
+
+* *完全なリソース*オプションのみを選択した場合
+* バックアップがSnapMirrorまたはSnapVaultのセカンダリロケーションから選択され、*完全なリソース*オプションが選択されている場合
+

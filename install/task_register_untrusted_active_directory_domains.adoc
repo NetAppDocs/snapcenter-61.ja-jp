@@ -1,0 +1,118 @@
+---
+permalink: install/task_register_untrusted_active_directory_domains.html 
+sidebar: sidebar 
+keywords: Active Directory 
+summary: 信頼されていない複数のActive Directoryドメインのホスト、ユーザ、およびグループを管理するには、Active DirectoryをSnapCenter Serverに登録する必要があります。 
+---
+= 信頼されていないActive Directoryドメインの登録
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+信頼されていない複数のActive Directoryドメインのホスト、ユーザ、およびグループを管理するには、Active DirectoryをSnapCenter Serverに登録する必要があります。
+
+.開始する前に
+*LDAP および LDAPS プロトコル*
+
+* 信頼されていないActive Directoryドメインは、LDAPプロトコルまたはLDAPSプロトコルを使用して登録できます。
+* プラグイン ホストとSnapCenter Serverの間の双方向の通信を有効にしておく必要があります。
+* SnapCenter Serverとプラグイン ホストの間でDNS解決が設定されている必要があります。
+
+
+*LDAPプロトコル*
+
+* 完全修飾ドメイン名（FQDN）をSnapCenter Serverから解決できる必要があります。
++
+信頼されていないドメインはFQDNを使用して登録できます。FQDNをSnapCenter Serverから解決できない場合は、ドメイン コントローラのIPアドレスを使用して登録できます。このアドレスは、SnapCenter Serverから解決できるものである必要があります。
+
+
+
+*LDAPSプロトコル*
+
+* Active Directoryとの通信中にLDAPSでエンドツーエンドの暗号化を提供するためには、CA証明書が必要です。
++
+link:task_configure_CA_client_certificate_for_LDAPS.html["LDAPS用のCAクライアント証明書の設定"]
+
+* ドメイン コントローラのホスト名（DCHostName）にSnapCenter Serverから到達できる必要があります。
+
+
+*このタスクについて*
+
+* 信頼されていないドメインは、SnapCenterユーザ インターフェイス、PowerShellコマンドレット、REST APIのいずれかを使用して登録できます。
+
+
+*手順*
+
+. 左側のナビゲーション ペインで、[*設定*] をクリックします。
+. [設定]ページで、[*グローバル設定*]をクリックします。
+. [グローバル設定]ページで、[*ドメイン設定*]をクリックします。
+. をクリックし image:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]て新しいドメインを登録します。
+. 「新しいドメインの登録」ページで、*LDAP* または *LDAPS* のいずれかを選択します。
++
+.. *LDAP* を選択した場合は、信頼されていないドメインを LDAP に登録するために必要な情報を指定します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+ドメイン名
+ a| 
+ドメインのNetBIOS名を指定します。
+
+
+
+ a| 
+ドメインFQDN
+ a| 
+FQDN を指定して、[解決] をクリックします。
+
+
+
+ a| 
+ドメインコントローラのIPアドレス
+ a| 
+ドメインのFQDNをSnapCenter Serverから解決できない場合、ドメイン コントローラのIPアドレスを1つ以上指定します。
+
+詳細については、以下を参照してください。  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_does_not_allow_to_add_Domain_Controller_IP_for_untrusted_domain_from_GUI["GUIから信頼されていないドメインのドメインコントローラIPを追加する"^] 。
+
+|===
+.. *LDAPS* を選択した場合は、信頼されていないドメインを LDAPS に登録するために必要な情報を指定します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+ドメイン名
+ a| 
+ドメインのNetBIOS名を指定します。
+
+
+
+ a| 
+ドメインFQDN
+ a| 
+FQDNを指定します。
+
+
+
+ a| 
+Domain controller Names
+ a| 
+1 つ以上のドメイン コントローラー名を指定し、[解決] をクリックします。
+
+
+
+ a| 
+ドメインコントローラのIPアドレス
+ a| 
+ドメイン コントローラ名をSnapCenter Serverから解決できない場合は、DNS解決を修正する必要があります。
+
+|===
+
+
+. [OK]をクリックします。
+

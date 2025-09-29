@@ -1,0 +1,181 @@
+---
+permalink: protect-scw/task_create_backup_policies_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: SnapCenterを使用してWindowsファイルシステムをバックアップする前に、リソースの新しいバックアップ ポリシーを作成することができます。また、リソース グループの作成時やリソースのバックアップ時に新しいバックアップ ポリシーを作成することも可能です。 
+---
+= Windowsファイルシステムのバックアップ ポリシーの作成
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してWindowsファイルシステムをバックアップする前に、リソースの新しいバックアップ ポリシーを作成することができます。また、リソース グループの作成時やリソースのバックアップ時に新しいバックアップ ポリシーを作成することも可能です。
+
+.開始する前に
+* バックアップ戦略を定義しておく必要があります。link:task_define_a_backup_strategy_for_windows_file_systems.html["詳細情報"^]
+* データ保護の準備が完了している必要があります。
++
+データ保護の準備として、SnapCenterのインストール、ホストの追加、リソースの検出、Storage Virtual Machine（SVM）接続の作成などのタスクを完了しておく必要があります。
+
+* Snapshotをミラー セカンダリ ストレージまたはバックアップ セカンダリ ストレージにレプリケートするユーザには、SnapCenter管理者がソースとデスティネーションの両方のボリューム用にSVMを割り当てる必要があります。
+* プリスクリプトとポストスクリプトでPowerShellスクリプトを実行する場合は、web.configファイルのusePowershellProcessforScriptsパラメータの値をtrueに設定する必要があります。
++
+デフォルト値はfalseです。
+
+* SnapMirrorアクティブ同期に固有の前提条件と制限事項を確認します。詳細については、 https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["SnapMirrorアクティブ同期のオブジェクト数の制限"] 。
+
+
+.タスク概要
+* SCRIPTS_PATHは、プラグイン ホストのSMCoreServiceHost.exe.ConfigファイルにあるPredefinedWindowsScriptsDirectoryキーを使用して定義します。
++
+必要に応じて、このパスを変更してSMcoreサービスを再起動できます。セキュリティを確保するために、デフォルトのパスを使用することを推奨します。
+
++
+キーの値は、API を介して Swagger から表示できます: API /4.7/configsettings
+
++
+GET APIを使用すると、キーの値を表示できます。SET APIはサポートされません。
+
+* SnapLock
++
+** [Retain the backup copies for a specific number of days]オプションを選択した場合は、SnapLockの保持期間をここで指定した保持日数以下にする必要があります。
+** Snapshotのロック期間を指定すると、保持期間が終了するまでSnapshotが削除されません。その結果、ポリシーで指定した数よりも多くのSnapshotが保持される可能性があります。
+** ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+
+
+
+.手順
+. 左側のナビゲーション ペインで、[*設定*] を選択します。
+. [設定]ページで、[*ポリシー*]を選択します。
+. *新規*を選択します。
+. 「名前」ページで、ポリシー名と詳細を入力します。
+. 「バックアップとレプリケーション」ページで、次のタスクを実行します。
++
+.. バックアップ設定を選択します。
++
+|===
+| オプション | 説明 
+
+
+ a| 
+File System Consistent Backup
+ a| 
+ファイルシステムが配置されたディスク ドライブをバックアップ処理の開始前にSnapCenterで休止し、バックアップ処理の終了後に再開する場合は、このオプションを選択します。
+
+
+
+ a| 
+File System Crash-consistent Backup
+ a| 
+ファイルシステムが配置されたディスク ドライブをSnapCenterで休止しない場合は、このオプションを選択します。
+
+|===
+.. スケジュール頻度（ポリシー タイプ）を選択します。
++
+ポリシーではバックアップの頻度のみを指定します。バックアップの具体的なスケジュールは、リソース グループで定義します。したがって、複数のリソース グループで同じポリシーとバックアップ頻度を使用している場合でも、別々のバックアップ スケジュールを設定できます。
+
++
+
+NOTE: 午前 2 時にスケジュールを設定した場合、夏時間 (DST) 中はスケジュールは実行されません。
+
+.. ポリシーラベルを選択します。
++
+ONTAPによって、選択したSnapshotラベルに一致するセカンダリSnapshotの保持ポリシーが適用されます。
+
++
+
+NOTE: *ローカル Snapshot コピーの作成後にSnapMirrorを更新する* を選択した場合は、オプションでセカンダリ ポリシー ラベルを指定できます。ただし、*ローカル スナップショット コピーの作成後にSnapVaultを更新する* を選択した場合は、セカンダリ ポリシー ラベルを指定する必要があります。
+
+
+
+. [セカンダリ レプリケーション オプションの選択] セクションで、次のセカンダリ レプリケーション オプションの 1 つまたは両方を選択します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+Update SnapMirror after creating a local Snapshot copy
+ a| 
+別のボリュームにバックアップ セットのミラー コピーを作成する場合（SnapMirror）は、このオプションを選択します。
+
+このオプションは、SnapMirrorアクティブ同期に対して有効にする必要があります。
+
+セカンダリ レプリケーションのSnapLockの有効期限には、プライマリSnapLockの有効期限がロードされます。トポロジ ページの *更新* ボタンをクリックすると、 ONTAPから取得されたセカンダリおよびプライマリSnapLock の有効期限が更新されます。
+
+見るlink:../protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html["[Topology]ページでの関連するバックアップとクローンの表示"] 。
+
+
+
+ a| 
+Update SnapVault after creating a Snapshot copy
+ a| 
+ディスクツーディスクのバックアップ レプリケーションを実行する場合は、このオプションを選択します。
+
+セカンダリ レプリケーションのSnapLockの有効期限には、プライマリSnapLockの有効期限がロードされます。[Topology]ページの[Refresh]ボタンをクリックすると、ONTAPから取得されたセカンダリおよびプライマリのSnapLock有効期限が更新されます。
+
+SnapLockが（SnapLock Vaultと呼ばれる）ONTAPのセカンダリにのみ設定されている場合は、[Topology]ページの[Refresh]ボタンをクリックすると、ONTAPから取得したセカンダリのSnapLock有効期限が更新されます。
+
+SnapLock Vaultの詳細については、 https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["バックアップ デスティネーションのSnapshotコピーのWORM状態へのコミット"]
+
+
+
+ a| 
+Error retry count
+ a| 
+レプリケーションの最大試行回数を入力します。この回数を超えると処理が停止します。
+
+|===
++
+
+NOTE: セカンダリ ストレージでSnapshotの上限に達しないように、ONTAPでセカンダリ ストレージのSnapMirror保持ポリシーを設定する必要があります。
+
+. [保持設定] ページで、オンデマンド バックアップと選択した各スケジュール頻度の保持設定を指定します。
++
+|===
+| オプション | 説明 
+
+
+ a| 
+保持するスナップショットコピーの合計数
+ a| 
+SnapCenterで保持するSnapshotの個数を指定する場合は、このオプションを選択します。指定した個数を超えると自動的に削除されます。
+
+
+
+ a| 
+スナップショットコピーを保存する
+ a| 
+SnapCenterでバックアップ コピーを保持する日数を指定する場合は、このオプションを選択します。指定した日数を過ぎると削除されます。
+
+
+
+ a| 
+スナップショットコピーのロック期間
+ a| 
+スナップショットのロック期間を選択し、期間を日数、月数、または年数で指定します。
+
+SnapLock保持期間は100年未満にする必要があります。
+
+|===
++
+
+IMPORTANT: 保持数は2以上に設定する必要があります。保持数の最小値は2です。
+
++
+
+NOTE: 最大保持値は 1018 です。保持期間がONTAPバージョンでサポートされている値よりも高い値に設定されている場合、バックアップは失敗します。
+
+. [Script]ページで、バックアップ処理の前後にSnapCenter Serverで実行するプリスクリプトやポストスクリプトを入力し、それぞれのスクリプトについてSnapCenterでの実行をタイムアウトするまでの時間を入力します。
++
+たとえば、SNMPトラップの更新、アラートの自動化、ログの送信などをスクリプトで実行できます。
+
++
+
+NOTE: プリスクリプトやポストスクリプトのパスに、ドライブや共有を含めることはできません。パスは、SCRIPTS_PATHの相対パスである必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+

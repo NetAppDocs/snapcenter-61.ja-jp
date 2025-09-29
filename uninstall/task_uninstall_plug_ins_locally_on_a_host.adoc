@@ -1,0 +1,33 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_locally_on_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, uninstall plug-in locally, uninstall plug-in from a host 
+summary: SnapCenter Serverからホストに到達できない場合は、ホスト上でローカルにSnapCenterプラグインをアンインストールできます。 
+---
+= ホストでのプラグインのローカル アンインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Serverからホストに到達できない場合は、ホスト上でローカルにSnapCenterプラグインをアンインストールできます。
+
+.タスク概要
+個々のプラグインまたはプラグイン パッケージをアンインストールするためのベストプラクティスは、SnapCenter GUIを使用するか、SnapCenter Serverホストのコマンドライン インターフェイスでUninstall-SmHostPackageコマンドレットを使用することです。これらの手順を使用すると、SnapCenter Serverは変更を反映して最新の状態に保たれます。
+
+ただしまれに、プラグインをローカルにアンインストールする必要が生じる場合があります。たとえば、SnapCenter Serverから実行したアンインストール ジョブが失敗した場合や、SnapCenter Serverのアンインストール後にプラグインだけがホストに残った場合などです。
+
+
+IMPORTANT: ホスト上でローカルにプラグイン パッケージをアンインストールしても、スケジュールされたジョブやバックアップ メタデータなど、ホストに関連付けられているデータは削除されません。
+
+
+IMPORTANT: SnapCenter Plug-ins Package for Windowsをコントロール パネルでローカルにアンインストールしないでください。SnapCenter Plug-in for Microsoft Windowsを確実にアンインストールするためには、SnapCenter GUIを使用する必要があります。
+
+.手順
+. ホスト システムで、コントロール パネルに移動し、[プログラムのアンインストール] をクリックします。
+. プログラムの一覧で、アンインストールするSnapCenterプラグインまたはプラグイン パッケージを選択し、[アンインストール] をクリックします。
++
+選択したパッケージ内のすべてのプラグインがアンインストールされます。
+
+

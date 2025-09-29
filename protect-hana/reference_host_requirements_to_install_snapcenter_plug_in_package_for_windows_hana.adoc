@@ -1,0 +1,61 @@
+---
+permalink: protect-hana/reference_host_requirements_to_install_snapcenter_plug_in_package_for_windows_hana.html 
+sidebar: sidebar 
+keywords: SAP HANA, plug-ins 
+summary: SnapCenter Plug-ins Package for Windowsをインストールする前に、ホスト システムのスペースとサイジングに関する基本的な要件を理解しておく必要があります。 
+---
+= SnapCenter Plug-ins Package for Windowsをインストールするホストの要件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-ins Package for Windowsをインストールする前に、ホスト システムのスペースとサイジングに関する基本的な要件を理解しておく必要があります。
+
+|===
+| 項目 | 要件 
+
+
+ a| 
+オペレーティング システム
+ a| 
+Microsoft Windows
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要な最小RAM
+ a| 
+1 GB
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要なインストールおよびログの最小スペース
+ a| 
+5 GB
+
+
+NOTE: 十分なディスク スペースを割り当てて、ログ フォルダによるストレージ消費を監視する必要があります。必要なログ スペースは、保護対象のエンティティの数とデータ保護処理の頻度によって異なります。十分なディスク スペースがない場合は、最近実行した処理のログが作成されません。
+
+
+
+ a| 
+必要なソフトウェア パッケージ
+ a| 
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+* PowerShell Core 7.4.2
+* Java 11 Oracle JavaおよびOpenJDK
++
+Java 11 Oracle Java および OpenJDK は、SAP HANA、IBM Db2、PostgreSQL、MySQL、 NetApp対応プラグイン、および Windows ホストにインストールできるその他のカスタム アプリケーションにのみ必要です。
+
+
+
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+.NET特有のトラブルシューティング情報については、以下を参照してください。 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["インターネットに接続できないレガシー システムでは、 SnapCenter のアップグレードまたはインストールは失敗します。"]
+
+|===

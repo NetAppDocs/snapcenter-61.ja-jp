@@ -1,0 +1,28 @@
+---
+section: get-started
+title: 始めましょう
+entries:
+- title: SnapCenter softwareについて学ぶ
+  entries:
+  - title: 概要
+    url: "/get-started/concept_snapcenter_overview.html"
+  - title: セキュリティと認証
+    url: "/get-started/reference_data_security.html"
+  - title: ロールベース アクセス制御
+    url: "/get-started/rbac-snapcenter.html"
+  - title: ディザスタ リカバリ
+    url: "/get-started/concept_disaster_recovery.html"
+  - title: ライセンス
+    url: "/get-started/concept_snapcenter_licenses.html"
+  - title: SnapMirrorアクティブ同期
+    url: "/get-started/snapmirror-active-sync-snapcenter.html"
+  - title: データ保護の主要概念
+    url: "/get-started/concept_resources_resource_groups_and_policies.html"
+  - title: サポートされるストレージ システムとアプリケーション
+    url: "/get-started/reference_supported_storage_systems_and_applications.html"
+  - title: Authentication Method
+    url: "/get-started/concept_authentication_methods_for_your_credentials.html"
+- title: ASA r2 システムでサポートされているSnapCenter操作
+  url: "/get-started/learn-about-snapcenter-support-for-asa-r2-systems.html"
+- title: クイック スタート
+  url: "/get-started/quick-start-snapcenter.html"

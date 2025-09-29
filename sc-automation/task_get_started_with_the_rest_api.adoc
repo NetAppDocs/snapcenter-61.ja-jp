@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/task_get_started_with_the_rest_api.html 
+keywords: REST API 
+summary: APIにアクセスすると、稼働中の設定で複雑なワークフロー プロセスを使用する前にいくつかの情報を確認できます。 
+---
+= REST APIの使用の開始
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter REST APIはすぐに使用を開始できます。APIにアクセスすると、稼働中の設定で複雑なワークフロー プロセスを使用する前にいくつかの情報を確認できます。
+
+
+
+== Hello world
+
+システムで簡単なコマンドを実行して、SnapCenter REST APIの使用を開始し、使用できるかどうかを確認できます。
+
+.開始する前に
+* システムでcURLユーティリティが使用可能なことの確認
+* SnapCenter ServerのIPアドレスまたはホスト名
+* SnapCenter REST APIにアクセスする権限を持つアカウントのユーザ名とパスワード
+
+
+
+NOTE: クレデンシャルに特殊文字が含まれている場合は、使用するシェルに基づいてCurlで受け入れられる形式で指定する必要があります。たとえば、各特殊文字の前にバックスラッシュを挿入したり、全体を囲んだりすることができます。 `username:password`一重引用符で囲んだ文字列。
+
+.手順
+コマンドライン インターフェイスで、次のコマンドを実行してプラグイン情報を取得します。
+
+`curl -X GET -u username:password -k "https://<ip_address>/api/hosts?fields=IncludePluginInfo"`
+
+例：
+
+`curl -X GET -u admin:password -k "'https://10.225.87.97/api/hosts?fields=IncludePluginInfo"`

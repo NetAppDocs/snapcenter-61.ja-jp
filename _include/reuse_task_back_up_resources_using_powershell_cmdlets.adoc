@@ -1,0 +1,95 @@
+= 
+:allow-uri-read: 
+
+
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+ユーザ名とパスワードのプロンプトが表示されます。
+
+. Add-SmPolicyコマンドレットを使用して、バックアップ ポリシーを作成します。
++
+この例では、SQLのバックアップ タイプ「FullBackup」を指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+この例では、Windowsファイルシステムのバックアップ タイプ「CrashConsistent」を指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Get-SmResourcesコマンドレットを使用してホスト リソースを検出します。
++
+この例では、指定したホスト上でMicrosoft SQLプラグインのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+この例では、指定したホスト上でWindowsファイルシステムのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Add-SmResourceGroupコマンドレットを使用して、SnapCenterに新しいリソース グループを追加します。
++
+この例では、ポリシーとリソースを指定して新しいSQLデータベース バックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+この例では、ポリシーとリソースを指定して新しいWindowsファイルシステム バックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. New-SmBackupコマンドレットを使用して、新しいバックアップ ジョブを開始します。
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Get-SmBackupReportコマンドレットを使用して、バックアップ ジョブのステータスを表示します。
++
+この例では、指定した日に実行されたすべてのジョブの概要レポートを表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。

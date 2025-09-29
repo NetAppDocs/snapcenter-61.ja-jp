@@ -1,0 +1,40 @@
+---
+permalink: uninstall/uninstall_snapcenter_server_linux.html 
+sidebar: sidebar 
+keywords: uninstall, snapcenter server, linux 
+summary: SnapCenter Serverを使用してデータ保護ジョブを管理する必要がなくなった場合は、SnapCenter Serverをアンインストールできます。 
+---
+= LinuxホストでのSnapCenter Serverのアンインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Serverを使用してデータ保護ジョブを管理する必要がなくなった場合は、SnapCenter Serverをアンインストールできます。SnapCenter Serverをアンインストールすると、そのコンポーネントがすべて削除されます。
+
+.手順
+. いずれかの操作を実行して、SnapCenter Serverをアンインストールします。
++
+|===
+| 実行する処理 | 操作 
+
+
+ a| 
+非対話型アンインストール
+ a| 
+`$ sudo /opt/NetApp/snapcenter/SnapManagerWeb/installation/uninstall -i silent -DCONFIRM=1`
+
+例：sudo /opt/NetApp/snapcenter/SnapManagerWeb/installation/uninstall
+
+
+
+ a| 
+対話型アンインストール
+ a| 
+`$ sudo <USER_INSTALL_DIR>/NetApp/snapcenter/SnapManagerWeb/installation/uninstall`
+
+アンインストールを確認するためには、確認入力に0以外の値を入力します。
+
+|===
+

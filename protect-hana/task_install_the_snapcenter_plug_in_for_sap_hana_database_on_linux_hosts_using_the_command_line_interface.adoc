@@ -1,0 +1,53 @@
+---
+permalink: protect-hana/task_install_the_snapcenter_plug_in_for_sap_hana_database_on_linux_hosts_using_the_command_line_interface.html 
+sidebar: sidebar 
+keywords: install, SnapCenter Plug-in for SAP HANA Database 
+summary: 'SnapCenter Plug-in for SAP HANA Databaseは、SnapCenterユーザ インターフェイス（UI）を使用してインストールする必要があります。ご使用の環境でSnapCenter UI からのプラグインのリモート インストールが許可されていない場合は、コマンド ライン インターフェイス (CLI1) を使用して、コンソール モードまたはサイレント モードで SAP HANA データベース用プラグインをインストールできます。' 
+---
+= コマンドライン インターフェイスを使用したLinuxホストへのSnapCenter Plug-in for SAP HANA Databaseのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for SAP HANA Databaseは、SnapCenterユーザ インターフェイス（UI）を使用してインストールする必要があります。SnapCenter UIからのプラグインのリモート インストールが許可されていない環境では、コマンドライン インターフェイス（CLI）を使用して、コンソール モードまたはサイレント モードでPlug-in for SAP HANA Databaseをインストールできます。
+
+.開始する前に
+* Plug-in for SAP HANA Databaseは、HDBSQLクライアントがあるLinuxホストごとにインストールする必要があります。
+* SnapCenter Plug-in for SAP HANA DatabaseをインストールするLinuxホストは、依存するソフトウェア、データベース、オペレーティング システムの要件を満たしている必要があります。
++
+サポートされる構成に関する最新の情報については、Interoperability Matrix Tool（IMT）を参照してください。
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121029;&solution=1259&isHWU&src=IMT[]
+
+* SnapCenter Plug-in for SAP HANA Databaseは、SnapCenter Plug-ins Package for Linuxに含まれています。SnapCenter Plug-ins Package for Linuxをインストールする前に、SnapCenterをWindowsホストにインストールしておく必要があります。
+
+
+.手順
+. SnapCenter Plug-ins Package for Linuxのインストール ファイル（snapcenter_linux_host_plugin.bin）をC:\ProgramData\NetApp\SnapCenter\Package RepositoryからPlug-in for SAP HANA Databaseをインストールするホストにコピーします。
++
+このパスには、SnapCenter Serverがインストールされているホストからアクセスできます。
+
+. コマンド プロンプトから、インストール ファイルをコピーしたディレクトリに移動します。
+. プラグインをインストールします。 `path_to_installation_bin_file/snapcenter_linux_host_plugin.bin -i silent -DPORT=port_number_for_host -DSERVER_IP=server_name_or_ip_address -DSERVER_HTTPS_PORT=port_number_for_server`
++
+** -DPORT は SMCore HTTPS 通信ポートを指定します。
+** -DSERVER_IP は、 SnapCenter Server の IP アドレスを指定します。
+** -DSERVER_HTTPS_PORT は、 SnapCenter Server の HTTPS ポートを指定します。
+** -DUSER_INSTALL_DIR は、Linux 用のSnapCenterプラグイン パッケージをインストールするディレクトリを指定します。
+** DINSTALL_LOG_NAME はログ ファイルの名前を指定します。
+
+
++
+[listing]
+----
+/tmp/sc-plugin-installer/snapcenter_linux_host_plugin.bin -i silent  -DPORT=8145 -DSERVER_IP=scserver.domain.com -DSERVER_HTTPS_PORT=8146 -DUSER_INSTALL_DIR=/opt -DINSTALL_LOG_NAME=SnapCenter_Linux_Host_Plugin_Install_2.log -DCHOSEN_FEATURE_LIST=CUSTOM
+----
+. /<インストール ディレクトリ>/ NetApp/snapcenter/scc/etc/SC_SMS_Services.properties ファイルを編集し、PLUGINS_ENABLED = hana:3.0 パラメータを追加します。
+. Add-Smhostコマンドレットと必要なパラメータを使用して、SnapCenter Serverにホストを追加します。
++
+コマンドで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+

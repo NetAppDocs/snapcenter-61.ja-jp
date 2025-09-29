@@ -1,0 +1,47 @@
+---
+permalink: protect-postgresql/discover-the-clusters-automatically.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: リソースとは、SnapCenterで管理するLinuxホスト上のPostgreSQLクラスタです。利用可能な PostgreSQL クラスターを検出した後、これらのリソースをリソース グループに追加してデータ保護操作を実行できます。 
+---
+= クラスタの自動的検出
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+リソースとは、SnapCenterで管理するLinuxホスト上のPostgreSQLクラスタです。使用できるPostgreSQLクラスタを検出したあとに、それらのリソースをリソース グループに追加してデータ保護処理を実行できます。
+
+.開始する前に
+* SnapCenter Serverのインストール、ホストの追加、ストレージ システム接続の作成などのタスクを事前に完了しておく必要があります。
+* SnapCenter Plug-in for PostgreSQLでは、RDM / VMDK仮想環境にあるリソースの自動検出がサポートされていません。
+
+
+.タスク概要
+* プラグインをインストールすると、そのLinuxホスト上のすべてのクラスタが自動検出されて[Resources]ページに表示されます。
+* 自動検出されるのはクラスタのみです。
+
+
+自動検出されたリソースを変更または削除することはできません。
+
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから PostgreSQL 用プラグインを選択します。
+. [Resources]ページで、[View]リストからリソース タイプを選択します。
+. （オプション）*をクリックimage:../media/filter_icon.gif["フィルターアイコン"]*、ホスト名を選択します。
++
+*をクリックしますimage:../media/filter_icon.gif["フィルターアイコン"]* フィルター パネルを閉じます。
+
+. ホスト上で利用可能なリソースを検出するには、[リソースの更新] をクリックします。
++
+リソースは、リソース タイプ、ホスト名、関連するリソース グループ、バックアップ タイプ、ポリシー、全体的なステータスなどの情報とともに表示されます。
+
++
+** クラスタがNetAppストレージにあって保護されていない場合は、[Overall Status]列に「Not protected」と表示されます。
+** クラスタがNetAppストレージ システム上にあって保護されており、バックアップ処理が実行されていない場合は、[Overall Status]列に「Backup not run」と表示されます。それ以外の場合は、前回のバックアップ ステータスに基づいて、ステータスが「バックアップに失敗しました」または「バックアップに成功しました」に変わります。
+
+
+
+
+
+IMPORTANT: SnapCenterの外部でクラスタの名前が変更された場合は、リソースを更新する必要があります。

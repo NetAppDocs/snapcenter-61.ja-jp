@@ -1,0 +1,35 @@
+---
+permalink: get-started/concept_disaster_recovery.html 
+sidebar: sidebar 
+keywords: Disaster Recovery, DR, crash, resource deleted 
+summary: SnapCenterのディザスタ リカバリ機能を使用すると、リソースの破損やサーバのクラッシュなどの災害が発生した場合にSnapCenter Serverをリカバリできます。 
+---
+= SnapCenterでの災害復旧
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter の災害復旧 (DR) 機能を使用すると、リソースの破損やサーバーのクラッシュなどの災害から復旧できます。  SnapCenterリポジトリ、サーバー スケジュール、構成コンポーネント、SQL Server 用のSnapCenterプラグインとそのストレージを復元するのに役立ちます。
+
+このセクションでは、 SnapCenterの 2 種類の DR について説明します。
+
+
+
+== SnapCenterサーバー DR
+
+* SnapCenter Serverでプラグインの追加や管理をすることなくSnapCenter Serverのデータをバックアップし、リカバリできます。
+* セカンダリSnapCenter Serverは、プライマリSnapCenter Serverと同じディレクトリ、同じポートにインストールする必要があります。
+* 多要素認証 (MFA) の場合、 SnapCenter Server DR 中にすべてのブラウザ タブを閉じ、ブラウザを再度開いて再度ログインします。これにより既存の、またはアクティブなセッションCookieがクリアされ、正しい設定データが更新されます。
+* SnapCenter の災害復旧機能は、REST API を使用してSnapCenterサーバーをバックアップします。見るlink:../tech-refresh/task_tech_refresh_server_host.html["SnapCenter Serverのディザスタ リカバリにおけるREST APIのワークフロー"] 。
+* 監査設定関連の構成ファイルは、DR バックアップにも、復元操作後の DR サーバーにもバックアップされません。監査ログの設定については、手動で再現する必要があります。
+
+
+
+
+== SnapCenterプラグインとストレージ DR
+
+DR は、SQL Server 用のSnapCenterプラグインでのみ使用できます。プラグインがダウンしている場合は、別の SQL ホストに切り替えて、いくつかの手順に従ってデータを回復します。見るlink:../protect-scsql/task_disaster_recovery_scsql.html["SnapCenter Plug-in for SQL Serverのディザスタ リカバリ"] 。
+
+SnapCenter はONTAP SnapMirrorを使用してデータを複製します。これにより、セカンダリ サイトにデータを同期させておくことで DR に使用できます。フェイルオーバーを開始するには、 SnapMirrorレプリケーションを中断します。フォールバック中は、同期を逆にして、DR サイトからプライマリ ロケーションにデータを複製します。

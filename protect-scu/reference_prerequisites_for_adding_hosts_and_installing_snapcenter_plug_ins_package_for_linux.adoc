@@ -1,0 +1,81 @@
+---
+permalink: protect-scu/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, host requirement for Linux, sudo privileges, non-root user, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: ホストを追加してプラグイン パッケージをインストールする前に、すべての要件を満たしておく必要があります。 
+---
+= ホストを追加してPlug-in Package for Linuxをインストールするための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ホストを追加してPlug-in Package for Linuxをインストールする前に、すべての要件を満たしておく必要があります。
+
+* iSCSIを使用している場合は、iSCSIサービスが実行されている必要があります。
+* パスワードベースの認証またはSSHキーベースの認証を使用できます。パスワードベースの認証はrootユーザとroot以外のユーザが使用できます。
++
+SnapCenter Plug-in for UNIX File Systemsは、root以外のユーザもインストールできます。ただし、プラグイン プロセスをインストールして開始できるよう、root以外のユーザにsudo権限を設定する必要があります。プラグインのインストール後、プロセスは有効なroot以外のユーザとして実行されます。
+
+* インストール ユーザのクレデンシャルを、認証モードをLinuxに設定して作成します。
+* Java 11をLinuxホストにインストールしておく必要があります。
++
+
+NOTE: LinuxホストにJava 11の認定エディションのみがインストールされていることを確認します。
+
++
+JAVA のダウンロードについては、以下を参照してください。 http://www.java.com/en/download/manual.jsp["すべてのオペレーティング システム用のJavaのダウンロード"^]
+
+* プラグインのインストールには、デフォルトのシェルとして *bash* を使用する必要があります。
+
+
+
+
+== Linuxホストの要件
+
+SnapCenter Plug-ins Package for Linuxをインストールする前に、ホストが要件を満たしていることを確認する必要があります。
+
+|===
+| 項目 | 要件 
+
+
+ a| 
+オペレーティング システム
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
+* SUSE Linux Enterprise Server（SLES）
+
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要な最小RAM
+ a| 
+2 GB
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインに必要なインストールおよびログの最小スペース
+ a| 
+2 GB
+
+
+NOTE: 十分なディスク スペースを割り当てて、ログ フォルダによるストレージ消費を監視する必要があります。必要なログ スペースは、保護対象のエンティティの数とデータ保護処理の頻度によって異なります。十分なディスク スペースがない場合は、最近実行した処理のログが作成されません。
+
+
+
+ a| 
+必要なソフトウェア パッケージ
+ a| 
+Java 11 Oracle JavaおよびOpenJDK
+
+
+NOTE: LinuxホストにJava 11の認定エディションのみがインストールされていることを確認します。
+
+Javaを最新バージョンにアップグレードした場合は、/var/opt/snapcenter/spl/etc/spl.propertiesにあるJAVA_HOMEオプションが正しいJavaバージョンと正しいパスに設定されていることを確認する必要があります。
+
+|===
+サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。

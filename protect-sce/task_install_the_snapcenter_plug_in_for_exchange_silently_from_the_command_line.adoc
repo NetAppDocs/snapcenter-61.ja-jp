@@ -1,0 +1,104 @@
+---
+permalink: protect-sce/task_install_the_snapcenter_plug_in_for_exchange_silently_from_the_command_line.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Plug-in for ExchangeはSnapCenterユーザ インターフェイス内からインストールする必要があります。ただし、何らかの理由でインストールできない場合は、Windowsのコマンドラインから、Plug-in for Exchangeのインストール プログラムをサイレント モードで自動的に実行できます。 
+---
+= コマンドラインからのSnapCenter Plug-in for Exchangeのサイレント インストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for ExchangeはSnapCenterユーザ インターフェイス内からインストールする必要があります。ただし、何らかの理由でインストールできない場合は、Windowsのコマンドラインから、Plug-in for Exchangeのインストール プログラムをサイレント モードで自動的に実行できます。
+
+.開始する前に
+* Microsoft Exchange Serverリソースをバックアップしておく必要があります。
+* SnapCenterプラグイン パッケージをインストールしておく必要があります。
+* インストール前に、以前のリリースのSnapCenter Plug-in for Microsoft SQL Serverを削除する必要があります。
++
+詳細については、以下を参照してください。  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_Install_a_SnapCenter_Plug-In_manually_and_directly_from_thePlug-In_Host["SnapCenterプラグインをプラグインホストから手動で直接インストールする方法"^] 。
+
+
+
+.手順
+. プラグイン ホストに _C:\temp_ フォルダーが存在し、ログインしたユーザーがそのフォルダーにフル アクセス権を持っているかどうかを検証します。
+. _C:\ProgramData\ NetApp\ SnapCenter \Package_ リポジトリから Microsoft Windows 用のSnapCenterプラグインをダウンロードします。
++
+このパスには、SnapCenter Serverがインストールされているホストからアクセスできます。
+
+. プラグインをインストールするホストにインストール ファイルをコピーします。
+. ローカル ホストのWindowsコマンド プロンプトで、プラグインのインストール ファイルを保存したディレクトリに移動します。
+. 次のコマンドを入力してプラグインをインストールします。
++
+_snapcenter_windows_host_plugin.exe"/silent /debuglog"<デバッグログパス>" /log"<ログパス>" BI_SNAPCENTER_PORT=<番号> SUITE_INSTALLDIR="<インストールディレクトリパス>" BI_SERVICEACCOUNT=<ドメイン\管理者> BI_SERVICEPWD=<パスワード> ISFeatureInstall=HPPW,SCW,SCE_
+
++
+例えば：
+
++
+_C:\ProgramData\ NetApp\ SnapCenter\Package Repository\snapcenter_windows_host_plugin.exe"/silent /debuglog"C:\HPPW_SCSQL_Install.log" /log"C:\temp" BI_SNAPCENTER_PORT=8145 SUITE_INSTALLDIR="C:\Program Files\ NetApp\ SnapCenter" BI_SERVICEACCOUNT=domain\administrator BI_SERVICEPWD=password ISFeatureInstall=HPPW,SCW,SCE_
+
++
+
+NOTE: Plug-in for Exchangeのインストール時に渡されるすべてのパラメータでは、大文字と小文字が区別されます。
+
++
+変数には次の値を入力します。
+
++
+|===
+| 変数 | Value 
+
+
+ a| 
+_/debuglog"<デバッグログパス>_
+ a| 
+インストーラのログ ファイルの名前と場所を次のように指定します。
+
+_Setup.exe /debuglog"C:\PathToLog\setupexe.log_
+
+
+
+ a| 
+BI_SNAPCENTER_PORT
+ a| 
+SnapCenterがSMCoreと通信するポートを指定します。
+
+
+
+ a| 
+SUITE_INSTALLDIR
+ a| 
+ホストのプラグイン パッケージのインストール ディレクトリを指定します。
+
+
+
+ a| 
+BI_SERVICEACCOUNT
+ a| 
+SnapCenter Plug-in for Microsoft WindowsのWebサービス アカウントを指定します。
+
+
+
+ a| 
+BI_SERVICEPWD
+ a| 
+SnapCenter Plug-in for Microsoft WindowsのWebサービス アカウントのパスワードを指定します。
+
+
+
+ a| 
+ISFeatureInstall
+ a| 
+SnapCenterでリモート ホストに導入するソリューションを指定します。
+
+|===
+. Windows タスク スケジューラ、メインのインストール ログ ファイル _C:\Installdebug.log_、および _C:\Temp_ 内の追加のインストール ファイルを監視します。
+. _%temp%_ ディレクトリを監視して、_msiexe.exe_ インストーラーがエラーなしでソフトウェアをインストールしているかどうかを確認します。
++
+
+NOTE: Plug-in for Exchangeをインストールすると、SnapCenter Serverではなくホストにプラグインが登録されます。SnapCenter GUIまたはPowerShellコマンドレットを使用してホストを追加することにより、SnapCenter Serverにプラグインを登録できます。ホストを追加すると、プラグインが自動的に検出されます。
+
+

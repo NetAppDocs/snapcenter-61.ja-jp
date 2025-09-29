@@ -1,0 +1,39 @@
+---
+permalink: protect-scsql/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_sql.html 
+sidebar: sidebar 
+keywords: backups 
+summary: Remove-SmBackup コマンドレットを使用して、スナップショットのないセカンダリ バックアップのバックアップ カウントをクリーンアップできます。コピーの管理トポロジに表示されるスナップショットの合計がセカンダリ ストレージのスナップショット保持設定と一致しない場合に、このコマンドレットを使用することをお勧めします。 
+---
+= PowerShellコマンドレットを使用したセカンダリ バックアップ数のクリーンアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Remove-SmBackupコマンドレットを使用して、Snapshotがないセカンダリ バックアップのバックアップ数をクリーンアップできます。コピーの管理トポロジに表示されるスナップショットの合計がセカンダリ ストレージのスナップショット保持設定と一致しない場合に、このコマンドレットを使用することをお勧めします。
+
+PowerShellコマンドレットを実行できるように環境を準備しておく必要があります。
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. -CleanupSecondaryBackupsパラメータを使用してセカンダリ バックアップ数をクリーンアップします。
++
+この例では、Snapshotがないセカンダリ バックアップのバックアップ数をクリーンアップしています。
+
++
+[listing]
+----
+Remove-SmBackup -CleanupSecondaryBackups
+Remove-SmBackup
+Are you sure want to remove the backup(s).
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):
+----
+

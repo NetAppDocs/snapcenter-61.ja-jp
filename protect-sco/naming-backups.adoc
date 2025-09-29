@@ -1,0 +1,33 @@
+---
+permalink: protect-sco/naming-backups.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: SnapCenter がOracle データベースを検出する方法。 
+---
+= バックアップの命名規則
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Snapshotのデフォルトの命名規則を使用するか、カスタマイズした命名規則を使用できます。デフォルトのバックアップ命名規則ではSnapshot名にタイムスタンプが追加されるので、コピーが作成されたタイミングを特定できます。
+
+Snapshotでは、次のデフォルトの命名規則が使用されます。
+
+`resourcegroupname_hostname_timestamp`
+
+バックアップ リソース グループには、次の例のように論理的な名前を付ける必要があります。
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+この例では、各構文要素に次の意味があります。
+
+* _dts1_ はリソース グループ名です。
+* _mach1x88_ はホスト名です。
+* _03-12-2015_23.17.26_ は日付とタイムスタンプです。
+
+
+または、[スナップショット コピーにカスタム名形式を使用する] を選択して、リソースまたはリソース グループを保護しながらスナップショット名の形式を指定することもできます。たとえば、customtext_resourcegroup_policy_hostnameやresourcegroup_hostnameなどの形式です。デフォルトでは、Snapshot名にタイムスタンプのサフィックスが追加されます。

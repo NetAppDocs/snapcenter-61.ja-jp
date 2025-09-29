@@ -1,0 +1,33 @@
+---
+permalink: install/enable_two_way_ssl_linux.html 
+sidebar: sidebar 
+keywords: security,enable two-way ssL, windows host, one-way ssl 
+summary: PowerShell コマンドを使用して SSL 通信を有効にし、Linux ホスト上のSnapCenter Server とプラグイン間の相互通信を保護できます。 
+---
+= LinuxホストでのSSL通信の有効化
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PowerShellコマンドを使用して、双方向SSL通信を有効にし、Linuxホスト上のSnapCenter Serverとプラグインの間の相互通信を保護できます。
+
+.手順
+. 次の手順を実行して、一方向SSL通信を有効にします。
++
+.. SnapCenter GUIにログインします。
+.. *設定* > *グローバル設定* をクリックし、* SnapCenterサーバーで証明書の検証を有効にする* を選択します。
+.. *ホスト* > *管理対象ホスト* をクリックし、一方向 SSL を有効にするプラグイン ホストを選択します。
+.. クリックimage:../media/more_icon.gif["その他のアイコン"]アイコンをクリックし、[証明書の検証を有効にする] をクリックします。
+
+
+. SnapCenter ServerのLinuxホストから双方向SSL通信を有効にします。
++
+** `Open-SmConnection`
+** `Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="true"} -HostName <Plugin Host Name>`
+** `Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="true"} -HostName localhost`
+** `Set-SmConfigSettings -Server -configSettings @{"EnableTwoWaySSL"="true"}`
+
+
+

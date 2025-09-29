@@ -1,0 +1,223 @@
+---
+permalink: protect-sce/task_back_up_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'データベースがどのリソース グループにも含まれていない場合は、[Resources]ページからデータベースまたはデータベース可用性グループをバックアップできます。' 
+---
+= Exchangeデータベースのバックアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+データベースがどのリソース グループにも含まれていない場合は、[Resources]ページからデータベースまたはデータベース可用性グループをバックアップできます。
+
+.開始する前に
+* バックアップ ポリシーを作成しておく必要があります。
+* バックアップ処理で使用されるアグリゲートを、データベースが使用するSVMに割り当てておく必要があります。
+* セカンダリ ストレージとのSnapMirror関係を持つリソースをバックアップする場合、ストレージ ユーザーに割り当てられているロールに「`snapmirror all`」権限が含まれている必要があります。ただし、「`vsadmin`」ロールを使用している場合は、「`snapmirror all`」権限は必要ありません。
+* NetAppおよび非NetAppストレージ上にアクティブ/パッシブ データベース コピーを持つデータベースまたはデータベース可用性グループのバックアップを実行する場合、ポリシーで *アクティブ コピーをバックアップする* または *バックアップ ジョブの作成時に選択されるサーバー上のコピーをバックアップする* オプションを選択すると、バックアップ ジョブは警告状態になります。NetAppストレージ上のアクティブ / パッシブ データベース コピーのバックアップは成功し、他社ストレージ上のアクティブ / パッシブ データベース コピーのバックアップは失敗します。
++
+|===
+
+
+| *ベスト プラクティス:* アクティブ データベースとパッシブ データベースのバックアップを同時に実行しないでください。競合状態が発生し、いずれかのバックアップが失敗する可能性があります。 
+|===
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ウィンドウで、[*リソース*] をクリックし、リストから [*Microsoft Exchange Server プラグイン*] を選択します。
+. [リソース] ページで、[表示] リストから [データベース] または [データベース可用性グループ] を選択します。
++
+リソースページでは、image:../media/not_supported_icon.gif["サポートされていないアイコン"]アイコンは、データベースがNetApp以外のストレージ上にあることを示します。
+
++
+
+NOTE: DAG内で、アクティブ データベース コピーが他社ストレージにあり、1つ以上のパッシブ データベース コピーがNetAppストレージにある場合は、データベースを保護できます。
+
++
+クリック *image:../media/filter_icon.gif["フィルターアイコン"] *、ホスト名とデータベース タイプを選択してリソースをフィルターします。  *をクリックしますimage:../media/filter_icon.gif["フィルターアイコン"]* フィルター パネルを閉じます。
+
++
+** データベースをバックアップする場合は、データベース名をクリックします。
++
+... トポロジ ビューが表示されている場合は、[保護] をクリックします。
+... [Database - Protect Resource]ウィザードが表示された場合は、手順3に進みます。
+
+
+** データベース可用性グループをバックアップする場合は、データベース可用性グループの名前をクリックします。
+
+
+. カスタム スナップショット名を指定する場合は、[リソース] ページで [*スナップショット コピーにカスタム名形式を使用する*] チェック ボックスをオンにし、スナップショット名に使用するカスタム名形式を入力します。
++
+たとえば、_customtext_policy_hostname_ または _resource_hostname_ です。デフォルトでは、Snapshotの名前の後ろにタイムスタンプが付加されます。
+
+. [Policies]ページで、次の手順を実行します。
++
+.. ドロップダウン リストから1つ以上のポリシーを選択します。
++
+
+NOTE: *をクリックしてポリシーを作成することもできますimage:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]*。
+
++
+
+NOTE: ポリシーに「*バックアップ ジョブの作成時に選択されるサーバー上のコピーをバックアップする*」オプションが含まれている場合、1 つ以上のサーバーを選択するためのサーバー選択オプションが表示されます。サーバ選択オプションでは、選択したデータベースがNetAppストレージ上にあるサーバのみが表示されます。
+
+
+
++
+[Configure schedules for selected policies]セクションに、選択したポリシーがリストされます。
+
++
+.. クリック *image:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"] * スケジュールを構成するポリシーの [スケジュールの構成] 列で、
+.. ポリシー _policy_name_ のスケジュールの追加ウィンドウでスケジュールを構成し、[*OK*] をクリックします。
++
+ここで、_policy_name_ は選択したポリシーの名前です。
+
++
+設定したスケジュールが[Applied Schedules]列にリストされます。
+
+
+
+. 通知ページの *電子メール設定* ドロップダウン リストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。リソースに対して実行されたバックアップ操作のレポートを添付する場合は、「*ジョブ レポートの添付*」を選択します。
+
++
+
+NOTE: Eメール通知を利用する場合は、GUIまたはPowerShellのSet-SmSmtpServerコマンドを使用して、SMTPサーバの詳細を指定しておく必要があります。
+
+. 概要を確認し、[完了] をクリックします。
++
+データベース トポロジのページが表示されます。
+
+. *今すぐバックアップ*をクリックします。
+. [Backup]ページで次の手順を実行します。
++
+.. リソースに複数のポリシーを適用している場合は、[*ポリシー*] ドロップダウン リストから、バックアップに使用するポリシーを選択します。
++
+オンデマンド バックアップ用に選択したポリシーがバックアップ スケジュールに関連付けられている場合、オンデマンド バックアップは、スケジュール タイプの保持設定に基づいて保持されます。
+
+.. *バックアップ*をクリックします。
+
+
+. バックアップの進捗状況を監視するには、ページ下部の[Activity]ペインでジョブをダブルクリックして[Job Details]ページを表示します。
++
+** MetroCluster構成では、フェイルオーバー後にSnapCenterで保護関係を検出できないことがあります。
++
+詳細については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroClusterのフェイルオーバー後にSnapMirror関係またはSnapVault関係を検出できない"^]
+
+** VMDK上のアプリケーション データをバックアップする場合に、SnapCenter Plug-in for VMware vSphereのJavaヒープ サイズが不足していると、バックアップが失敗することがあります。
++
+Java ヒープ サイズを増やすには、スクリプト ファイル _/opt/netapp/init_scripts/scvservice_ を見つけます。このスクリプトでは、_do_start method_ コマンドによってSnapCenter VMware プラグイン サービスが開始されます。このコマンドを次のように更新します: _Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
++
+ユーザ名とパスワードのプロンプトが表示されます。
+
+. Add-SmPolicyコマンドレットを使用して、バックアップ ポリシーを作成します。
++
+この例では、Exchangeのバックアップ タイプとしてフル バックアップとログ バックアップを指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies
+----
++
+この例では、Exchangeのバックアップ タイプとして1時間ごとのフル バックアップとログ バックアップを指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Hourly_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies -ScheduleType Hourly -RetentionSettings @{'BackupType'='DATA';'ScheduleType'='Hourly';'RetentionCount'='10'}
+----
++
+この例では、Exchangeログのみをバックアップする新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+Add-SmPolicy -PolicyName SCE_w2k12_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType LogBackup -BackupActiveCopies
+----
+. Get-SmResourcesコマンドレットを使用してホスト リソースを検出します。
++
+この例では、指定したホスト上でMicrosoft Exchange Serverプラグインのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS> Get-SmResources -HostName vise-f6.sddev.mycompany.com -PluginCode SCE
+----
+. Add-SmResourceGroupコマンドレットを使用して、SnapCenterに新しいリソース グループを追加します。
++
+この例では、ポリシーとリソースを指定して新しいExchange Serverデータベース バックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+C:\PS> Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{'Host'='sce-w2k12-exch';'Type'='Exchange Database';'Names'='sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_1,sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2'}
+----
++
+この例では、ポリシーとリソースを指定して新しいExchangeデータベース可用性グループ（DAG）のバックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{"Host"="DAGSCE0102";"Type"="Database Availability Group";"Names"="DAGSCE0102"}
+----
+. New-SmBackupコマンドレットを使用して、新しいバックアップ ジョブを開始します。
++
+[listing]
+----
+C:\PS> New-SmBackup -ResourceGroupName SCE_w2k12_bkp_RG -Policy SCE_w2k12_Full_Log_bkp_Policy
+----
++
+この例では、セカンダリ ストレージに新しいバックアップを作成しています。
+
++
+[listing]
+----
+New-SMBackup -DatasetName ResourceGroup1 -Policy Secondary_Backup_Policy4
+----
+. Get-SmBackupReportコマンドレットを使用して、バックアップ ジョブのステータスを表示します。
++
+この例では、指定した日に実行されたすべてのジョブの概要レポートを表示しています。
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -Date ?1/27/2018?
+----
++
+この例では、ジョブIDを指定してジョブ サマリ レポートを表示しています。
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -JobId 168
+----
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。または、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+--
+====

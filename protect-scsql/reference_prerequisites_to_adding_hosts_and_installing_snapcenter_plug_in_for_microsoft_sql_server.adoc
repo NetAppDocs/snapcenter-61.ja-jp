@@ -1,0 +1,35 @@
+---
+permalink: protect-scsql/reference_prerequisites_to_adding_hosts_and_installing_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: ホストを追加してプラグイン パッケージをインストールする前に、すべての要件を満たしておく必要があります。 
+---
+= ホストを追加してSnapCenter Plug-in for Microsoft SQL Serverをインストールするための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ホストを追加してプラグイン パッケージをインストールする前に、すべての要件を満たしておく必要があります。
+
+* iSCSIを使用している場合は、iSCSIサービスが実行されている必要があります。
+* ローカル管理者権限があり、リモート ホストに対するローカルのログイン アクセス許可があるユーザが必要です。
+* SnapCenterでクラスタ ノードを管理する場合は、クラスタ内のすべてのノードに対する管理者権限があるユーザが必要です。
+* SQL Serverに対するsysadminアクセス許可があるユーザが必要です。
++
+SnapCenterプラグイン (Microsoft SQL Server 用) は、sysadmin アクセスを必要とする Microsoft VDI Framework を使用します。
+
++
+https://mskb.pkisolutions.com/kb/2926557["Microsoft サポート記事 2926557: SQL Server VDI のバックアップと復元操作には Sysadmin 権限が必要です"]
+
+* Windowsホストにプラグインをインストールする際、組み込みでないクレデンシャルを指定する場合や、ユーザがローカル ワークグループに属している場合は、ホストのUACを無効にする必要があります。
+* SnapManager for Microsoft SQL Server がインストールされている場合は、サービスとスケジュールを停止または無効にする必要があります。
++
+バックアップ ジョブまたはクローン ジョブをSnapCenterにインポートする予定の場合は、 SnapManager for Microsoft SQL Server をアンインストールしないでください。
+
+* サーバからホストを完全修飾ドメイン名（FQDN）に解決できる必要があります。
++
+ホストファイルが解決可能になるように変更され、ホストファイルで短縮名とFQDNの両方が指定されている場合は、 SnapCenterホストファイルに次の形式でエントリを作成します: <ip_address> <host_fqdn> <host_name>
+
+

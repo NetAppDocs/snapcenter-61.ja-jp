@@ -1,0 +1,28 @@
+---
+permalink: protect-nsp/netapp_supported_plugins_overview.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: 使用するアプリケーション用にNetApp対応プラグインを開発し、 SnapCenterを使用してこれらのアプリケーションをバックアップ、復元、またはクローン化することができます。他のSnapCenterプラグインと同様に、 NetAppがサポートするプラグインはNetApp SnapCenterソフトウェアのホスト側コンポーネントとして機能し、アプリケーション対応のデータ保護とリソースの管理を可能にします。 
+---
+= NetAppがサポートしているプラグインの概要
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用するアプリケーションには、MongoDB、ORASCPM (Oracle アプリケーション)、SAP ASE、SAP MaxDB、ストレージ プラグインなどのNetApp対応プラグインを使用し、 SnapCenterを使用してこれらのアプリケーションをバックアップ、復元、またはクローン化できます。NetAppがサポートしているプラグインは、NetApp SnapCenterソフトウェアのホスト側コンポーネントとして動作し、アプリケーションに対応したリソースのデータ保護と管理を提供します。
+
+NetAppがサポートしているプラグインをインストールすると、SnapCenterとNetApp SnapMirrorテクノロジを使用して別のボリュームのバックアップ セットのミラー コピーを作成し、NetApp SnapVaultテクノロジを使用してディスクツーディスクのバックアップ レプリケーションを実行できます。NetAppがサポートしているプラグインは、WindowsとLinuxのどちらの環境でも使用できます。
+
+
+NOTE: SnapCenterCLIでは、NetAppがサポートしているプラグイン コマンドはサポートされません。
+
+NetApp は、 SnapCenterに組み込まれたプラグイン フレームワークを使用してONTAPストレージ上のデータ ボリュームのデータ保護操作を実行するためのストレージ プラグインを提供します。
+
+NetAppでサポートされているプラ​​グインは、「ホストの追加」ページからインストールできます。
+
+link:add_hosts_and_install_plug_in_packages_on_remote_hosts.html["ホストを追加し、リモート ホストにプラグイン パッケージをインストールします。"^]
+
+
+NOTE: SnapCenterサポート ポリシーは、プラグイン フレームワーク、コア エンジン、および関連 API のサポートをカバーします。プラグインのソース コードおよびプラグイン フレームワーク上に構築された関連スクリプトはサポートの対象外となります。

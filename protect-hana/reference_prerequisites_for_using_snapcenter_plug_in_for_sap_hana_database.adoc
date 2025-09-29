@@ -1,0 +1,36 @@
+---
+permalink: protect-hana/reference_prerequisites_for_using_snapcenter_plug_in_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: Credentials,SnapCenter Plug-in for SAP HANA Database 
+summary: ユーザがSnapCenter Plug-in for SAP HANA Databaseを使用するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。 
+---
+= SnapCenter Plug-in for SAP HANA Databaseを使用するための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ユーザがSnapCenter Plug-in for SAP HANA Databaseを使用するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。
+
+* SnapCenter Serverをインストールして設定します。
+* SnapCenter Serverにログインします。
+* SnapCenter環境を設定するために、必要に応じて、ストレージ システム接続を追加し、クレデンシャルを作成します。
+* LinuxホストまたはWindowsホストにJava 11をインストールします。
++
+Javaパスは、ホスト マシンの環境パス変数で設定する必要があります。
+
+* バックアップ レプリケーションが必要である場合は、SnapMirrorとSnapVaultをセットアップします。
+* Plug-in for SAP HANA DatabaseをインストールするホストにHDBSQLクライアントをインストールします。
++
+このホストで管理するSAP HANAノードのユーザ ストア キーを設定します。
+
+* SAP HANAデータベース2.0SPS05でSAP HANAデータベース ユーザ アカウントを使用している場合は、SnapCenter Serverでバックアップ、リストア、クローニングの処理を実行するための次の権限があることを確認してください。
++
+** バックアップ管理者
+** カタログ読み取り
+** データベース バックアップ管理者
+** データベース リカバリ運用者
+
+
+

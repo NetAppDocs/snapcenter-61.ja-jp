@@ -1,0 +1,200 @@
+---
+permalink: protect-hana/task_clone_a_sap_hana_database_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database,run as 
+summary: SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。 
+---
+= SAP HANAデータベースのバックアップのクローニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。
+
+.開始する前に
+* リソースまたはリソース グループをバックアップしておく必要があります。
+* ボリュームをホストするアグリゲートがStorage Virtual Machine（SVM）の割り当て済みアグリゲート リストに含まれていることを確認します。
+* ファイルベースのバックアップはクローニングできません。
+* ターゲットのクローン サーバのSAP HANAインスタンスSIDは、[Target Clone SID]フィールドで指定したSIDと同じである必要があります。
+* クローニング前またはクローニング後のコマンドについては、プラグイン ホストの次のパスで使用できるコマンド リストにコマンドが存在するかどうかを確認する必要があります。
++
+** Windows の場合: _C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linuxの場合: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: コマンドがコマンド リストに存在しない場合、処理は失敗します。
+
+.タスク概要
+* クローン分割操作の制限については、以下を参照してください。 http://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-vsmg/home.html["ONTAP 9 論理ストレージ管理ガイド"^] 。
+* ONTAP 9.12.1 以前のバージョンでは、復元の一環としてSnapLock Vault スナップショットから作成されたクローンには、 SnapLock Vault の有効期限が継承されます。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [リソース] ページで、リソース タイプに基づいて [*表示*] ドロップダウン リストからリソースをフィルターします。
++
+リソースは、タイプ、ホスト、関連するリソース グループとポリシー、ステータスなどの情報とともに表示されます。
+
+. リソースまたはリソース グループを選択します。
++
+リソース グループを選択した場合はリソースを選択する必要があります。
+
++
+リソースまたはリソース グループのトポロジ ページが表示されます。
+
+. [コピーの管理] ビューで、プライマリまたはセカンダリ (ミラーリングまたはボールト化された) ストレージ システムから [*バックアップ*] を選択します。
+. 表からデータバックアップを選択し、クリックします。image:../media/clone_icon.gif["クローンアイコン"] 。
+. [Location]ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+プラグインホスト
+ a| 
+クローンのマウント先のプラグインがインストールされたホストを選択します。
+
+
+
+ a| 
+Target Clone SID
+ a| 
+既存のバックアップからクローニングするSAP HANAインスタンスIDを入力します。
+
+
+
+ a| 
+NFS Export IP Address
+ a| 
+クローン ボリュームをエクスポートするホスト名またはIPアドレスを入力します。
+
+
+
+ a| 
+iSCSI Initiator
+ a| 
+LUNのエクスポート先ホストのiSCSIイニシエータ名を入力します。このオプションは、LUNリソース タイプを選択した場合にのみ使用できます。
+
+
+
+ a| 
+プロトコル
+ a| 
+LUNプロトコルを入力します。このオプションは、LUNリソース タイプを選択した場合にのみ使用できます。
+
+|===
++
+リソースとしてLUNを選択し、セカンダリ バックアップからクローニングする場合、デスティネーション ボリュームのリストが表示されます。1つのソースについて複数のデスティネーション ボリュームを選択することができます。
+
++
+
+NOTE: クローニングを実行する前に、iSCSIイニシエータまたはFCPが存在し、設定が完了し、代替ホストにログインしていることを確認します。
+
+. [Scripts]ページで、次の手順を実行します。
++
+
+NOTE: スクリプトはプラグイン ホストで実行されます。
+
++
+.. クローニング処理の前後に実行するプリコマンドやポストコマンドを入力します。
++
+*** クローニング前のコマンド：同じ名前の既存のデータベースの削除
+*** クローニング後のコマンド：データベースの検証やデータベースの起動
+
+
+.. ホストにファイルシステムをマウントするには、mountコマンドを入力します。
++
+Linuxマシンのボリュームまたはqtreeに対するmountコマンド：
+
++
+NFSの例: `mount VSERVER_DATA_IP:%VOLUME_NAME_Clone /mnt`
+
+
+
+. 通知ページの *電子メール設定* ドロップダウン リストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Get-SmBackupコマンドレットを使用して、クローニング処理を実行するバックアップを取得します。
++
+この例では、クローニングできるバックアップが2つあります。
+
++
+[listing]
+----
+ C:\PS> Get-SmBackup
+
+        BackupId                      BackupName                    BackupTime                    BackupType
+        --------                      ----------                    ----------                    ----------
+         1                     Payroll Dataset_vise-f6_08... 8/4/2015 11:02:32 AM          Full Backup
+         2                     Payroll Dataset_vise-f6_08... 8/4/2015 11:23:17 AM
+----
+. 既存のバックアップからクローニング処理を開始し、クローニングされたボリュームをエクスポートするNFSエクスポートのIPアドレスを指定します。
++
+この例では、NFSExportIPsのアドレスを10.232.206.169と指定してバックアップをクローニングしています。
+
++
+[listing]
+----
+New-SmClone -AppPluginCode hana -BackupName scsccore1_sccore_test_com_hana_H73_scsccore1_06-07-2017_02.54.29.3817 -Resources @{"Host"="scsccore1.sccore.test.com";"Uid"="H73"}  -CloneToInstance shivscc4.sccore.test.com -mountcommand 'mount 10.232.206.169:%hana73data_Clone /hana83data' -preclonecreatecommands '/home/scripts/scpre_clone.sh' -postclonecreatecommands '/home/scripts/scpost_clone.sh'
+----
++
+
+NOTE: NFSExportIPsを指定しない場合、デフォルトでクローン ターゲット ホストにエクスポートされます。
+
+. Get-SmCloneReportコマンドレットを使用してクローニング ジョブの詳細を表示し、バックアップが正常にクローニングされたことを確認します。
++
+クローンID、開始日時、終了日時などの詳細を確認できます。
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

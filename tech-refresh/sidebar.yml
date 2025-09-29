@@ -1,0 +1,10 @@
+---
+section: tech-refresh
+title: 機器更改
+entries:
+- title: SnapCenter Serverホストの機器更改
+  url: "/tech-refresh/task_tech_refresh_server_host.html"
+- title: SnapCenterプラグイン ホストの機器更改
+  url: "/tech-refresh/task_tech_refresh_plugin_host.html"
+- title: ストレージ システムの機器更改
+  url: "/tech-refresh/task_tech_refresh_storage_system.html"

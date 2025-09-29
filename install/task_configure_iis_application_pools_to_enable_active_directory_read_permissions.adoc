@@ -1,0 +1,27 @@
+---
+permalink: install/task_configure_iis_application_pools_to_enable_active_directory_read_permissions.html 
+sidebar: sidebar 
+keywords: IIS application pool, active directory, enable 
+summary: 'SnapCenterの Active Directory 読み取り権限を有効にする必要がある場合は、Windows Server でインターネット インフォメーション サービス (IIS) を構成してカスタム アプリケーション プール アカウントを作成できます。' 
+---
+= Active Directoryの読み取り権限を有効にするためのIISアプリケーション プールの設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterの Active Directory 読み取り権限を有効にする必要がある場合は、Windows Server でインターネット インフォメーション サービス (IIS) を構成してカスタム アプリケーション プール アカウントを作成できます。
+
+*手順*
+
+. SnapCenterがインストールされているWindows Serverで、IISマネージャを開きます。
+. 左側のナビゲーション ウィンドウで、[*アプリケーション プール*] をクリックします。
+. アプリケーション プール リストでSnapCenterを選択し、操作ウィンドウで *詳細設定* をクリックします。
+. [ID] を選択し、[*...*] をクリックしてSnapCenterアプリケーション プール ID を編集します。
+. [カスタム アカウント] フィールドに、Active Directory の読み取り権限を持つドメイン ユーザーまたはドメイン管理者のアカウント名を入力します。
+. [OK]をクリックします。
++
+カスタム アカウントは、 SnapCenterアプリケーション プールの組み込み ApplicationPoolIdentity アカウントを置き換えます。
+
+

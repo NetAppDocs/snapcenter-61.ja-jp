@@ -1,0 +1,29 @@
+---
+permalink: protect-postgresql/types-of-restore-strategies-supported-for-manually-added-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。手動で追加された PostgreSQL リソースには、2 種類の復元戦略があります。手動で追加したPostgreSQLリソースはリカバリできません。 
+---
+= 手動で追加したPostgreSQLリソースでサポートされるリストア戦略のタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してリストア処理を正常に実行するには、戦略を定義しておく必要があります。
+
+
+NOTE: 手動で追加したPostgreSQLリソースはリカバリできません。
+
+
+
+== リソース全体のリストア
+
+* リソースのすべてのボリューム、qtree、およびLUNをリストア
+
+
+
+NOTE: リソースにボリュームまたはqtreeが含まれている場合、そのボリュームまたはqtreeのリストア用のSnapshotが選択されたあとに作成されたSnapshotは削除され、リカバリすることはできません。また、同じボリュームまたはqtreeで他のリソースがホストされている場合、そのリソースも削除されます。
+
+注意: PostgreSQL 用プラグインは、手動での復元を支援するために、_/<OS_temp_folder>/postgresql_sc_recovery_<Restore_JobId>/_ フォルダーに backup_label と tablespace_map を作成します。

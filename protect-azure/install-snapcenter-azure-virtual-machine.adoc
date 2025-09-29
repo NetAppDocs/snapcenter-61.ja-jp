@@ -1,0 +1,65 @@
+---
+permalink: protect-azure/install-snapcenter-azure-virtual-machine.html 
+sidebar: sidebar 
+keywords: snapcenter server, azure virtual machine, install 
+summary: Azure 仮想マシンにSnapCenterをダウンロードしてインストールします。 
+---
+= Azure仮想マシンへのSnapCenterのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetAppサポート サイトからSnapCenterソフトウェアをダウンロードし、Azure仮想マシンにインストールできます。
+
+.開始する前に
+* Azure Windows仮想マシンがSnapCenter Serverのインストール要件を満たしていることを確認します。詳細については、link:../install/requirements-to-install-snapcenter-server.html["SnapCenter Server をインストールするための要件"] 。
+* Azure NetApp Filesを初めてご利用になり、既存のNetAppアカウントをお持ちでない場合は、SnapCenterソフトウェアにアクセスできるように必ず登録を済ませてください。詳細については、link:../install/register_enable_software_access.html["SnapCenterソフトウェアにアクセスするための登録"] 。
+
+
+.手順
+. SnapCenter Serverのインストールパッケージを以下からダウンロードします。 https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetAppサポート サイト"] 。
+. ダウンロードした.exeファイルをダブルクリックして、SnapCenter Serverのインストールを開始します。
++
+インストールを開始すると、すべての事前確認が実行されます。最小要件を満たしていない場合は、対応するエラーまたは警告メッセージが表示されます。警告メッセージは無視してインストールを続行できますが、エラーは修正する必要があります。
+
+. SnapCenter Serverのインストールに必要な入力済みの値を確認し、必要に応じて変更します。
++
+MySQL Serverリポジトリ データベースのパスワードを指定する必要はありません。SnapCenter Serverのインストール時には、パスワードが自動生成されます。
+
++
+
+NOTE: リポジトリ データベースのカスタム パスに特殊文字「%」を使用することはできません。パスに「%」が含まれているとインストールは失敗します。
+
+. *今すぐインストール*をクリックします。
++
+無効な値を指定すると、対応するエラー メッセージが表示されます。値を再入力してからインストールを開始してください。
+
++
+
+NOTE: *キャンセル*ボタンをクリックすると、実行中のステップが完了し、ロールバック操作が開始されます。SnapCenter Serverはホストから完全に削除されます。
+
++
+ただし、「SnapCenter Server サイトの再起動」または「 SnapCenter Server の起動を待機中」の操作の実行中に [*キャンセル*] をクリックすると、操作はキャンセルされずにインストールが続行されます。
+
+
+
+
+
+== 製品の登録とサポートの有効化
+
+NetAppを初めてご利用になり、既存のNetAppアカウントをお持ちでない場合は、製品を登録してサポートを有効にする必要があります。
+
+.手順
+. SnapCenterをインストールした後、*ヘルプ > バージョン情報*に移動します。
+. [SnapCenter について] ダイアログ ボックスで、971 で始まる 20 桁の番号であるSnapCenterインスタンスをメモします。
+. クリック https://register.netapp.com[]。
+. *私はNetAppの登録顧客ではありません* をクリックします。
+. ご自身の情報を指定して、登録します。
+. [NetApp Reference SN]フィールドは空白のままにします。
+. 製品ラインドロップダウンから* SnapCenter*を選択します。
+. 課金プロバイダを選択します。
+. 20桁のSnapCenterインスタンスIDを入力します。
+. *送信*をクリックします。
+

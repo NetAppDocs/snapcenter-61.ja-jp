@@ -1,0 +1,16 @@
+---
+permalink: protect-db2/install-snapcenter-plug-in-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: installing 
+summary: IBM Db2 を保護する場合は、IBM Db2 用のSnapCenterプラグインをインストールして設定する必要があります。 
+---
+= SnapCenter Plug-in for IBM Db2のインストール ワークフロー
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+IBM Db2データベースを保護する場合は、SnapCenter Plug-in for IBM Db2をインストールしてセットアップする必要があります。
+
+image::../media/sap_hana_install_configure_workflow.gif[SAP HANAプラグインをインストールする]

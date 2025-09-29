@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: SnapCenter Plug-in for Microsoft Windowsは、Microsoftファイルシステムのリソースに対応したデータ保護管理を提供する、NetApp SnapCenterソフトウェアのホスト側コンポーネントです。Windowsファイルシステムのストレージのプロビジョニング、整合性のあるSnapshotの作成、およびスペースの再生が可能です。Plug-in for Windowsを使用することで、SnapCenter環境でのファイルシステムのバックアップ、リストア、およびクローニングの処理を自動化できます。 
+---
+= SnapCenter Plug-in for Microsoft Windowsの概要
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft Windowsは、Microsoftファイルシステムのリソースに対応したデータ保護管理を提供する、NetApp SnapCenterソフトウェアのホスト側コンポーネントです。Windowsファイルシステムのストレージのプロビジョニング、整合性のあるSnapshotの作成、およびスペースの再生が可能です。Plug-in for Windowsを使用することで、SnapCenter環境でのファイルシステムのバックアップ、リストア、およびクローニングの処理を自動化できます。
+
+Plug-in for Windowsがインストールされている場合は、SnapCenterでNetApp SnapMirrorテクノロジを使用して別のボリュームにバックアップ セットのミラー コピーを作成できるほか、NetApp SnapVaultテクノロジを使用してアーカイブや標準への準拠を目的としたディスクツーディスク バックアップ レプリケーションを実行できます。
+
+* SnapCenter環境のWindowsホストで実行されている他のプラグインに対してアプリケーション対応のデータ保護が有効になります。
+* SnapCenter環境のMicrosoftファイルシステムに対するアプリケーション対応のバックアップ、リストア、クローニングの各処理が自動化されます。
+* Windowsホストのストレージ プロビジョニング、整合性のあるSnapshotの作成、およびスペース再生がサポートされます。
+
+
+
+NOTE: Plug-in for Windowsでは、物理LUNとRDM LUNでSMB共有およびWindowsファイルシステムをプロビジョニングできますが、SMB共有でのWindowsファイルシステムのバックアップ処理はサポートされません。

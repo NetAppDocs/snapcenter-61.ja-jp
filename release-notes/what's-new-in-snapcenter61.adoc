@@ -1,0 +1,28 @@
+---
+permalink: 'release-notes/what"s-new-in-snapcenter61.html' 
+sidebar: sidebar 
+keywords: what is new, features, enhancements, 6.1 
+summary: SnapCenter softwareの 6.1 リリースには、いくつかの新機能と機能強化が含まれています。 
+---
+= SnapCenter software6.1 の新機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter softwareの 6.1 リリースには、いくつかの新機能と機能強化が含まれています。
+
+|===
+| 更新 | 説明 
+
+
+| link:../get-started/reference_supported_storage_systems_and_applications.html["ASA r2 システムのサポート"]  a| 
+SnapCenter は現在、SAN のみを利用する顧客のニーズに特化した簡素化されたエクスペリエンスを実現するASA r2 システムをサポートしています。
+
+
+
+| 二次改ざん防止スナップショットをサポート  a| 
+SnapCenter、セカンダリ スナップショットのロック期間を指定できます。
+
+|===

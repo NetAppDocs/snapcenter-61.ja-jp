@@ -1,0 +1,23 @@
+---
+permalink: protect-postgresql/what-you-can-do-using-the-snapcenter-plug-in-for-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: 環境に PostgreSQL 用プラグインをインストールすると、 SnapCenterを使用して PostgreSQL とそのリソースをバックアップ、復元、複製できるようになります。これらの処理をサポートするタスクも実行できます。 
+---
+= SnapCenter Plug-in for PostgreSQLの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for PostgreSQLクラスタをインストールした環境では、SnapCenterを使用してPostgreSQLクラスタとそのリソースをバックアップ、リストア、クローニングできます。これらの処理をサポートするタスクも実行できます。
+
+* クラスタを追加します。
+* バックアップを作成します。
+* バックアップからリストアします。
+* バックアップをクローニングします。
+* バックアップ処理のスケジュールを設定します。
+* バックアップ、リストア、クローニングの各処理を監視します。
+* バックアップ、リストア、クローニングの各処理のレポートを表示します。
+

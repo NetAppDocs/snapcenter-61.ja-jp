@@ -1,0 +1,35 @@
+---
+permalink: protect-sco/reference_requirements_for_restoring_an_oracle_database.html 
+sidebar: sidebar 
+keywords:  
+summary: Oracleデータベースをリストアする前に、前提条件が満たされていることを確認する必要があります。 
+---
+= Oracleデータベースをリストアするための要件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oracleデータベースをリストアする前に、前提条件が満たされていることを確認する必要があります。
+
+* リストアとリカバリの戦略を定義しておく必要があります。
+* ユーザがSnapshotをミラーまたはバックアップにレプリケートする場合は、ソース ボリュームとデスティネーション ボリューム両方のStorage Virtual Machine（SVM）をSnapCenter管理者がユーザに割り当てる必要があります。
+* バックアップの一環としてアーカイブ ログが削除される場合は、必要なアーカイブ ログのバックアップを手動でマウントしておく必要があります。
+* 仮想マシン ディスク（VMDK）上にあるOracleデータベースをリストアする場合は、クローンVMDKを割り当てるための必要な数の空きスロットがゲスト マシンにあることを確認する必要があります。
+* データベースでセカンダリ保護が有効になっている場合は、そのデータベースに属しているすべてのデータ ボリュームとアーカイブ ログ ボリュームが保護されていることを確認する必要があります。
+* 制御ファイルまたはフル データベース リストアを実行するには、RAC One Nodeデータベースが「nomount」状態であることを確認する必要があります。
+* NFS 環境に ASM データベース インスタンスがある場合は、リカバリ操作の一環として ASM ログ バックアップを正常にマウントするために、asm_diskstring パラメータで定義されている既存のパスに ASM ディスク パス _/var/opt/snapcenter/scu/clones/*/*_ を追加する必要があります。
+* asm_diskstring パラメータでは、ASMFD を使用している場合は _AFD:*_ を構成し、ASMLIB を使用している場合は _ORCL:*_ を構成する必要があります。
++
+
+NOTE: asm_diskstringパラメータを編集する方法については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["asm_diskstringにディスクパスを追加する方法"^]
+
+* OS 認証を無効にし、Oracle データベースの Oracle データベース認証を有効にして、そのデータベースのデータファイルと制御ファイルを復元する場合は、非 ASM データベースの場合は _$ORACLE_HOME/network/admin_、ASM データベースの場合は _$GRID_HOME/network/admin_ にある *listener.ora* ファイルで静的リスナーを構成する必要があります。
+* データベース サイズがテラバイト（TB）規模の場合は、Set- SmConfigSettingsコマンドを実行してSCORestoreTimeoutパラメータの値を増やす必要があります。
+* vCenterに必要なすべてのライセンスがインストールされ、最新の状態になっていることを確認してください。
++
+ライセンスがインストールされていないか最新の状態でない場合は、警告メッセージが表示されます。この警告を無視して続行すると、RDMからのリストアは失敗します。
+
+* iSCSIプロトコルとFCプロトコルが混在するigroupを使用して、LUNがAIXホストにマッピングされていないことを確認します。詳細については、以下を参照してください。  https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["LUNのデバイスを検出できないというエラーが発生し、操作が失敗しました"^] 。
+

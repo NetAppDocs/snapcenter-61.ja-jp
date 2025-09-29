@@ -1,0 +1,66 @@
+---
+section: protect-azure
+title: Azure NetApp Filesで実行されているアプリケーションの保護
+entries:
+- title: Azure NetApp Filesで実行されているアプリケーションの保護
+  url: "/protect-azure/protect-applications-azure-netapp-files.html"
+- title: SnapCenterのインストールとクレデンシャルの作成
+  entries:
+  - title: Azure仮想マシンへのSnapCenterのインストール
+    url: "/protect-azure/install-snapcenter-azure-virtual-machine.html"
+  - title: SnapCenterでのAzureクレデンシャルの作成
+    url: "/protect-azure/create-azure-credential.html"
+  - title: Azureストレージ アカウントの設定
+    url: "/protect-azure/configure-azure-storage-account.html"
+  - title: プラグイン ホストに追加するクレデンシャルの作成
+    url: "/protect-azure/create-credential-add-plugin-host.html"
+- title: SAP HANAデータベースの保護
+  entries:
+  - title: ホストの追加とSnapCenter Plug-in for SAP HANA Databaseのインストール
+    url: "/protect-azure/add-hosts-install-plugin-for-sap-hana.html"
+  - title: SAP HANAデータベースの追加
+    url: "/protect-azure/add-sap-hana-database.html"
+  - title: SAP HANAデータベースのバックアップ ポリシーの作成
+    url: "/protect-azure/create-backup-policies-sap-hana.html"
+  - title: リソース グループの作成とSAP HANAバックアップ ポリシーの適用
+    url: "/protect-azure/create-resource-groups-attach-sap-hana-backup-policies.html"
+  - title: Azure NetApp Filesで実行されているSAP HANAデータベースのバックアップ
+    url: "/protect-azure/backup-sap-hana-databases.html"
+  - title: SAP HANAリソース グループのバックアップ
+    url: "/protect-azure/backup-sap-hana-resource-groups.html"
+  - title: SAP HANAデータベースのリストアとリカバリ
+    url: "/protect-azure/restore-recover-sap-hana-backups.html"
+  - title: SAP HANAデータベースのバックアップのクローニング
+    url: "/protect-azure/clone-sap-hana-database-backups.html"
+- title: Microsoft SQL Serverデータベースの保護
+  entries:
+  - title: ホストの追加とSnapCenter Plug-in for SQL Server Databaseのインストール
+    url: "/protect-azure/add-hosts-install-plugin-for-sql.html"
+  - title: SQL Serverデータベースのバックアップ ポリシーの作成
+    url: "/protect-azure/create-backup-policies-sql.html"
+  - title: リソース グループの作成とSQLバックアップ ポリシーの適用
+    url: "/protect-azure/create-resource-groups-attach-sql-backup-policies.html"
+  - title: Azure NetApp Filesで実行されているSQL Serverデータベースのバックアップ
+    url: "/protect-azure/backup-sql-server-databases.html"
+  - title: SQL Serverリソース グループのバックアップ
+    url: "/protect-azure/backup-sql-resource-groups.html"
+  - title: SQL Serverデータベースのリストアとリカバリ
+    url: "/protect-azure/restore-recover-sql-backups.html"
+  - title: SQL Serverデータベースのバックアップのクローニング
+    url: "/protect-azure/clone-sql-database-backups.html"
+- title: Oracleデータベースの保護
+  entries:
+  - title: ホストの追加とSnapCenter Plug-in for Oracle Databaseのインストール
+    url: "/protect-azure/add-hosts-install-plugin-for-oracle.html"
+  - title: Oracleデータベースのバックアップ ポリシーの作成
+    url: "/protect-azure/create-backup-policies-oracle.html"
+  - title: リソース グループの作成とOracleバックアップ ポリシーの適用
+    url: "/protect-azure/create-resource-groups-attach-oracle-backup-policies.html"
+  - title: Azure NetApp Filesで実行されているOracleデータベースのバックアップ
+    url: "/protect-azure/backup-oracle-databases.html"
+  - title: Oracleリソース グループのバックアップ
+    url: "/protect-azure/backup-oracle-resource-groups.html"
+  - title: Oracleデータベースのリストアとリカバリ
+    url: "/protect-azure/restore-recover-oracle-backups.html"
+  - title: Oracleデータベースのバックアップのクローニング
+    url: "/protect-azure/clone-oracle-database-backups.html"

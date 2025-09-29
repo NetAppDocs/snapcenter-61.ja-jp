@@ -1,0 +1,30 @@
+---
+permalink: protect-sce/task_install_snapcenter_plug_in_for_vmware_vsphere.html 
+sidebar: sidebar 
+keywords: install, VMware vSphere 
+summary: 'データベースが仮想マシン (VM) に保存されている場合、または VM とデータストアを保護する場合は、 SnapCenter Plug-in for VMware vSphere仮想アプライアンスを展開する必要があります。' 
+---
+= SnapCenter Plug-in for VMware vSphereのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+データベースまたはファイルシステムが仮想マシン（VM）に格納されている場合や、VMとデータストアを保護する場合は、SnapCenter Plug-in for VMware vSphere仮想アプライアンスを導入する必要があります。
+
+展開方法については、 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["導入プロセスの概要"^] 。
+
+
+
+== CA証明書を導入する
+
+SnapCenter Plug-in for VMware vSphereで CA 証明書を構成するには、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_create_and_or_import_an_SSL_certificate_to_SnapCenter_Plug-in_for_VMware_vSphere_(SCV)["SSL証明書を作成またはインポートする"^] 。
+
+
+
+== CRLファイルを設定する
+
+SnapCenter Plug-in for VMware vSphereは、事前に設定されたディレクトリでCRLファイルを探します。SnapCenter Plug-in for VMware vSphere のCRL ファイルのデフォルト ディレクトリは _/opt/netapp/config/crl_ です。
+
+このディレクトリには、複数のCRLファイルを格納できます。受信する証明書については、それぞれのCRLに対して検証が行われます。

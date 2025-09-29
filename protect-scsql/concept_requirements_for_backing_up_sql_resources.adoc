@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_requirements_for_backing_up_sql_resources.html 
+sidebar: sidebar 
+keywords: Requirements 
+summary: SQLリソースをバックアップする前に、以下の要件を満たしていることを確認する必要があります。 
+---
+= SQLリソースのバックアップの要件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SQLリソースをバックアップする前に、以下の要件を満たしていることを確認する必要があります。
+
+* 他社ストレージ システムからNetAppストレージ システムにリソースを移行しておく必要があります。
+* バックアップ ポリシーを作成しておく必要があります。
+* セカンダリ ストレージとのSnapMirror関係を持つリソースをバックアップする場合は、ストレージ ユーザーに割り当てられたONTAPロールに「`snapmirror all`」権限が含まれている必要があります。ただし、「`vsadmin`」ロールを使用している場合は、「`snapmirror all`」権限は必要ありません。
+* Active Directory（AD）ユーザが開始したバックアップ処理は、そのADユーザまたはグループにSQLインスタンスのクレデンシャルが割り当てられていないと失敗します。*設定* > *ユーザー アクセス* ページから、SQL インスタンス資格情報を AD ユーザーまたはグループに割り当てる必要があります。
+* ポリシーを適用したリソース グループを作成しておく必要があります。
+* リソース グループにホストが異なる複数のデータベースが含まれている場合、ネットワークの問題が原因で、一部のホストでのバックアップ処理のトリガーが遅れることがあります。PowerShellのSet-SmConfigSettingsコマンドレットを使用して、web.configのFMaxRetryForUninitializedHostsの値を設定する必要があります。
+

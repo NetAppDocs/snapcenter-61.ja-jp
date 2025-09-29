@@ -1,0 +1,42 @@
+---
+permalink: protect-scsql/task_monitor_sql_database_clone_operations.html 
+sidebar: sidebar 
+keywords: clone 
+summary: 'SnapCenterのクローニング処理の進捗状況を、[Jobs]ページで監視できます。処理の進捗状況をチェックして、処理が完了するタイミングや問題が発生していないかどうかを確認できます。' 
+---
+= SQLデータベースのクローニング処理の監視
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterのクローニング処理の進捗状況を、[Jobs]ページで監視できます。処理の進捗状況をチェックして、処理が完了するタイミングや問題が発生していないかどうかを確認できます。
+
+.タスク概要
+[Jobs]ページでは、次のアイコンで処理の状態が示されます。
+
+* image:../media/progress_icon.gif["進行中アイコン"]進行中
+* image:../media/success_icon.gif["完了アイコン"]正常に完了しました
+* image:../media/failed_icon.gif["失敗アイコン"]失敗した
+* image:../media/warning_icon.gif["警告アイコン付きで完了"]警告付きで完了したか、警告のため開始できませんでした
+* image:../media/verification_job_in_queue.gif["検証ジョブをキューに格納"]キューに登録
+* image:../media/cancel_icon.gif["キャンセルアイコン"]キャンセル
+
+
+*手順*
+
+. 左側のナビゲーション ペインで、[*モニター*] をクリックします。
+. *モニター*ページで、*ジョブ*をクリックします。
+. *ジョブ* ページで、次の手順を実行します。
++
+.. をクリックし image:../media/filter_icon.gif["フィルターアイコン"] てリストをフィルタリングし、クローニング処理のみを表示します。
+.. 開始日と終了日を指定します。
+.. *タイプ*ドロップダウンリストから*クローン*を選択します。
+.. *ステータス*ドロップダウンリストからクローンのステータスを選択します。
+.. 正常に完了した操作を表示するには、[*適用*] をクリックします。
+
+
+. クローンジョブを選択し、[詳細] をクリックしてジョブの詳細を表示します。
+. ジョブの詳細ページで、*ログの表示*をクリックします。
+

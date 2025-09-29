@@ -1,0 +1,32 @@
+---
+permalink: protect-scw/task_determine_resource_availability_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: availability 
+summary: リソースとは、インストールしたプラグインで管理されるファイルシステム内のLUNやそれに類するコンポーネントのことです。それらのリソースをリソース グループに追加することで複数のリソースに対してデータ保護ジョブを実行できますが、その前に利用可能なリソースを特定しておく必要があります。利用可能なリソースを検出することで、プラグインのインストールが正常に完了したことの確認にもなります。 
+---
+= Windowsファイルシステムの使用可能なリソースの確認
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+リソースとは、インストールしたプラグインで管理されるファイルシステム内のLUNやそれに類するコンポーネントのことです。それらのリソースをリソース グループに追加することで複数のリソースに対してデータ保護ジョブを実行できますが、その前に利用可能なリソースを特定しておく必要があります。利用可能なリソースを検出することで、プラグインのインストールが正常に完了したことの確認にもなります。
+
+.開始する前に
+* SnapCenter Serverのインストール、ホストの追加、Storage Virtual Machine（SVM）接続の作成、クレデンシャルの追加などのタスクを完了しておく必要があります。
+* ファイルがVMware RDM LUNまたはVMDKにある場合は、SnapCenter Plug-in for VMware vSphereを導入してSnapCenterに登録する必要があります。詳細については、以下を参照してください。  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"^] 。
+
+
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [リソース] ページで、リストから *ファイル システム* を選択します。
+. リソースのリストをフィルタリングするホストを選択し、[*リソースの更新*] をクリックします。
++
+新たに追加、名前変更、または削除されたファイルシステムが、SnapCenter Serverのインベントリで更新されます。
+
++
+
+IMPORTANT: SnapCenterの外部でデータベースの名前が変更された場合は、リソースを更新する必要があります。
+
+

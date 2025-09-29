@@ -1,0 +1,38 @@
+---
+permalink: install/concept_high_availability_for_snapcenter_mysql_repository.html 
+sidebar: sidebar 
+keywords: SnapCenter, MySQL high availability 
+summary: MySQL Serverの機能であるMySQLレプリケーションを使用すると、MySQLデータベース サーバ（マスター）から別のMySQLデータベース サーバ（スレーブ）へ、データをレプリケートできます。SnapCenterでは、ネットワーク負荷分散（NLB）が有効な2つのノード間でのみ、高可用性実現のためにMySQLレプリケーションをサポートしています。 
+---
+= SnapCenter MySQLリポジトリの高可用性
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+MySQL Serverの機能であるMySQLレプリケーションを使用すると、MySQLデータベース サーバ（マスター）から別のMySQLデータベース サーバ（スレーブ）へ、データをレプリケートできます。SnapCenterでは、ネットワーク負荷分散（NLB）が有効な2つのノード間でのみ、高可用性実現のためにMySQLレプリケーションをサポートしています。
+
+SnapCenterは、マスター リポジトリに対して読み取りまたは書き込みの処理を実行し、マスター リポジトリで障害が発生した場合はスレーブ リポジトリへ接続をルーティングします。この場合、スレーブ リポジトリがマスター リポジトリになります。SnapCenterでは逆方向のレプリケーションもサポートされており、これはフェイルオーバー時にのみ有効になります。
+
+MySQL高可用性（HA）機能を使用する場合は、1つ目のノードにネットワーク ロード バランサ（NLB）を設定する必要があります。MySQLリポジトリは、インストール中にこのノードにインストールされます。2つ目のノードにSnapCenterをインストールするときは、1つ目のノードのF5に追加して、2つ目のノードにMySQLリポジトリのコピーを作成する必要があります。
+
+SnapCenter は、MySQL レプリケーションを管理するための _Get-SmRepositoryConfig_ および _Set-SmRepositoryConfig_ PowerShell コマンドレットを提供します。
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+MySQL HA機能に関連する次の制限事項を理解しておく必要があります。
+
+* NLBとMySQL HAがサポートされるのは、2つのノードまでです。
+* SnapCenterスタンドアロン インストールからNLBインストールまたはその逆の切り替えや、MySQLスタンドアロン セットアップからMySQL HAへの切り替えはサポートされていません。
+* スレーブ リポジトリのデータがマスター リポジトリのデータと同期されていない場合、自動フェイルオーバーはサポートされません。
++
+_Set-SmRepositoryConfig_ コマンドレットを使用して強制フェールオーバーを開始できます。
+
+* フェイルオーバーが開始されると、実行中のジョブが失敗する場合があります。
++
+MySQL ServerまたはSnapCenter Serverがダウンしたためにフェイルオーバーが発生した場合、実行中のすべてのジョブが失敗する可能性があります。2つ目のノードへのフェイルオーバー後、後続のすべてのジョブは正常に実行されます。
+
+
+
+高可用性の構成については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_NLB_and_ARR_with_SnapCenter["SnapCenterでNLBとARRを構成する方法"^] 。

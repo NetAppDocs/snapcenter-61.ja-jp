@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_back_up_sql_server_resource_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: 'リソース グループは、[Resources]ページからオンデマンドでバックアップできます。リソース グループにポリシーが適用され、かつスケジュールが設定されている場合は、スケジュールに従って自動的にバックアップが行われます。' 
+---
+= SQL Serverリソース グループのバックアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+リソース グループは、[Resources]ページからオンデマンドでバックアップできます。リソース グループにポリシーが適用され、かつスケジュールが設定されている場合は、スケジュールに従って自動的にバックアップが行われます。
+
+.手順
+. 左側のナビゲーション ペインで [*リソース*] を選択し、リストから適切なプラグインを選択します。
+. [リソース] ページで、[表示] リストから [リソース グループ] を選択します。
++
+リソースグループを検索するには、検索ボックスにリソースグループ名を入力するか、image:../media/filter_icon.gif["フィルターアイコン"]をクリックして、タグを選択します。次に選択できますimage:../media/filter_icon.gif["フィルターアイコン"]フィルター パネルを閉じます。
+
+. [リソース グループ] ページで、バックアップするリソース グループを選択し、[今すぐバックアップ] を選択します。
+. [Backup]ページで次の手順を実行します。
++
+.. リソース グループに複数のポリシーを関連付けている場合は、[*ポリシー*] ドロップダウン リストから、バックアップに使用するポリシーを選択します。
++
+オンデマンド バックアップ用に選択したポリシーがバックアップ スケジュールに関連付けられている場合、オンデマンド バックアップは、スケジュール タイプの保持設定に基づいて保持されます。
+
+.. バックアップ後、「*検証*」を選択してオンデマンド バックアップを検証します。
++
+ポリシーの *Verify* オプションは、スケジュールされたジョブにのみ適用されます。
+
+.. *バックアップ*を選択します。
+
+
+. *モニター* > *ジョブ* を選択して、操作の進行状況を監視します。
+
+
+.関連情報
+link:task_create_backup_policies_for_sql_server_databases.html["SQL Serverデータベースのバックアップ ポリシーの作成"]
+
+link:task_create_resource_groups_and_attach_policies_for_sql_server.html["SQL Serverに対するリソース グループの作成とポリシーの適用"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["TCP_TIMEOUTでの遅延のためにMySQL接続エラーが発生して、バックアップ処理が失敗する"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["Windowsスケジューラのエラーでバックアップが失敗する"]

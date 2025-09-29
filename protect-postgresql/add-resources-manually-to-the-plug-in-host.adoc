@@ -1,0 +1,95 @@
+---
+permalink: protect-postgresql/add-resources-manually-to-the-plug-in-host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Postgresql 
+summary: 特定の PostgreSQL インスタンスでは自動検出はサポートされていません。このようなリソースは手動で追加する必要があります。 
+---
+= 手動でのプラグイン ホストへのリソースの追加
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+自動検出はWindowsホストではサポートされていません。PostgreSQLクラスタ リソースは手動で追加する必要があります。
+
+.開始する前に
+* SnapCenter Serverのインストール、ホストの追加、ストレージ システム接続の設定などのタスクを完了しておく必要があります。
+
+
+.タスク概要
+自動検出は、次の構成ではサポートされていません。
+
+* RDMおよびVMDKレイアウト
+
+
+.手順
+. 左側のナビゲーション ペインで、ドロップダウン リストからSnapCenter Plug-in for Postgresql を選択し、[リソース] をクリックします。
+. [リソース] ページで、[*Postgresql リソースの追加*] をクリックします。
+. [Provide Resource Details]ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+Name
+ a| 
+クラスタ名を指定します。
+
+
+
+ a| 
+Host Name
+ a| 
+ホスト名を入力します。
+
+
+
+ a| 
+タイプ
+ a| 
+[cluster]を選択します。
+
+
+
+ a| 
+Instance
+ a| 
+クラスタの親であるインスタンスの名前を指定します。
+
+
+
+ a| 
+Credentials
+ a| 
+クレデンシャルを選択するか、クレデンシャルの情報を追加します。
+
+これはオプションです。
+
+|===
+. [ストレージ フットプリントの提供] ページで、ストレージ タイプを選択し、1 つ以上のボリューム、LUN、および qtree を選択して、[保存] をクリックします。
++
+オプション：*をクリックすることもできますimage:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]* アイコンをクリックして、他のストレージ システムからボリューム、LUN、qtree を追加します。
+
+. オプション: リソース設定ページで、Windowsホスト上のリソースの場合は、PostgreSQLプラグインのカスタムキーと値のペアを入力します。
+. 概要を確認し、[完了] をクリックします。
++
+クラスタは、ホスト名、関連するリソース グループとポリシー、全体的なステータスなどの情報とともに表示されます。
+
+
+
+リソースへのアクセスをユーザに許可する場合は、ユーザにリソースを割り当てる必要があります。これにより、ユーザは、自身に割り当てられたアセットに対して、権限のある処理を実行できるようになります。
+
+link:https://docs.netapp.com/us-en/snapcenter/install/task_add_a_user_or_group_and_assign_role_and_assets.html["ユーザまたはグループの追加と、ロールとアセットの割り当て"]
+
+.終了後の操作
+* クラスタを追加したあとで、PostgreSQLクラスタの詳細を変更できます。
+* SnapCenter 5.0から移行されたリソース（表領域とクラスタ）は、SnapCenter 6.0ではPostgreSQLクラスタ タイプとしてタグ付けされます。
+* SnapCenter 5.0 以前から移行された手動で追加されたリソースを変更する場合は、カスタム キー値ペアの *リソース設定* ページで次の操作を行います。
++
+** *名前* フィールドに「PORT」という用語を指定します。
+** *値* フィールドにポート番号を指定します。
+
+
+

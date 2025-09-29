@@ -1,0 +1,118 @@
+= プラグインキーストアのパスワードと使用中のCA署名キーペアのエイリアスを管理する
+:allow-uri-read: 
+
+
+インストールされたデジタル証明書をアクティブ化するには、 SnapCenterプラグイン サービスを使用して、プラグイン キーストアとその証明書のパスワードを管理し、CA 証明書を構成し、プラグイン トラストストアにルート証明書または中間証明書を構成し、プラグイン トラストストアに CA 署名キー ペアを構成する必要があります。
+
+プラグインは、信頼ストアとキーストアの両方として、_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_ にあるファイル _keystore.jks_ を使用します。
+
+
+
+== プラグインキーストアのパスワードと使用中のCA署名キーペアのエイリアスを管理する
+
+.手順
+. プラグイン エージェント プロパティ ファイルからプラグイン キーストアのデフォルト パスワードを取得できます。
++
+これはキー_KEYSTORE_PASS_に対応する値です。
+
+. キーストアのパスワードを変更します。
++
+_keytool -storepasswd -keystore keystore.jks_
+
++
+
+NOTE: Windowsコマンド プロンプトで「keytool」コマンドが認識されない場合は、keytoolコマンドを完全なパスに置き換えます。
+
++
+_C:\Program Files\Java\<jdk_version>\bin\keytool.exe" -storepasswd -keystore keystore.jks_
+
+. キーストア内の秘密キー エントリのすべてのエイリアスのパスワードを、キーストアと同じパスワードに変更します。
++
+_keytool -keypasswd -alias "証明書内のエイリアス名" -keystore keystore.jks_
+
++
+_agent.properties_ ファイルのキー KEYSTORE_PASS も同様に更新します。
+
+. パスワードを変更したら、サービスを再起動します。
++
+
+NOTE: プラグイン キーストアのパスワードと、秘密キーに関連付けられたすべてのエイリアス パスワードは同じである必要があります。
+
+
+
+
+
+== ルート証明書または中間証明書をプラグイン信頼ストアに設定する
+
+信頼ストアをプラグインするには、秘密キーなしでルート証明書または中間証明書を構成する必要があります。
+
+.手順
+. プラグインキーストアが格納されているフォルダ_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_に移動します。
+. 「keystore.jks」ファイルを探します。
+. キーストアに追加された証明書の一覧を表示します。
++
+_keytool -list -v -keystore keystore.jks_
+
+. ルート証明書か中間証明書を追加します。
++
+_keytool -import -trustcacerts -alias myRootCA -file /root/USERTrustRSA_Root.cer -keystore keystore.jks_
+
+. ルート証明書または中間証明書をプラグイン信頼ストアに設定した後、サービスを再起動します。
+
+
+
+NOTE: ルートCA証明書を追加してから、中間CA証明書を追加する必要があります。
+
+
+
+== プラグイン信頼ストアにCA署名キーペアを構成する
+
+CA 署名キー ペアをプラグイン信頼ストアに設定する必要があります。
+
+.手順
+. プラグインキーストアが格納されているフォルダ_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_に移動します。
+. ファイル _keystore.jks_ を見つけます。
+. キーストアに追加された証明書の一覧を表示します。
++
+_keytool -list -v -keystore keystore.jks_
+
+. 秘密キーと公開キーの両方が設定されたCA証明書を追加します。
++
+_keytool -importkeystore -srckeystore /root/snapcenter.ssl.test.netapp.com.pfx -srcstoretype pkcs12 -destkeystore keystore.jks -deststoretype JKS_
+
+. キーストアに追加された証明書の一覧を表示します。
++
+_keytool -list -v -keystore keystore.jks_
+
+. キーストアに追加された新しいCA証明書に対応するエイリアスが、キーストアに含まれていることを確認します。
+. CA証明書に追加した秘密キーのパスワードを、キーストアのパスワードに変更します。
++
+デフォルトのプラグイン キーストア パスワードは、agent.properties ファイルのキー KEYSTORE_PASS の値です。
+
++
+_keytool -keypasswd -alias "CA証明書のエイリアス名" -keystore keystore.jks_
+
+. _agent.properties_ ファイル内の CA 証明書からエイリアス名を設定します。
++
+この値を、キーSCC_CERTIFICATE_ALIASに対して更新します。
+
+. CA 署名キー ペアをプラグイン トラスト ストアに設定した後、サービスを再起動します。
+
+
+
+
+== SnapCenterプラグインの証明書失効リスト（CRL）を構成する
+
+.タスク概要
+* 関連するCA証明書の最新のCRLファイルをダウンロードするには、 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_update_certificate_revocation_list_file_in_SnapCenter_CA_Certificate["SnapCenter CA証明書の証明書失効リストファイルを更新する方法"] 。
+* SnapCenterプラグインは、事前に構成されたディレクトリ内の CRL ファイルを検索します。
+* SnapCenterプラグインの CRL ファイルのデフォルト ディレクトリは、_'C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\ etc\crl'_ です。
+
+
+.手順
+. キー CRL_PATH に対して、_agent.properties_ ファイル内のデフォルト ディレクトリを変更および更新できます。
+. このディレクトリには、複数のCRLファイルを格納できます。
++
+受信する証明書については、それぞれのCRLに対して検証が行われます。
+
+

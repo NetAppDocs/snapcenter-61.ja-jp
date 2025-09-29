@@ -1,0 +1,36 @@
+---
+permalink: install/register_enable_software_access.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install, register, new customer, NetApp account, enable, Amazon FSx for NetApp ONTAP, Azure NetApp Files 
+summary: 既存のNetAppアカウントをお持ちでない場合は、次の手順に従ってソフトウェアにアクセスするための登録を行ってください。 
+---
+= SnapCenterソフトウェアにアクセスするための登録
+:allow-uri-read: 
+
+
+[role="lead"]
+Amazon FSx for NetApp ONTAPまたはAzure NetApp Filesを初めて使用し、既存のNetAppアカウントを持っていない場合は、 SnapCenter softwareにアクセスするために登録する必要があります。
+
+.開始する前に
+* 会社のEメールIDにアクセスできる必要があります。
+* Azure NetApp Filesを使用している場合は、AzureサブスクリプションIDが必要です。
+* Amazon FSx for NetApp ONTAPを使用している場合は、FSx for ONTAPファイルシステムのファイルシステムIDが必要です。
+
+
+.タスク概要
+登録には情報検証が必要であり、確認と新しいNetAppサポート サイト (NSS) アカウントの *ゲスト* アクセスから *フル* アクセスへのアップグレードには最大 1 日かかる場合があります。
+
+.手順
+. クリック https://mysupport.netapp.com/site/user/registration[]登録用。
+. 会社のメール ID を入力し、キャプチャを完了し、NetApp のプライバシー ポリシーに同意して、[送信] をクリックします。
+. メール ID に送信された OTP を入力して登録を認証し、「続行」をクリックします。
+. 登録完了ページで、以下の情報を入力して登録を完了します。
++
+.. * NetApp顧客/エンドユーザー* を選択します。
+.. [シリアル番号] フィールドに、 Azure NetApp Files を使用している場合は Azure サブスクリプション ID を入力し、 Amazon FSx for NetApp ONTAPを使用している場合はファイル システム ID を入力します。
+
+
+
+
+
+NOTE: チケットを申請するには https://mysupport.netapp.com/site/help[]登録中に問題が発生した場合、またはステータスを知りたい場合。

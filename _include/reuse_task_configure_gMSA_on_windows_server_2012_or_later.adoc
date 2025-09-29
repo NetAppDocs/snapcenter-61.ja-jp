@@ -1,0 +1,64 @@
+= 
+:allow-uri-read: 
+
+
+Windows Server 2016以降では、作成したグループ管理サービス アカウント（gMSA）を通じて、管理対象ドメイン アカウントからサービス アカウントのパスワードを自動管理できます。
+
+.開始する前に
+* Windows Server 2016以降のドメイン コントローラが必要です。
+* ドメインのメンバーであるWindows Server 2016以降のホストが必要です。
+
+
+.手順
+. KDSルート キーを作成し、gMSA内のオブジェクトごとに一意のパスワードを生成します。
+. 各ドメインについて、Windowsドメインコントローラから次のコマンドを実行します: Add-KDSRootKey -EffectiveImmediately
+. gMSAを作成して設定します。
++
+.. 次の形式でユーザ グループ アカウントを作成します。
++
+ domainName\accountName$
+.. コンピュータ オブジェクトをグループに追加します。
+.. 作成したユーザ グループを使用してgMSAを作成します。
++
+次に例を示します。
+
++
+ New-ADServiceAccount -name <ServiceAccountName> -DNSHostName <fqdn> -PrincipalsAllowedToRetrieveManagedPassword <group> -ServicePrincipalNames <SPN1,SPN2,…>
+.. 走る `Get-ADServiceAccount`サービス アカウントを確認するコマンド。
+
+
+. ホストでgMSAを設定します。
++
+.. gMSAアカウントを使用するホストで、Windows PowerShell用のActive Directoryモジュールを有効にします。
++
+これを行うには、PowerShellから次のコマンドを実行します。
+
++
+[listing]
+----
+PS C:\> Get-WindowsFeature AD-Domain-Services
+
+Display Name                           Name                Install State
+------------                           ----                -------------
+[ ] Active Directory Domain Services   AD-Domain-Services  Available
+
+
+PS C:\> Install-WindowsFeature AD-DOMAIN-SERVICES
+
+Success Restart Needed Exit Code      Feature Result
+------- -------------- ---------      --------------
+True    No             Success        {Active Directory Domain Services, Active ...
+WARNING: Windows automatic updating is not enabled. To ensure that your newly-installed role or feature is
+automatically updated, turn on Windows Update.
+----
+.. ホストを再起動します。
+.. PowerShell コマンド プロンプトから次のコマンドを実行して、ホストに gMSA をインストールします。 `Install-AdServiceAccount <gMSA>`
+.. 次のコマンドを実行して、gMSA アカウントを確認します。 `Test-AdServiceAccount <gMSA>`
+
+
+. ホスト上の設定済みgMSAに管理者権限を割り当てます。
+. SnapCenter Serverで設定済みのgMSAアカウントを指定してWindowsホストを追加します。
++
+SnapCenter Serverにより、選択したプラグインがホストにインストールされ、プラグインのインストール時には指定したgMSAがサービスのログオン アカウントとして使用されます。
+
+

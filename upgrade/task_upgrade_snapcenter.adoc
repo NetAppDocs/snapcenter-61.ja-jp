@@ -1,0 +1,90 @@
+---
+permalink: upgrade/task_upgrade_snapcenter.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, windows 
+summary: SnapCenter Serverインストーラの実行ファイルを使用して、SnapCenter Serverをアップグレードできます。 
+---
+= WindowsホストでのSnapCenter Serverのアップグレード
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+最新バージョンで提供される最新の機能と拡張機能にアクセスするには、 SnapCenter Server をアップグレードする必要があります。
+
+.開始する前に
+* SnapCenter Server ホストを最新の Windows 更新プログラムで更新し、保留中のシステム再起動がないことを確認します。
+* アップグレードを開始する前に、他の操作が実行されていないことを確認してください。
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドルと PowerShell 7.4.2 以降をインストールします。
+* ジョブが実行されていないことを確認した後、 SnapCenterリポジトリ (MySQL) データベースをバックアップします。SnapCenter ServerとExchangeプラグインをアップグレードする前に、これを行っておくことが推奨されます。
++
+詳細については、link:../admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["SnapCenterリポジトリのバックアップ"^] 。
+
+* SnapCenter Server ホストまたはプラグイン ホストで変更したすべてのSnapCenter構成ファイルをバックアップします。
++
+SnapCenter構成ファイルの例: SnapDriveService.exe.config、SMCoreServiceHost.exe.config など。
+
+* SnapCenter 5.0 に複数のバージョンのカスタム プラグインをインストールしている場合は、6.0 以降にアップグレードする前に、PowerShell コマンドレットを実行して、以前のバージョンのカスタム プラグイン (最新バージョンを除く) をすべてSnapCenterリポジトリ (NSM データベース) から削除する必要があります。
++
+** 走る `Open-SmConnection`SnapCenterAdminロールの資格情報を使用してログインします
+** 走る `Remove-SmPluginPackage -PluginName M<plug-in name> -PluginVersion <version number>`
++
+ https://kb.netapp.com/data-mgmt/SnapCenter/SC_KBs/SnapCenter_6.0_upgrade_fails_in_nsm_repository_upgrade_SQL_script_8["SnapCenter 6.0以降へのアップグレードが失敗する"] 。
+
+
+
+
+
+.タスク概要
+* アップグレード中に、 SnapCenter はSQL スクリプトを実行して NSM データベース内の Exchange データを更新し、DAG とホストの短縮名を FQDN に変換します。これは、Exchange プラグインとともにSnapCenter Server を使用する場合にのみ適用されます。
+* サーバー ホストを手動でメンテナンス モードにした場合は、アップグレード後に *ホスト* > *スケジュールのアクティブ化* を選択して、サーバー ホストのメンテナンス モードを解除します。
+* ポリシーでプリスクリプトとポストスクリプトを有効にしている既存のバックアップ スケジュールと検証スケジュールについては、アップグレード後もバックアップ処理は引き続き機能します。
++
+*ジョブの詳細* ページでは、スクリプトを SCRIPTS_PATH にコピーし、ポリシーを編集して SCRIPTS_PATH を基準としたパスを指定することを推奨する警告メッセージが表示されます。クローン ライフサイクル ジョブについては、サブジョブ レベルで警告メッセージが表示されます。
+
+
+
+.手順
+. SnapCenter Serverのインストール パッケージをNetAppサポート サイトからダウンロードします。
++
+https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab[]
+
+. C:\Program Files\NetApp\SnapCenter WebAppにあるweb.configのコピーを作成します。
+. アップグレードが失敗した場合に復元できるように、Windows タスク スケジューラからSnapCenterプラグイン ホスト スケジュールをエクスポートします。
++
+`md d:\\SCBackup``schtasks /query /xml /TN taskname >> "D:\SCBackup\taskname.xml"`
+
+. リポジトリのバックアップが設定されていない場合は、SnapCenter MySQLデータベース ダンプを作成します。
++
+`md d:\\SCBackup``mysqldump --all-databases --single-transaction --add-drop-database --triggers --routines --events -u root -p > D:\SCBackup\SCRepoBackup.dmp`
+
++
+プロンプトが表示されたら、パスワードを入力します。
+
+. ダウンロードした .exe ファイルをダブルクリックして、 SnapCenter Server のアップグレードを開始します。
++
+アップグレードを開始すると、 SnapCenter は事前チェックを実行します。システムが最小要件を満たしていない場合、 SnapCenter はエラーまたは警告メッセージを表示します。警告を無視してインストールを続行できますが、エラーがあれば修正する必要があります。
+
++
+
+NOTE: SnapCenter は、以前のバージョンのSnapCenter Server のインストール時に提供された既存の MySQL Server リポジトリ データベース パスワードを引き続き使用します。
+
+. *アップグレード*を選択します。
++
+どの段階でも「*キャンセル*」を選択すると、 SnapCenter はアップグレードを停止します。キャンセルしてもSnapCenter Serverは以前の状態にロールバックされません。
+
++
+*ベスト プラクティス:* ログアウトして再度ログインするか、新しいブラウザーを開いてSnapCenterユーザー インターフェイスにアクセスします。
+
+
+
+.終了後の操作
+* プラグインが sudo ユーザーを使用してインストールされている場合は、_C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ にある sha224 キーをコピーして、_/etc/sudoers_ ファイルを更新する必要があります。
+* サーバー ホスト上のリソースの新規検出を実行する必要があります。
++
+SnapCenter にサーバ ホストのステータスが停止として表示される場合は、しばらく待ってから新規検出を実行してください。*HostRefreshInterval* パラメータの値 (デフォルト値は 3600 秒) を 10 分を超える任意の値に変更することもできます。
+
+* アップグレードが失敗した場合は、失敗したインストールをクリーンアップし、以前のバージョンのSnapCenterを再インストールして、NSM データベースを以前の状態に復元します。
+* サーバー ホストをアップグレードした後、ストレージ システムを追加する前にプラグインもアップグレードする必要があります。
+

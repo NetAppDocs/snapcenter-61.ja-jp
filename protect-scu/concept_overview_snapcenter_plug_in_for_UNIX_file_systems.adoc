@@ -1,0 +1,112 @@
+---
+permalink: protect-scu/concept_overview_snapcenter_plug_in_for_UNIX_file_systems.html 
+sidebar: sidebar 
+keywords: overview, unix file system, plug-in for unix file system, backup, restore, clone 
+summary: Unix ファイル システム用プラグインは、Unix ファイル システムのバックアップ、復元、およびクローン作成をサポートします。 
+---
+= SnapCenter Plug-in for UNIX File Systemsの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for UNIX File Systemsをインストールした環境では、SnapCenterを使用してUNIXファイルシステムをバックアップ、リストア、およびクローニングすることができます。これらの処理をサポートするタスクも実行できます。
+
+* リソースの検出
+* UNIXファイルシステムのバックアップ
+* バックアップ処理のスケジュールの設定
+* ファイルシステムのバックアップのリストア
+* ファイルシステムのバックアップのクローニング
+* バックアップ、リストア、クローニングの各処理を監視する
+
+
+
+
+== サポートされている構成
+
+|===
+| 項目 | サポートされる構成 
+
+
+ a| 
+環境
+ a| 
+* 物理サーバ
+* 仮想サーバ
++
+NFSとSANの両方に存在するvVolデータストア。vVoLデータストアは、ONTAP Tools for VMware vSphereでのみプロビジョニングできます。
+
+
+
+
+
+ a| 
+オペレーティング システム
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
+* SUSE Linux Enterprise Server（SLES）
+
+
+
+
+ a| 
+ファイルシステム
+ a| 
+* SAN：
++
+** LVMベースと非LVMベースの両方のファイルシステム
+** VMDK ext3、ext4、xfs経由のLVM
+
+
+* NFS: NFS v3、NFS v4.x
+
+
+
+
+ a| 
+プロトコル
+ a| 
+* FC
+* FCoE
+* iSCSI
+* NFS
+
+
+
+
+ a| 
+マルチパス
+ a| 
+はい
+
+|===
+
+
+== 制限事項
+
+* ボリューム グループでのRDMと仮想ディスクの混在はサポートされていません。
+* ファイル レベルのリストアはサポートされていません。
++
+ただし、バックアップをクローニングし、ファイルを手動でコピーすることで、ファイル レベルのリストアを手動で実行できます。
+
+* NFSデータストアとVMFSデータストアの両方のVMDKにまたがるファイルシステムの混在はサポートされていません。
+* NVMeはサポートされていません。
+* プロビジョニングはサポートされていません。
+
+
+
+
+== 機能
+
+* LinuxまたはAIXシステム上の基盤となるホスト ストレージ スタックを処理することで、Plug-in for Oracle Databaseにより、Oracleデータベースに対してデータ保護処理を実行できるようになります。
+* ONTAPを実行するストレージ システムで、Network File System（NFS）プロトコルとストレージ エリア ネットワーク（SAN）プロトコルがサポートされます。
+* Linuxシステムでは、SnapCenter Plug-in for VMware vSphereを導入してSnapCenterに登録した場合、VMDKおよびRDM LUN上のOracleデータベースがサポートされます。
+* SANファイルシステムおよびLVMレイアウトでAIXのマウント ガードがサポートされます。
+* AIXシステムの場合のみ、Enhanced Journaled File System（JFS2）およびSANファイルシステムとLVMレイアウトでのインライン ロギングがサポートされます。
++
+SANデバイス上に構築されたSANネイティブ デバイス、ファイルシステム、LVMレイアウトがサポートされます。
+
+* SnapCenter環境のUNIXファイルシステムに対するアプリケーション対応のバックアップ、リストア、クローニングの各処理が自動化されます。
+

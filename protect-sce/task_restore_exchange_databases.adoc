@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: SnapCenterを使用して、バックアップされたExchangeデータベースをリストアすることができます。 
+---
+= Exchangeデータベースのリストア
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用して、バックアップされたExchangeデータベースをリストアすることができます。
+
+.開始する前に
+* リソース グループ、データベース、またはデータベース可用性グループ（DAG）をバックアップしておく必要があります。
+* Exchangeデータベースを別の場所に移行した場合、古いバックアップに対するリストア処理は実行できません。
+* Snapshotをミラーまたはバックアップにレプリケートするユーザには、SnapCenter管理者がユーザに対してソースとデスティネーションの両方のボリューム用にSVMを割り当てる必要があります。
+* DAG内で、アクティブ データベース コピーが他社ストレージにある場合に、NetAppストレージにあるパッシブ データベース コピーのバックアップからリストアするには、そのパッシブ コピー（NetAppストレージ）をアクティブ コピーとして設定し、リソースを更新してリストア処理を実行します。
++
+実行 `Move-ActiveMailboxDatabase`パッシブ データベース コピーをアクティブ データベース コピーとして作成するコマンド。
+
++
+その https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Microsoftのドキュメント"^]このコマンドに関する情報が含まれています。
+
+
+
+.タスク概要
+* データベースに対してリストア処理を実行すると、データベースは同じホストに再マウントされ、新しいボリュームは作成されません。
+* DAGレベルのバックアップは、個々のデータベースからリストアする必要があります。
+* Exchangeデータベース（.edb）ファイル以外のファイルが存在する場合、フル ディスク リストアはサポートされません。
++
+レプリケーションに使用するファイルなどのExchangeファイルが含まれているディスクでは、Plug-in for Exchangeによるディスクのフル リストアは実行されません。フル リストアがExchangeの機能に影響を及ぼす可能性がある場合、Plug-in for Exchangeにより単一ファイルのリストア処理が実行されます。
+
+* Plug-in for Exchangeでは、BitLockerで暗号化されたドライブはリストアできません。
+* SCRIPTS_PATHは、プラグイン ホストのSMCoreServiceHost.exe.ConfigファイルにあるPredefinedWindowsScriptsDirectoryキーを使用して定義します。
++
+必要に応じて、このパスを変更してSMcoreサービスを再起動できます。セキュリティを確保するために、デフォルトのパスを使用することを推奨します。
+
++
+キーの値は、API を介して Swagger から表示できます: API /4.7/configsettings
+
++
+GET APIを使用すると、キーの値を表示できます。SET APIはサポートされません。
+
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+* SnapMirrorアクティブ同期でリストア処理を実行するには、プライマリの場所からバックアップを選択する必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで、リソース ページの左上隅にある *リソース* をクリックします。
+. ドロップダウン リストからExchange Serverプラグインを選択します。
+. [リソース] ページで、[表示] リストから *データベース* を選択します。
+. リストからデータベースを選択します。
+. コピーの管理ビューで、プライマリバックアップテーブルから*バックアップ*を選択し、*をクリックします。image:../media/restore_icon.gif["復元アイコン"] *。
+. [Options]ページで、次のいずれかのログ バックアップ オプションを選択します。
++
+|===
+| オプション | 説明 
+
+
+ a| 
+All log backups
+ a| 
+完全バックアップ後に利用可能なすべてのログ バックアップを復元するために、最新のバックアップ復元操作を実行するには、[すべてのログ バックアップ] を選択します。
+
+
+
+ a| 
+By log backups until
+ a| 
+ポイントインタイム復元操作を実行するには、[*ログ バックアップまで*] を選択します。これにより、選択したログまでのログ バックアップに基づいてデータベースが復元されます。
+
+
+NOTE: ドロップダウン リストに表示されるログの数は、UTMに基づきます。たとえば、フル バックアップの保持数が5でUTMの保持数が3の場合、使用可能なログ バックアップの数は5ですが、ドロップダウンにはリストア処理を実行できるログが3つだけ表示されます。
+
+
+
+ a| 
+By specific date until
+ a| 
+復元されたデータベースにトランザクション ログが適用される日時を指定するには、[*特定の日付まで*] を選択します。このポイントインタイム リストア処理では、指定した日時のバックアップまでに記録されたトランザクション ログのエントリがリストアされます。
+
+
+
+ a| 
+None
+ a| 
+ログ バックアップなしで完全バックアップのみを復元する必要がある場合は、[*なし*] を選択します。
+
+|===
++
+次のいずれかを実行します。
+
++
+** *復元後にデータベースを回復してマウントする* - このオプションはデフォルトで選択されています。
+** *復元前にバックアップ内のトランザクション ログの整合性を検証しない* - デフォルトでは、 SnapCenter は復元操作を実行する前に、バックアップ内のトランザクション ログの整合性を検証します。
++
+|===
+
+
+| *ベストプラクティス:* このオプションは選択しないでください。 
+|===
+
+
+. [Script]ページで、リストア処理の前またはあとに実行するプリスクリプトまたはポストスクリプトのパスと引数を入力します。
++
+リストア プリスクリプトの引数には、$Databaseと$ServerInstanceがあります。
+
++
+リストア ポストスクリプトの引数には、$Database、$ServerInstance、$BackupName、$LogDirectory、$TargetServerInstanceがあります。
+
++
+SNMPトラップの更新、アラートの自動化、ログの送信などをスクリプトで実行できます。
+
++
+
+NOTE: プリスクリプトやポストスクリプトのパスに、ドライブや共有を含めることはできません。パスは、SCRIPTS_PATHの相対パスである必要があります。
+
+. 通知ページの *電子メール設定* ドロップダウン リストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. ページ下部の[Activity]パネルを展開すると、リストア ジョブのステータスを表示できます。
++
+*モニター* > *ジョブ* ページを使用して、復元プロセスを監視する必要があります。
+
+
+
+レプリカとアクティブ データベースの間に遅延がある場合に、バックアップからアクティブ データベースをリストアすると、パッシブ データベースが一時停止状態または障害状態になることがあります。
+
+状態の変化は、アクティブ データベースのログ チェーンがフォークし、レプリケーションを中断する新しいブランチが開始されたときに発生します。Exchange Serverによりレプリカの修正が試みられますが、修正できない場合は、リストア後に新しいバックアップを作成し、レプリカを再シードする必要があります。
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. 指定されたユーザーに対してSnapCenter Serverとの接続セッションを開始するには、 `Open-SmConnection`コマンドレット。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. 復元したい1つ以上のバックアップに関する情報を取得するには、 `Get-SmBackup`コマンドレット。
++
+この例では、使用可能なすべてのバックアップに関する情報を表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. バックアップからデータを復元するには、 `Restore-SmBackup`コマンドレット。
++
+この例では、最新の状態へのバックアップをリストアしています。
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+この例では、ポイントインタイム バックアップをリストアしています。
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+この例では、セカンダリ ストレージのバックアップをプライマリ ストレージにリストアしています。
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+その `-archive`パラメータを使用すると、復元に使用するプライマリ ボリュームとセカンダリ ボリュームを指定できます。
+
++
+その `-IsRecoverMount:$true`パラメータを使用すると、復元後にデータベースをマウントできます。
+
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+--
+====

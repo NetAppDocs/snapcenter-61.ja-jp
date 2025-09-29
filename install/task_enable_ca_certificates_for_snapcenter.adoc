@@ -1,0 +1,41 @@
+---
+permalink: install/task_enable_ca_certificates_for_snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter, enable CA, certificate 
+summary: CA証明書を設定し、SnapCenter ServerのCA証明書の検証を有効にする必要があります。 
+---
+= SnapCenterのCA証明書の有効化
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+CA証明書を設定し、SnapCenter ServerのCA証明書の検証を有効にする必要があります。
+
+.開始する前に
+* CA証明書を有効または無効にするには、Set-SmCertificateSettingsコマンドレットを使用します。
+* SnapCenter Serverの証明書のステータスを表示するには、Get-SmCertificateSettingsコマンドレットを使用します。
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。または、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+*手順*
+
+. 設定ページで、*設定* > *グローバル設定* > *CA 証明書設定* に移動します。
+. *証明書の検証を有効にする*を選択します。
+. *適用*をクリックします。
+
+
+*終わったら*
+
+[Managed Hosts]タブのホストに鍵マークが表示されます。この鍵マークの色は、SnapCenter Serverとプラグイン ホスト間の接続のステータスを示します。
+
+* *image:../media/enable_ca_issues_icon.png["問題アイコン"] * は、プラグイン ホストに有効化されているか割り当てられている CA 証明書がないことを示します。
+* *image:../media/enable_ca_good_icon.png["良いアイコン"] * は CA 証明書が正常に検証されたことを示します。
+* *image:../media/enable_ca_failed_icon.png["失敗したアイコン"] * は、CA 証明書を検証できなかったことを示します。
+* *image:../media/enable_ca_undefined_icon.png["未定義のアイコン"] * は接続情報を取得できなかったことを示します。
+
+
+
+NOTE: ステータスが黄色または緑の場合は、データ保護処理が正常に完了しています。

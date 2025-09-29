@@ -1,0 +1,255 @@
+---
+permalink: install/configure_certificate_based_authentication.html 
+sidebar: sidebar 
+keywords: exporting certificates, enable certificate-based authentication, certificate-based authentication, configure CA signed key pair, configure root, configure intermediate certificates, security,authentication, export CA certificates 
+summary: SnapCenter証明書をエクスポートします。 
+---
+= 証明書ベースの認証を構成する
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+証明書ベースの認証は、 SnapCenterサーバーとプラグイン ホストの両方の ID を検証することでセキュリティを強化し、安全で暗号化された通信を保証します。
+
+
+
+== 証明書ベースの認証の有効化
+
+SnapCenter ServerおよびWindowsプラグイン ホストの証明書ベースの認証を有効にするには、次のPowerShellコマンドレットを実行します。Linuxプラグイン ホストで双方向SSLを有効にすると、証明書ベースの認証が有効になります。
+
+* クライアント証明書ベースの認証を有効にする：
++
+`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="true"}` `-HostName`<<hostname>>
+
+* クライアント証明書ベースの認証を無効にする：
++
+`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="false"}` `-HostName` `<<hostname>>``
+
+
+
+
+
+== SnapCenter Serverからの認証局（CA）証明書のエクスポート
+
+Microsoft管理コンソール（MMC）を使用して、SnapCenter Serverからプラグイン ホストにCA証明書をエクスポートする必要があります。
+
+.開始する前に
+双方向SSLを設定しておく必要があります。
+
+*手順*
+
+. Microsoft 管理コンソール (MMC) に移動し、[ファイル] > [スナップインの追加と削除] をクリックします。
+. [スナップインの追加と削除] ウィンドウで、[証明書] を選択し、[追加] をクリックします。
+. 証明書スナップイン ウィンドウで、*コンピューター アカウント* オプションを選択し、*完了* をクリックします。
+. *コンソール ルート* > *証明書 - ローカル コンピューター* > *個人* > *証明書* をクリックします。
+. SnapCenter Server に使用される取得した CA 証明書を右クリックし、[すべてのタスク] > [エクスポート] を選択してエクスポート ウィザードを起動します。
+. ウィザードで次の操作を実行します。
+
+
+|===
+| オプション | 操作 
+
+
+ a| 
+秘密キーのエクスポート
+ a| 
+*いいえ、秘密キーをエクスポートしません*を選択し、*次へ*をクリックします。
+
+
+
+ a| 
+エクスポート ファイルの形式
+ a| 
+*次へ*をクリックします。
+
+
+
+ a| 
+ファイル名
+ a| 
+*参照*をクリックし、証明書を保存するファイル パスを指定して、*次へ*をクリックします。
+
+
+
+ a| 
+証明書のエクスポート ウィザードの完了
+ a| 
+概要を確認し、[完了] をクリックしてエクスポートを開始します。
+
+|===
+
+NOTE: 証明書ベースの認証は、SnapCenter HA構成およびSnapCenter Plug-in for VMware vSphereではサポートされません。
+
+
+
+== WindowsプラグインホストにCA証明書をインポートする
+
+エクスポートしたSnapCenter Server CA証明書を使用するには、Microsoft管理コンソール（MMC）を使用して、関連する証明書をSnapCenter Windowsプラグイン ホストにインポートする必要があります。
+
+*手順*
+
+. Microsoft 管理コンソール (MMC) に移動し、[ファイル] > [スナップインの追加と削除] をクリックします。
+. [スナップインの追加と削除] ウィンドウで、[証明書] を選択し、[追加] をクリックします。
+. 証明書スナップイン ウィンドウで、*コンピューター アカウント* オプションを選択し、*完了* をクリックします。
+. *コンソール ルート* > *証明書 - ローカル コンピューター* > *個人* > *証明書* をクリックします。
+. 「個人」フォルダを右クリックし、[すべてのタスク] > [インポート] を選択して、インポート ウィザードを起動します。
+. ウィザードで次の操作を実行します。
+
+
+|===
+| オプション | 操作 
+
+
+ a| 
+保存場所
+ a| 
+*次へ*をクリックします。
+
+
+
+ a| 
+インポートするファイル
+ a| 
+拡張子.cerで終わるSnapCenter Server証明書を選択します。
+
+
+
+ a| 
+証明書ストア
+ a| 
+*次へ*をクリックします。
+
+
+
+ a| 
+証明書のエクスポート ウィザードの完了
+ a| 
+概要を確認し、[完了] をクリックしてインポートを開始します。
+
+|===
+
+
+== UNIXプラグイン ホストへのCA証明書のインポート
+
+CA証明書をUNIXプラグイン ホストにインポートする必要があります。
+
+*このタスクについて*
+
+* SPLキーストアのパスワード、および使用中のCA署名キー ペアのエイリアスを管理できます。
+* SPLキーストアのパスワードと、秘密キーに関連付けられているエイリアス パスワードをすべて同じにする必要があります。
+
+
+*手順*
+
+. SPLキーストアのデフォルト パスワードは、SPLプロパティ ファイルから取得できます。キーに対応する値です `SPL_KEYSTORE_PASS`。
+. キーストアのパスワードを変更します。
+`$ keytool -storepasswd -keystore keystore.jks`
+. キーストア内の秘密鍵エントリのすべてのエイリアスのパスワードを、キーストアで使用されているものと同じパスワードに変更します。
+`$ keytool -keypasswd -alias "<alias_name>" -keystore keystore.jks`
+. キーSPL_KEYSTORE_PASSも同様に更新します。 `spl.properties``ファイル。
+. パスワードを変更したら、サービスを再起動します。
+
+
+
+
+=== ルート証明書または中間証明書のSPLトラストストアへの設定
+
+ルート証明書または中間証明書をSPLトラストストアに設定する必要があります。ルートCA証明書を追加してから、中間CA証明書を追加する必要があります。
+
+*手順*
+
+. SPL キーストアが含まれているフォルダーに移動します。 `/var/opt/snapcenter/spl/etc` 。
+. ファイルを見つける `keystore.jks`。
+. キーストアに追加された証明書を一覧表示します。
+`$ keytool -list -v -keystore keystore.jks`
+. ルート証明書または中間証明書を追加します。
+`$ keytool -import -trustcacerts -alias <AliasNameForCerticateToBeImported> -file /<CertificatePath> -keystore` `keystore.jks`
+. SPLトラストストアへのルート証明書または中間証明書を設定したら、サービスを再起動します。
+
+
+
+
+=== SPLトラストストアに対するCA署名付きキー ペアの設定
+
+SPLトラストストアに対してCA署名付きキー ペアを設定する必要があります。
+
+*手順*
+
+. SPLのキーストアを含むフォルダに移動します `/var/opt/snapcenter/spl/etc`。
+. ファイルを見つける `keystore.jks``。
+. キーストアに追加された証明書を一覧表示します。
+`$ keytool -list -v -keystore keystore.jks`
+. 秘密鍵と公開鍵の両方を持つ CA 証明書を追加します。
+`$ keytool -importkeystore -srckeystore <CertificatePathToImport> -srcstoretype pkcs12 -destkeystore keystore.jks` `-deststoretype JKS`
+. キーストアに追加された証明書を一覧表示します。
+`$ keytool -list -v -keystore keystore.jks`
+. キーストアに追加された新しいCA証明書に対応するエイリアスが、キーストアに含まれていることを確認します。
+. CA証明書に追加した秘密キーのパスワードを、キーストアのパスワードに変更します。
++
+デフォルトのSPLキーストアのパスワードは、SPL_KEYSTORE_PASSキーの値です。 `spl.properties`ファイル。
+
++
+`$ keytool -keypasswd -alias "<aliasNameOfAddedCertInKeystore>" -keystore keystore.jks``
+
+. CA 証明書のエイリアス名が長く、スペースや特殊文字 (「*」、「」) が含まれている場合は、エイリアス名を単純な名前に変更します。
+`$ keytool -changealias -alias "<OrignalAliasName>" -destalias "<NewAliasName>" -keystore keystore.jks``
+. 以下のキーストアからエイリアス名を設定します。 `spl.properties`ファイル。SPL_CERTIFICATE_ALIASキーに対するこの値を更新します。
+. SPLトラストストアにCA署名キー ペアを設定したら、サービスを再起動します。
+
+
+
+
+== SnapCenter証明書のエクスポート
+
+SnapCenter証明書を .pfx 形式でエクスポートする必要があります。
+
+*手順*
+
+. Microsoft 管理コンソール (MMC) に移動し、[ファイル] > [スナップインの追加と削除] をクリックします。
+. [スナップインの追加と削除] ウィンドウで、[証明書] を選択し、[追加] をクリックします。
+. 証明書スナップイン ウィンドウで、[*ユーザー アカウント*] オプションを選択し、[*完了*] をクリックします。
+. *コンソール ルート* > *証明書 - 現在のユーザー* > *信頼されたルート証明機関* > *証明書* をクリックします。
+. SnapCenterフレンドリ名を持つ証明書を右クリックし、[すべてのタスク] > [エクスポート] を選択してエクスポート ウィザードを開始します。
+. 次の手順でウィザードを実行します。
++
+|===
+| ウィザード ウィンドウ | 操作 
+
+
+ a| 
+秘密キーのエクスポート
+ a| 
+*はい、秘密キーをエクスポートします*オプションを選択し、*次へ*をクリックします。
+
+
+
+ a| 
+エクスポート ファイルの形式
+ a| 
+変更せずに、[次へ] をクリックします。
+
+
+
+ a| 
+セキュリティ
+ a| 
+エクスポートされた証明書に使用する新しいパスワードを指定し、[*次へ*] をクリックします。
+
+
+
+ a| 
+エクスポートするファイル
+ a| 
+エクスポートする証明書のファイル名を指定し (.pfx を使用する必要があります)、[次へ] をクリックします。
+
+
+
+ a| 
+証明書のエクスポート ウィザードの完了
+ a| 
+概要を確認し、[完了] をクリックしてエクスポートを開始します。
+
+|===
+

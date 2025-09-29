@@ -1,0 +1,32 @@
+---
+permalink: protect-nsp/prerequisites_for_using_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: Credentials 
+summary: ユーザがSnapCenter NetAppがサポートしているプラグインを使用するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。 
+---
+= NetAppがサポートしているプラグインを使用するための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ユーザがSnapCenter NetAppがサポートしているプラグインを使用するためには、SnapCenter管理者が事前にSnapCenter Serverをインストールして設定し、前提条件となるタスクを実行する必要があります。
+
+* SnapCenter Serverをインストールして設定します。
+* SnapCenter Serverにログインします。
+* SnapCenter環境を設定するために、必要に応じて、ストレージ システム接続を追加し、クレデンシャルを作成します。
+* ホストを追加し、プラグインをインストールしてアップロードします。
+* 必要に応じて、Java 11をプラグインのホストにインストールします。
+* データ パス（LIF）が複数ある場合、またはdNFS構成を使用している場合は、データベース ホストでSnapCenter CLIを使用して次の作業を実行できます。
++
+** デフォルトでは、データベース ホストのすべての IP アドレスが、クローン ボリュームのストレージ仮想マシン (SVM) の NFS ストレージ エクスポート ポリシーに追加されます。IPアドレスを1つにするか、一部のIPアドレスに制限する場合は、Set-PreferredHostIPsInStorageExportPolicy CLIを実行します。
+** SVM に複数のデータ パス (LIF) がある場合、 SnapCenter はNFS クローン ボリュームをマウントするための適切なデータ パス (LIF) を選択します。ただし、データ パス（LIF）を1つに特定する場合は、Set-SvmPreferredDataPath CLIを実行する必要があります。コマンドで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenterソフトウェア コマンド リファレンス ガイド"^] 。
+
+
+* バックアップ レプリケーションが必要である場合は、SnapMirrorとSnapVaultをセットアップします。
+* ポート9090がホストの他のアプリケーションで使用されていないことを確認します。
++
+SnapCenterで必要な他のポートに加え、ポート9090をNetAppがサポートしているプラグイン用に確保しておく必要があります。
+
+

@@ -1,0 +1,98 @@
+---
+section: protect-scw
+title: Windowsファイルシステムの保護
+entries:
+- title: SnapCenter Plug-in for Microsoft Windowsの概念
+  entries:
+  - title: SnapCenter Plug-in for Microsoft Windowsの概要
+    url: "/protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html"
+  - title: SnapCenter Plug-in for Microsoft Windowsの機能
+    url: "/protect-scw/reference_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: SnapCenter Plug-in for Windowsの特長
+    url: "/protect-scw/concept_snapcenter_plug_in_for_windows_features.html"
+  - title: SnapCenterでのWindowsファイルシステムのバックアップ方法
+    url: "/protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html"
+  - title: SnapCenter Plug-in for Microsoft Windowsでサポートされるストレージ タイプ
+    url: "/protect-scw/reference_storage_types_supported_by_snapcenter_plug_ins_for_microsoft_windows.html"
+  - title: Windowsプラグインに必要な最小ONTAP権限
+    url: "/protect-scw/reference_minimum_ontap_privileges_required_for_windows_plug_in.html"
+  - title: SnapMirrorレプリケーションとSnapVaultレプリケーションのためのストレージ システムの準備
+    url: "/protect-scw/reference_prepare_storage_system_for_snapmirror_and_snapvault.html"
+  - title: Windowsファイルシステムのバックアップ戦略の定義
+    url: "/protect-scw/task_define_a_backup_strategy_for_windows_file_systems.html"
+  - title: Windowsファイルシステムのクローンのソースとデスティネーション
+    url: "/protect-scw/reference_sources_and_destinations_of_clones_for_windows_file_systems.html"
+- title: SnapCenter Plug-in for Microsoft Windowsのインストール
+  entries:
+  - title: SnapCenter Plug-in for Microsoft Windowsのインストール ワークフロー
+    url: "/protect-scw/concept_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: SnapCenter Plug-in for Microsoft Windowsのインストール要件
+    url: "/protect-scw/reference_installation_requirements_for_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: ホストの追加とSnapCenter Plug-in for Microsoft Windowsのインストール
+    url: "/protect-scw/task_add_hosts_and_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: PowerShellコマンドレットを使用した複数のリモート ホストへのSnapCenter Plug-in for Microsoft Windowsのインストール
+    url: "/protect-scw/task_install_on_multiple_remote_hosts_using_powershell_cmdlets.html"
+  - title: コマンドラインからのSnapCenter Plug-in for Microsoft Windowsのサイレント インストール
+    url: "/protect-scw/task_install_the_snapcenter_plug_in_for_windows_silently_from_the_command_line.html"
+  - title: SnapCenterプラグイン パッケージのインストール ステータスの監視
+    url: "/protect-scw/task_monitor_snapcenter_plug_in_package_installation_status.html"
+  - title: CA証明書の設定
+    entries:
+    - title: CA証明書CSRファイルの生成
+      url: "/protect-scw/reference_generate_CA_certificate_CSR_file.html"
+    - title: CA証明書のインポート
+      url: "/protect-scw/task_import_CA_certificates.html"
+    - title: CA証明書のサムプリントの取得
+      url: "/protect-scw/task_get_the_CA_certificate_thumbprint.html"
+    - title: Windowsホスト プラグイン サービスでのCA証明書の設定
+      url: "/protect-scw/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+    - title: プラグインのCA証明書の有効化
+      url: "/protect-scw/task_enable_ca_certificates_for_plug-ins.html"
+- title: SnapCenter Plug-in for VMware vSphereのインストール
+  url: "/protect-scw/task_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: Windowsファイルシステムのバックアップ
+  entries:
+  - title: バックアップのワークフロー
+    url: "/protect-scw/reference_back_up_windows_file_systems.html"
+  - title: Windowsファイルシステムの使用可能なリソースの確認
+    url: "/protect-scw/task_determine_resource_availability_for_windows_file_systems.html"
+  - title: Windowsファイルシステムのバックアップ ポリシーの作成
+    url: "/protect-scw/task_create_backup_policies_for_windows_file_systems.html"
+  - title: Windowsファイルシステムのリソース グループの作成
+    url: "/protect-scw/task_create_resource_groups_for_windows_file_systems.html"
+  - title: ASA r2 システム上の Windows ファイル システムのリソース グループを作成し、二次保護を有効にします。
+    url: "/protect-scw/create-resource-groups-secondary-protection-for-asa-r2-windows-file-systems.html"
+  - title: PowerShellコマンドレットを使用したストレージ システム接続とクレデンシャルの作成
+    url: "/protect-scw/task_create_a_storage_system_connection_and_a_credential_using_powershell_cmdlets_for_windows.html"
+  - title: Windowsファイルシステムの単一リソースのオンデマンド バックアップ
+    url: "/protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html"
+  - title: Windowsファイルシステムのリソース グループのバックアップ
+    url: "/protect-scw/task_back_up_resource_groups_for_windows_file_systems.html"
+  - title: バックアップ処理の監視
+    url: "/protect-scw/task_monitor_backup_operations.html"
+  - title: バックアップ処理のキャンセル
+    url: "/protect-scw/task_cancel_backup_operations_for_windows_file_system.html"
+  - title: "[Topology]ページでの関連するバックアップとクローンの表示"
+    url: "/protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html"
+  - title: PowerShellコマンドレットを使用したセカンダリ バックアップ数のクリーンアップ
+    url: "/protect-scw/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_windows.html"
+- title: Windowsファイルシステムのリストア
+  entries:
+  - title: Windowsファイルシステムのバックアップのリストア
+    url: "/protect-scw/task_restore_windows_file_system_backups.html"
+  - title: PowerShellコマンドレットを使用したリソースのリストア
+    url: "/protect-scw/task_restore_and_recover_resources_using_powershell_cmdlets_for_windows.html"
+  - title: リストア処理の監視
+    url: "/protect-scw/task_monitor_restore_operations.html"
+  - title: リストア処理のキャンセル
+    url: "/protect-scw/task_cancel_restore_operations.html"
+- title: Windowsファイルシステムのクローニング
+  entries:
+  - title: Windowsファイルシステムのバックアップからのクローニング
+    url: "/protect-scw/task_clone_from_a_windows_file_system_backup.html"
+  - title: クローニング処理の監視
+    url: "/protect-scw/task_monitor_clone_operations.html"
+  - title: クローニング処理のキャンセル
+    url: "/protect-scw/task_cancel_clone_operations.html"
+  - title: クローンのスプリット
+    url: "/protect-scw/task_split_a_clone_for_windows.html"

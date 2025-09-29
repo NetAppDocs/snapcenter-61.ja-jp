@@ -1,0 +1,183 @@
+---
+permalink: install/configure_mfa_using_powershell_sccli_restapi.html 
+sidebar: sidebar 
+keywords: mfa, authentication, multifactor authentication 
+summary: MFA を構成するには、Rest API、PowerShell、および SCCLI インターフェースを使用できます。 
+---
+= PowerShell、SCCLI、REST APIを使用したSnapCenter ServerでのMFAの設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PowerShell、SCCLI、およびREST APIを使用して、SnapCenter ServerでMFAを設定できます。
+
+
+
+== SnapCenter MFA CLI認証
+
+PowerShellとSCCLIでは、既存のコマンドレット（Open-SmConnection）を「AccessToken」という追加のフィールドで拡張し、Bearerトークンを使用してユーザを認証します。
+
+`Open-SmConnection -Credential <PSCredential> [-SMSbaseUrl <String>] [-Port <String>] [-RoleName <String>] [ -AccessToken <string>]`
+
+上記のコマンドレットを実行すると、それぞれのユーザがSnapCenterコマンドレットを実行できるようにセッションが作成されます。
+
+
+
+== SnapCenter MFA REST API認証
+
+REST API クライアント (Postman や swagger など) で _Authorization=Bearer <access token>_ の形式のベアラー トークンを使用し、ヘッダーにユーザーの RoleName を指定して、 SnapCenterから正常な応答を取得します。
+
+
+
+== MFA REST APIのワークフロー
+
+MFAがAD FSで設定されている場合、REST APIを使用してSnapCenterアプリケーションにアクセスするには、アクセス（Bearer）トークンを使用して認証する必要があります。
+
+*このタスクについて*
+
+* Postman、Swagger UI、FireCampなど、任意のRESTクライアントを使用できます。
+* アクセス トークンを取得し、それを使用して以降の要求（SnapCenter REST API）を認証し、任意の処理を実行します。
+
+
+*手順*
+
+*AD FS MFA 経由で認証するには*
+
+. AD FSエンドポイントを呼び出してアクセス トークンを取得するようにRESTクライアントを設定します。
++
+ボタンを押してアプリケーションのアクセス トークンを取得すると、AD FS SSOページにリダイレクトされます。そのページでADクレデンシャルを入力してMFAで認証する必要があります。1.AD FS SSOページで、[Username]テキスト ボックスにユーザ名または電子メールを入力します。
+
++
++ ユーザー名は、user@domain または domain\user の形式にする必要があります。
+
+. [Password]テキスト ボックスにパスワードを入力します。
+. *ログイン*をクリックします。
+. *サインイン オプション* セクションから認証オプションを選択し、認証します (構成によって異なります)。
++
+** プッシュ: 携帯電話に送信されるプッシュ通知を承認します。
+** QRコード: AUTH Pointモバイルアプリを使用してQRコードをスキャンし、アプリに表示される確認コードを入力します。
+** ワンタイム パスワード: トークンのワンタイム パスワードを入力します。
+
+
+. 認証が成功すると、アクセス、ID、およびリフレッシュ トークンを含むポップアップが表示されます。
++
+アクセス トークンをコピーし、SnapCenter REST APIで使用して操作を実行します。
+
+. REST APIのヘッダー セクションでアクセス トークンとロール名を渡す必要があります。
+. AD FSから取得したこのアクセス トークンをSnapCenterが検証します。
++
+有効なトークンである場合、SnapCenterはそのトークンをデコードし、ユーザ名を取得します。
+
+. SnapCenterがユーザ名とロール名を使用して、API実行のためにユーザ認証を行います。
++
+認証に成功した場合、SnapCenterは結果を返します。失敗した場合は、エラー メッセージが表示されます。
+
+
+
+
+
+== REST API、CLI、GUIのSnapCenter MFA機能の有効化または無効化
+
+*GUI*
+
+*手順*
+
+. SnapCenter管理者としてSnapCenter Serverにログインします。
+. *設定* > *グローバル設定* > *多要素認証(MFA)設定*をクリックします
+. インターフェイス（GUI / RST API / CLI）を選択してMFAログインを有効または無効にします。
+
+
+*PowerShell インターフェース*
+
+*手順*
+
+. GUI、REST API、PowerShell、SCCLIのMFAを有効にするためのPowerShellコマンドまたはCLIコマンドを実行します。
++
+`Set-SmMultiFactorAuthentication -IsGuiMFAEnabled -IsRestApiMFAEnabled`
+`-IsCliMFAEnabled -Path`
+
++
+pathパラメータには、AD FS MFAメタデータxmlファイルの場所を指定します。
+
++
+SnapCenter GUI、REST API、PowerShell、およびSCCLIが、指定したAD FSメタデータ ファイル パスを使用して設定され、MFAが有効になります。
+
+. MFAの構成ステータスと設定を確認するには、 `Get-SmMultiFactorAuthentication`コマンドレット。
+
+
+*SCCLIインターフェース*
+
+*手順*
+
+. `# sccli Set-SmMultiFactorAuthentication -IsGuiMFAEnabled true -IsRESTAPIMFAEnabled true -IsCliMFAEnabled true  -Path "C:\ADFS_metadata\abc.xml"`
+. `# sccli Get-SmMultiFactorAuthentication`
+
+
+*REST API*
+
+. GUI、REST API、PowerShell、SCCLIのMFAを有効にするには、次のPOST APIを実行します。
++
+|===
+
+
+| パラメータ | Value 
+
+
+ a| 
+要求のURL
+ a| 
+/api/4.9/settings/multifactorauthentication
+
+
+
+ a| 
+HTTPメソッド
+ a| 
+投稿
+
+
+
+ a| 
+要求の本文
+ a| 
+{ "IsGuiMFAEnabled": false、 "IsRestApiMFAEnabled": true、 "IsCliMFAEnabled": false、 "ADFSConfigFilePath": "C:\\ADFS_metadata\\abc.xml" }
+
+
+
+ a| 
+応答の本文
+ a| 
+{ "MFAConfiguration": { "IsGuiMFAEnabled": false、 "ADFSConfigFilePath": "C:\\ADFS_metadata\\abc.xml", "SCConfigFilePath": null、 "IsRestApiMFAEnabled": true、 "IsCliMFAEnabled": false、 "ADFSHostName": "win-adfs-sc49.winscedom2.com" } }
+
+|===
+. 次のAPIを使用して、MFAのステータスと設定を確認します。
++
+|===
+
+
+| パラメータ | Value 
+
+
+ a| 
+要求のURL
+ a| 
+/api/4.9/settings/multifactorauthentication
+
+
+
+ a| 
+HTTPメソッド
+ a| 
+Get
+
+
+
+ a| 
+応答の本文
+ a| 
+{ "MFAConfiguration": { "IsGuiMFAEnabled": false、 "ADFSConfigFilePath": "C:\\ADFS_metadata\\abc.xml", "SCConfigFilePath": null、 "IsRestApiMFAEnabled": true、 "IsCliMFAEnabled": false、 "ADFSHostName": "win-adfs-sc49.winscedom2.com" } }
+
+|===
+

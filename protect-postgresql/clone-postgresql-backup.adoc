@@ -1,0 +1,191 @@
+---
+permalink: protect-postgresql/clone-postgresql-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL,run as 
+summary: SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。 
+---
+= PostgreSQLのバックアップのクローニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。
+
+.開始する前に
+* リソースまたはリソース グループをバックアップしておく必要があります。
+* ボリュームをホストするアグリゲートがStorage Virtual Machine（SVM）の割り当て済みアグリゲート リストに含まれていることを確認します。
+* クローニング前またはクローニング後のコマンドについては、プラグイン ホストの次のパスで使用できるコマンド リストにコマンドが存在するかどうかを確認する必要があります。
++
+** Windows ホスト上のデフォルトの場所: _C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linux ホスト上のデフォルトの場所: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: コマンドがコマンド リストに存在しない場合、処理は失敗します。
+
+.タスク概要
+* FlexCloneボリューム分割操作の詳細については、以下を参照してください。https://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["親ボリュームからのFlexCloneボリュームのスプリット"] 。
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [リソース] ページで、リソース タイプに基づいて [*表示*] ドロップダウン リストからリソースをフィルターします。
++
+リソースは、タイプ、ホスト、関連するリソース グループとポリシー、ステータスなどの情報とともに表示されます。
+
+. リソースまたはリソース グループを選択します。
++
+リソース グループを選択した場合はリソースを選択する必要があります。
+
++
+リソースまたはリソース グループのトポロジ ページが表示されます。
+
+. [コピーの管理] ビューで、プライマリまたはセカンダリ (ミラーリングまたはボールト化された) ストレージ システムから [*バックアップ*] を選択します。
+. 表からデータバックアップを選択し、クリックします。image:../media/clone_icon.gif["クローンアイコン"] 。
+. [Location]ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+Clone server
+ a| 
+クローンをどのホスト上に作成するかを選択します。
+
+
+
+ a| 
+Target Port
+ a| 
+既存のバックアップからクローニングするPostgreSQLのターゲット ポートを入力します。
+
+
+
+ a| 
+NFS Export IP Address
+ a| 
+クローン ボリュームをエクスポートするホスト名またはIPアドレスを入力します。
+
+これは、NFSストレージ タイプのリソースにのみ該当します。
+
+
+
+ a| 
+Capacity Pool Max. Throughput (MiB/s)
+ a| 
+容量プールの最大スループットを入力します。
+
+これは、ANFストレージ タイプのリソースにのみ該当します。
+
+|===
+. [Scripts]ページで、次の手順を実行します。
++
+
+NOTE: スクリプトはプラグイン ホストで実行されます。
+
++
+.. クローニング処理の前後に実行するプリコマンドやポストコマンドを入力します。
++
+*** クローン前のコマンド: 同じ名前の既存のクラスターを削除する
+*** クローン後のコマンド: クラスターを検証するか、クラスターを起動します。
+
+
+.. ホストにファイルシステムをマウントするには、mountコマンドを入力します。
++
+Linuxマシンのボリュームまたはqtreeに対するmountコマンド：
+
++
+NFSの例: `mount VSERVER_DATA_IP:%VOLUME_NAME_Clone /mnt`
+
+
+
+. 通知ページの *電子メール設定* ドロップダウン リストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+PS C:\> Open-SmConnection
+----
+. Get-SmBackupコマンドレットを使用して、クローニング処理を実行するバックアップを取得します。
++
+この例では、クローニングできるバックアップが2つあります。
+
++
+[listing]
+----
+ C:\PS> Get-SmBackup
+
+        BackupId                      BackupName                    BackupTime                    BackupType
+        --------                      ----------                    ----------                    ----------
+         1                     Payroll Dataset_vise-f6_08... 8/4/2015 11:02:32 AM          Full Backup
+         2                     Payroll Dataset_vise-f6_08... 8/4/2015 11:23:17 AM
+----
+. 既存のバックアップからクローニング処理を開始し、クローニングされたボリュームをエクスポートするNFSエクスポートのIPアドレスを指定します。
++
+この例では、NFSExportIPsのアドレスを10.32.212.14と指定してバックアップをクローニングしています。
+
++
+PostgreSQLクラスタの場合：
+
++
+[listing]
+----
+PS C:\> New-SmClone -AppPluginCode PostgreSQL -BackupName " scpostgresql01_ openenglab_netapp_com_PostgreSQL_postgres_5432_06-26-2024_00_33_41_1570" -Resources @{"Host"=" 10.32.212.13";"Uid"="postgres_5432"} -port 2345 -CloneToHost 10.32.212.14
+----
++
+
+NOTE: NFSExportIPsを指定しない場合、デフォルトでクローン ターゲット ホストにエクスポートされます。
+
+. Get-SmCloneReportコマンドレットを使用してクローニング ジョブの詳細を表示し、バックアップが正常にクローニングされたことを確認します。
++
+クローンID、開始日時、終了日時などの詳細を確認できます。
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

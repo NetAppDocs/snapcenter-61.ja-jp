@@ -1,0 +1,319 @@
+---
+permalink: protect-sco/concept_import_data_from_snapmanager_for_oracle_and_snapmanager_for_sap_to_snapcenter.html 
+sidebar: sidebar 
+keywords: import, SnapManager for Oracle, SnapManager for SAP 
+summary: SnapManager for OracleとSnapManager for SAPからSnapCenterにデータをインポートすると、以前のバージョンのデータを引き続き使用できるようになります。 
+---
+= SnapManager for OracleおよびSnapManager for SAPからのSnapCenterへのデータのインポート
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager for OracleとSnapManager for SAPからSnapCenterにデータをインポートすると、以前のバージョンのデータを引き続き使用できるようになります。
+
+SnapManager for OracleおよびSnapManager for SAPからSnapCenterにデータをインポートするには、コマンドライン インターフェイス（LinuxホストのCLI）からインポート ツールを実行します。
+
+インポート ツールを実行すると、SnapCenterでポリシーとリソース グループが作成されます。SnapCenterで作成されるポリシーとリソース グループは、SnapManager for OracleおよびSnapManager for SAPのプロファイルとそれらのプロファイルを使用して実行される処理に対応します。SnapCenterのインポート ツールで処理の対象となるのは、SnapManager for OracleおよびSnapManager for SAPのリポジトリ データベースとインポート対象のデータベースです。
+
+* すべてのプロファイル、スケジュール、およびプロファイルを使用して実行される処理が取得されます。
+* 一意の処理ごと、およびプロファイルに関連付けられているスケジュールごとに、SnapCenterのバックアップ ポリシーが作成されます。
+* ターゲット データベースごとにリソース グループが作成されます。
+
+
+_/opt/ NetApp/snapcenter/spl/bin_ にある sc-migrate スクリプトを実行することで、インポート ツールを実行できます。インポートするデータベース ホストに Linux 用のSnapCenterプラグイン パッケージをインストールすると、sc-migrate スクリプトが _/opt/ NetApp/snapcenter/spl/bin_ にコピーされます。
+
+
+NOTE: データのインポートは、SnapCenterのグラフィカル ユーザ インターフェイス（GUI）ではサポートされていません。
+
+SnapCenterでは、Data ONTAP 7-Modeはサポートされていません。7-Mode Transition Toolを使用すると、Data ONTAP 7-Modeを実行しているシステムに保存されたデータと設定をONTAPシステムに移行できます。
+
+
+
+== データのインポートがサポートされる構成
+
+SnapManager 3.4.x for OracleおよびSnapManager 3.4.x for SAPからSnapCenterにデータをインポートする前に、SnapCenter Plug-in for Oracle Databaseでサポートされる構成を確認しておく必要があります。
+
+SnapCenter Plug-in for Oracle Databaseでサポートされている構成は、 https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+
+
+== SnapCenterにインポートされるデータ
+
+プロファイル、スケジュール、およびプロファイルを使用して実行する処理をインポートできます。
+
+|===
+| SnapManager for OracleおよびSnapManager for SAP | SnapCenter 
+
+
+ a| 
+処理とスケジュールが設定されていないプロファイル
+ a| 
+デフォルトの設定（バックアップ タイプが「オンライン」でバックアップの範囲が「フル」）でポリシーが作成されます。
+
+
+
+ a| 
+1つ以上の処理が設定されたプロファイル
+ a| 
+プロファイルとそのプロファイルを使用して実行される処理の一意の組み合わせに基づいて複数のポリシーが作成されます。
+
+SnapCenterで作成されるポリシーには、プロファイルおよび対応する処理から取得されたアーカイブ ログの削除と保持の詳細が含まれます。
+
+
+
+ a| 
+Oracle Recovery Manager（RMAN）の設定を含むプロファイル
+ a| 
+ポリシーは、*Oracle Recovery Manager を使用したカタログ バックアップ* オプションを有効にして作成されます。
+
+SnapManagerで外部のRMANのカタログ化を使用していた場合は、SnapCenterでRMANカタログの設定を行う必要があります。既存のクレデンシャルを選択するか、新しいクレデンシャルを作成できます。
+
+SnapManagerで制御ファイルを使用してRMANを設定していた場合は、SnapCenterでRMANの設定を行う必要はありません。
+
+
+
+ a| 
+プロファイルに関連付けられているスケジュール
+ a| 
+スケジュールに対して専用のポリシーが作成されます。
+
+
+
+ a| 
+データベース
+ a| 
+インポートしたデータベースごとにリソース グループが作成されます。
+
+Real Application Cluster（RAC）セットアップでは、インポート後にインポート ツールを実行したノードが優先ノードになり、そのノードに対してリソース グループが作成されます。
+
+|===
+
+NOTE: プロファイルのインポート時は、バックアップ ポリシーと一緒に検証ポリシーが作成されます。
+
+SnapManager for OracleとSnapManager for SAPのプロファイル、スケジュール、およびプロファイルを使用して実行される処理をSnapCenterにインポートすると、異なるパラメータの値もインポートされます。
+
+|===
+| SnapManager for OracleおよびSnapManager for SAPのパラメータと値 | SnapCenterのパラメータと値 | 注記 
+
+
+ a| 
+バックアップ対象
+
+* 満杯
+* データ
+* ログ
+
+ a| 
+バックアップ対象
+
+* 満杯
+* データ
+* ログ
+
+ a| 
+
+
+
+ a| 
+バックアップ モード
+
+* Auto
+* オンライン
+* オフライン
+
+ a| 
+バックアップ タイプ
+
+* オンライン
+* オフラインシャットダウン
+
+ a| 
+バックアップ モードが自動の場合、インポート ツールは操作の実行時にデータベースの状態を確認し、バックアップ タイプをオンラインまたはオフライン シャットダウンのいずれかに適切に設定します。
+
+
+
+ a| 
+保持
+
+* Days
+* Counts
+
+ a| 
+保持
+
+* Days
+* Counts
+
+ a| 
+SnapManager for OracleとSnapManager for SAPでは、[Days]と[Counts]の両方を使用して保持が設定されます。
+
+SnapCenterには、日数またはカウントのいずれかがあります。SnapManager for OracleとSnapManager for SAPで個数よりも日数が優先されるため、保持は日数に基づいて設定されます。
+
+
+
+ a| 
+スケジュールの削除
+
+* All
+* System Change Number (SCN)
+* Date
+* Logs created before specified hours, days, weeks, and months
+
+ a| 
+スケジュールの削除
+
+* All
+* 指定された時間と日の前に作成されたログ
+
+ a| 
+SnapCenterでは、SCN、日付、および週と月の数に基づく削除はサポートされていません。
+
+
+
+ a| 
+通知
+
+* 成功した操作に対してのみメールを送信します
+* 失敗した操作についてのみメールを送信
+* 成功した操作と失敗した操作の両方について送信されるメール
+
+ a| 
+通知
+
+* いつも
+* 失敗した場合
+* 警告
+* エラー
+
+ a| 
+Eメール通知はインポートの対象になります。
+
+ただし、SnapCenterのGUIを使用してSMTPサーバを手動で更新する必要があります。Eメールの件名は、設定できるように空白になります。
+
+|===
+
+
+== SnapCenterにインポートされないデータ
+
+インポート ツールによって、すべてのデータがSnapCenterにインポートされるわけではありません。
+
+次のデータはSnapCenterにインポートできません。
+
+* バックアップ メタデータ
+* 部分バックアップ
+* rawデバイス マッピング（RDM）およびVirtual Storage Console（VSC）関連のバックアップ
+* SnapManager for OracleおよびSnapManager for SAPのリポジトリで使用可能なロールとクレデンシャル
+* 検証、リストア、クローニングの処理に関するデータ
+* 処理の削除
+* SnapManager for OracleおよびSnapManager for SAPのプロファイルで指定されたレプリケーションの詳細
++
+インポートの完了後に、SnapCenterで作成した対応するポリシーを手動で編集してレプリケーションの詳細を含める必要があります。
+
+* カタログ化されたバックアップの情報
+
+
+
+
+== データのインポートの準備
+
+SnapCenterへのデータのインポート処理を正常に実行するには、データをインポートする前に一定のタスクを実行しておく必要があります。
+
+*手順*
+
+. インポートするデータベースを特定します。
+. SnapCenterを使用してデータベース ホストを追加し、SnapCenter Plug-ins Package for Linuxをインストールします。
+. SnapCenterを使用して、ホストのデータベースで使用されるStorage Virtual Machine（SVM）の接続をセットアップします。
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [Resources]ページで、インポートするデータベースが検出されて表示されていることを確認します。
++
+インポート ツールを実行する場合は、データベースにアクセスできる必要があります。アクセスできないと、リソース グループの作成が失敗します。
+
++
+データベースでクレデンシャルが設定されている場合は、対応するクレデンシャルをSnapCenterで作成し、そのクレデンシャルをデータベースに割り当ててから、データベースの検出を再度実行する必要があります。データベースがAutomatic Storage Management（ASM）にある場合は、ASMインスタンスのクレデンシャルを作成し、そのクレデンシャルをデータベースに割り当てる必要があります。
+
+. インポート ツールを実行するユーザに、SnapManager for OracleまたはSnapManager for SAPのホストからSnapManager for OracleまたはSnapManager for SAPのCLIコマンド（スケジュールを中断するコマンドなど）を実行するための十分な権限があることを確認します。
+. SnapManager for OracleまたはSnapManager for SAPのホストで、次のコマンドを実行してスケジュールを中断します。
++
+.. SnapManager for Oracleホストでスケジュールを一時停止する場合は、次のコマンドを実行します。
++
+*** `smo credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smo profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smo credential set -profile -name profile_name`
++
+
+NOTE: smo credential setコマンドは、ホストの各プロファイルに対して実行する必要があります。
+
+
+
+.. SnapManager for SAPホストでスケジュールを一時停止する場合は、次のコマンドを実行します。
++
+*** `smsap credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smsap profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smsap credential set -profile -name profile_name`
++
+
+NOTE: smsap credential setコマンドは、ホストの各プロファイルに対して実行する必要があります。
+
+
+
+
+
+. hostname -fを実行して、データベース ホストのFully Qualified Domain Name（FQDN;完全修飾ドメイン名）が表示されることを確認します。
++
+FQDNが表示されない場合は、/etc/hostsを変更してホストのFQDNを指定する必要があります。
+
+
+
+
+
+== データのインポート
+
+データベース ホストからインポート ツールを実行してデータをインポートすることができます。
+
+*このタスクについて*
+
+インポート後にSnapCenterで作成されるバックアップ ポリシーの名前の形式は、対象に応じて次のように異なります。
+
+* 処理とスケジュールが設定されていないプロファイルに対しては、SM_PROFILENAME_ONLINE_FULL_DEFAULT_MIGRATEDの形式でポリシーが作成されます。
++
+プロファイルを使用して実行される処理がない場合、そのプロファイルについてはデフォルトの設定（バックアップ タイプがオンラインでバックアップの範囲がフル）で対応するポリシーが作成されます。
+
+* 1つ以上の処理が設定されたプロファイルに対しては、SM_PROFILENAME_BACKUPMODE_BACKUPSCOPE_MIGRATEDの形式でポリシーが作成されます。
+* プロファイルに関連付けられているスケジュールに対しては、SM_PROFILENAME_SMOSCHEDULENAME_BACKUPMODE_BACKUPSCOPE_MIGRATEDの形式でポリシーが作成されます。
+
+
+*手順*
+
+. インポートするデータベース ホストにログインします。
+. _/opt/ NetApp/snapcenter/spl/bin_ にある sc-migrate スクリプトを実行して、インポート ツールを実行します。
+. SnapCenter Serverのユーザ名とパスワードを入力します。
++
+クレデンシャルの検証後、SnapCenterとの接続が確立されます。
+
+. SnapManager for OracleまたはSnapManager for SAPのリポジトリ データベースの詳細を入力します。
++
+リポジトリ データベースのホストで使用可能なデータベースが表示されます。
+
+. ターゲット データベースの詳細を入力します。
++
+ホストのすべてのデータベースをインポートする場合は、「all」と入力します。
+
+. 失敗した操作についてシステム ログを生成したり、ASUP メッセージを送信したりする場合は、_Add-SmStorageConnection_ コマンドまたは _Set-SmStorageConnection_ コマンドを実行してそれらを有効にする必要があります。
++
+
+NOTE: インポート処理をキャンセルする場合、インポート ツールの実行中またはインポートの完了後に、インポート処理で作成されたSnapCenterポリシー、クレデンシャル、およびリソース グループを手動で削除する必要があります。
+
+
+
+*結果*
+
+プロファイル、スケジュール、およびプロファイルを使用して実行される処理に対応するSnapCenterのバックアップ ポリシーが作成されます。また、各ターゲット データベースに対応するリソース グループも作成されます。
+
+データのインポートが正常に完了すると、SnapManager for OracleおよびSnapManager for SAPで、インポートしたデータベースに関連付けられたスケジュールが中断されます。
+
+
+NOTE: インポートの完了後は、インポートしたデータベースまたはファイルシステムをSnapCenterで管理する必要があります。
+
+インポート ツールの実行ごとのログは、spl_migration_timestamp.log という名前で _/var/opt/snapcenter/spl/logs_ ディレクトリに保存されます。このログでインポート エラーを確認し、トラブルシューティングを行うことができます。

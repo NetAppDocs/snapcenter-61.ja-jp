@@ -1,0 +1,29 @@
+---
+permalink: get-started/snapmirror-active-sync-snapcenter.html 
+sidebar: sidebar 
+keywords: snapmirror active sync 
+summary: SnapCenterのディザスタ リカバリ機能を使用すると、リソースの破損やサーバのクラッシュなどの災害が発生した場合にSnapCenter Serverをリカバリできます。 
+---
+= SnapCenterのSnapMirrorアクティブ同期
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirrorアクティブ同期を使用すると、サイト全体の障害が発生した場合でもビジネス サービスの運用を継続でき、アプリケーションがセカンダリ コピーを使用して透過的にフェイルオーバーできるようになります。SnapMirrorアクティブ同期でフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+
+SnapMirrorアクティブ同期の詳細については、以下を参照してください。 https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirrorアクティブ同期の概要"] 。
+
+SnapMirrorアクティブ同期を使用するために、ハードウェア、ソフトウェア、およびシステムのさまざまな設定要件を満たしていることを確認します。詳細については、 https://docs.netapp.com/us-en/ontap/smbc/smbc_plan_prerequisites.html["前提条件"]
+
+この機能でサポートされるプラグインは、SnapCenter Plug-in for SQL Server、SnapCenter Plug-in for Windows、SnapCenter Plug-in for Oracleデータベース、SnapCenter Plug-in for SAP HANAデータベース、SnapCenter Plug-in for Microsoft Exchange Server、SnapCenter Plug-in for UNIXです。
+
+
+NOTE: SnapCenterでホストイニシエータとの近接性をサポートするには、この値（sourceまたはdestination）をONTAPで設定する必要があります。
+
+SnapCenterでサポートされていないユースケース:
+
+* ONTAPでSnapMirrorアクティブ同期関係のポリシーを _automatedfailover_ から _automatedfailoverduplex_ に変更して、既存の非対称SnapMirrorアクティブ同期ワークロードを対称に変換しても、 SnapCenterでは同じことはサポートされません。
+* リソース グループのバックアップ ( SnapCenterですでに保護されている) があり、 ONTAPでSnapMirrorアクティブ同期関係のストレージ ポリシーが _automatedfailover_ から _automatedfailoverduplex_ に変更された場合、同じことはSnapCenterではサポートされません。
+

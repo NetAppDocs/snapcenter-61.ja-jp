@@ -1,0 +1,78 @@
+---
+permalink: protect-scsql/task-install-snapcenter-server-for-sql-server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: SnapCenter Server for Microsoft SQL Server のインストール手順について説明します。 
+---
+= SnapCenter Server for Microsoft SQL Serverのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Server for Microsoft SQL Serverのインストール手順を1つにまとめています。
+
+
+
+== ステップ1: SnapCenter Serverをダウンロードしてインストールする
+
+. SnapCenter Serverのインストールパッケージを以下のサイトからダウンロードします。 https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetAppサポート サイト"^]次に、exe をダブルクリックします。
++
+インストールを開始すると、すべての事前確認が実行されます。最小要件を満たしていない場合は、対応するエラーまたは警告メッセージが表示されます。警告メッセージは無視してインストールを続行できますが、エラーは修正する必要があります。
+
+. SnapCenter Serverのインストールに必要な入力済みの値を確認し、必要に応じて変更します。
++
+MySQL Serverリポジトリ データベースのパスワードを指定する必要はありません。SnapCenter Serverのインストール時には、パスワードが自動生成されます。
+
++
+
+NOTE: インストール先のパスを変更する場合、「%」は使用できません。パスに「%」が含まれているとインストールは失敗します。
+
+. *今すぐインストール*をクリックします。
+
+
+
+
+== ステップ2: SnapCenterにログインする
+
+. ホスト デスクトップ上のショートカットから、またはインストールによって提供される URL ( SnapCenter Server がインストールされているデフォルトのポート 8146 の場合は _\https://server:8146_) からSnapCenterを起動します。
+. クレデンシャルを入力します。
++
+組み込みのドメイン管理者ユーザー名の形式の場合は、_NetBIOS\<username>_ または _<username>@<domain>_ または _<DomainFQDN>\<username>_ を使用します。
+
++
+組み込みのローカル管理者ユーザー名形式では、_<username>_ を使用します。
+
+. *サインイン*をクリックします。
+
+
+
+
+== ステップ3: SnapCenter Standardコントローラーベースのライセンスを追加する
+
+. ONTAPコマンドラインを使用してコントローラにログインし、次を入力します。
++
+`system license add -license-code <license_key>`
+
+. ライセンスを確認します。
++
+`license show`
+
+
+
+
+
+== ステップ4: ストレージシステムの接続を設定する
+
+. 左側のペインで、*ストレージ システム > 新規*をクリックします。
+. 「ストレージ システムの追加」ページで、次の操作を実行します。
++
+.. ストレージ システムの名前またはIPアドレスを入力します。
+.. ストレージ システムへのアクセスに使用するクレデンシャルを入力します。
+.. イベント管理システム（EMS）およびAutoSupportを有効にするチェックボックスをオンにします。
+
+
+. プラットフォーム、プロトコル、ポート、タイムアウトに割り当てられたデフォルト値を変更する場合は、[*その他のオプション*] をクリックします。
+. *送信*をクリックします。
+

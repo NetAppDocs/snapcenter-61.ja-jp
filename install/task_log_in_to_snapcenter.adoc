@@ -1,0 +1,170 @@
+---
+permalink: install/task_log_in_to_snapcenter.html 
+sidebar: sidebar 
+keywords: log in, logging, SnapCenter UI, modify timeout, GUI session timeout, disbale SSL 3.0, SSL 3.0, security 
+summary: SnapCenterでは、ロールベース アクセス制御（RBAC）がサポートされています。SnapCenter管理者は、SnapCenter RBACを使用して、ロールとリソースをワークグループ / Active Directory内のユーザまたはActive Directory内のグループに割り当てます。RBACユーザは、割り当てられたロールを使用してSnapCenterにログインできるようになりました。 
+---
+= RBAC許可を使用したSnapCenterへのログイン
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでは、ロールベース アクセス制御（RBAC）がサポートされています。SnapCenter管理者は、SnapCenter RBACを使用して、ロールとリソースをワークグループ / Active Directory内のユーザまたはActive Directory内のグループに割り当てます。RBACユーザは、割り当てられたロールを使用してSnapCenterにログインできるようになりました。
+
+.開始する前に
+* Windowsサーバ マネージャでWindowsプロセス アクティブ化サービス（WAS）を有効にする必要があります。
+* Internet Explorerをブラウザとして使用してSnapCenter Serverにログインする場合は、Internet Explorerの保護モードが無効になっていることを確認する必要があります。
+* SnapCenter ServerがLinuxホストにインストールされている場合は、SnapCenter Serverのインストールに使用したユーザ アカウントを使用してログインする必要があります。
+
+
+*このタスクについて*
+
+インストール時には、SnapCenter Serverのインストール ウィザードによってショートカットが作成され、SnapCenterがインストールされているホストのデスクトップと[スタート]メニューに配置されます。また、インストールが終了すると、インストール ウィザードに、インストール時に指定した情報に基づいてSnapCenterのURLが表示されます。リモート システムからログインする場合は、このURLをコピーして使用できます。
+
+
+IMPORTANT: Webブラウザで複数のタブを開いている場合は、SnapCenterのブラウザ タブだけを閉じてもSnapCenterからはログアウトされません。SnapCenterとの接続を終了するには、[サインアウト] ボタンをクリックするか、Web ブラウザ全体を閉じて、 SnapCenterからログアウトする必要があります。
+
+|===
+
+
+| *ベスト プラクティス:* セキュリティ上の理由から、ブラウザでSnapCenter のパスワードを保存しないようにすることをお勧めします。 
+|===
+デフォルトの GUI URL は、 SnapCenter Server がインストールされているサーバーのデフォルト ポート 8146 への安全な接続です (_\https://server:8146_)。SnapCenterのインストール時に別のサーバ ポートを指定した場合は、そのポートが代わりに使用されます。
+
+高可用性 (HA) 展開の場合、仮想クラスター IP _\https://Virtual_Cluster_IP_or_FQDN:8146_ を使用してSnapCenterにアクセスする必要があります。 Internet Explorer (IE) で _\https://Virtual_Cluster_IP_or_FQDN:8146_ に移動してもSnapCenter UI が表示されない場合は、各プラグイン ホストの IE で仮想クラスタの IP アドレスまたは FQDN を信頼済みサイトとして追加するか、各プラグイン ホストで IE セキュリティ強化を無効にする必要があります。詳細については、以下を参照してください。  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_access_cluster_IP_address_from_outside_network["ネットワーク外からクラスタIPアドレスにアクセスできない"^] 。
+
+SnapCenter GUIに加えて、PowerShellコマンドレットを使用してスクリプトを作成し、設定、バックアップ、リストアの各処理を実行できます。一部のコマンドレットは、SnapCenterの各リリースで変更されている場合があります。その https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^]詳細が記載されています。
+
+
+NOTE: SnapCenterへの初回ログイン時は、インストール プロセスで指定したクレデンシャルを使用してログインする必要があります。
+
+*手順*
+
+. ローカル ホストのデスクトップに表示されたショートカット、インストールの終了時に表示されたURL、またはSnapCenter管理者から受け取ったURLを使用して、SnapCenterを起動します。
+. ユーザ クレデンシャルを入力します。
++
+|===
+| 指定する項目 | 使用する形式 
+
+
+ a| 
+ドメイン管理者
+ a| 
+** NetBIOS\UserName
+** UserName@UPN suffix
++
+例：\username@netapp.com
+
+** Domain FQDN\UserName
+
+
+
+
+ a| 
+ローカル管理者
+ a| 
+UserName
+
+|===
+. 複数のロールが割り当てられている場合は、このログイン セッションで使用するロールを[ロール]ボックスから選択します。
++
+ログインすると、SnapCenterの右上に現在のユーザとそのロールが表示されます。
+
+
+
+*結果*
+
+[Dashboard]ページが表示されます。
+
+サイトにアクセスできないというエラーでログ記録が失敗した場合は、SSL 証明書をSnapCenterにマップする必要があります。 https://kb.netapp.com/?title=Advice_and_Troubleshooting%2FData_Protection_and_Security%2FSnapCenter%2FSnapCenter_will_not_open_with_error_%2522This_site_can%2527t_be_reached%2522["詳細情報"^]
+
+*終わったら*
+
+SnapCenter Serverに初めてRBACユーザとしてログインしたら、リソース リストを更新します。
+
+SnapCenterでサポート対象にする信頼されないActive Directoryドメインがある場合は、信頼されないドメインのユーザにロールを設定する前に、それらのドメインをSnapCenterに登録する必要があります。link:../install/task_register_untrusted_active_directory_domains.html["詳細情報"^] 。
+
+Linux ホスト上で実行されているSnapCenterにプラグイン ホストを追加する場合は、_/opt/ NetApp/snapcenter/SnapManagerWeb/Repository_ の場所からチェックサム ファイルを取得する必要があります。
+
+6.0リリース以降では、デスクトップにSnapCenter PowerShellのショートカットが作成されます。ショートカットを使用すると、SnapCenter PowerShellコマンドレットに直接アクセスできます。
+
+
+
+== 多要素認証（MFA）を使用したSnapCenterへのログイン
+
+SnapCenter Serverは、Active Directoryに含まれているドメイン アカウントのMFAをサポートしています。
+
+.開始する前に
+MFAを有効にしておく必要があります。MFAを有効にする方法については、以下を参照してください。link:../install/enable_multifactor_authentication.html["多要素認証を有効にする"]
+
+*このタスクについて*
+
+* FQDNのみがサポートされます。
+* ワークグループ ユーザとクロスドメイン ユーザは、MFAを使用したログインはできません。
+
+
+*手順*
+
+. ローカル ホストのデスクトップに表示されたショートカット、インストールの終了時に表示されたURL、またはSnapCenter管理者から受け取ったURLを使用して、SnapCenterを起動します。
+. AD FSのログイン ページで、ユーザ名とパスワードを入力します。
++
+AD FSのページに、ユーザ名またはパスワードが無効だというエラー メッセージが表示された場合は、次の点を確認してください。
+
++
+** 有効なユーザ名とパスワードであるかどうか
++
+ユーザ アカウントがActive Directory（AD）に存在している必要があります。
+
+** ADで設定された最大試行回数を超えていないかどうか
+** ADとAD FSが稼働中かどうか
+
+
+
+
+
+
+== SnapCenterのデフォルトのGUIセッション タイムアウトの変更
+
+SnapCenter GUIのセッション タイムアウト時間を、デフォルトのタイムアウト時間である20分から変更できます。
+
+セキュリティ機能として、デフォルトでは、操作を行わないまま15分が経過すると、5分後にSnapCenterのGUIセッションからログアウトすることを示す警告が表示されます。また、操作を行わないまま20分が経過すると、SnapCenterのGUIセッションからログアウトされ、再度ログインが必要になります。
+
+*手順*
+
+. 左側のナビゲーション ペインで、[*設定*] > [*グローバル設定*] をクリックします。
+. [グローバル設定]ページで、[構成設定]をクリックします。
+. [セッション タイムアウト] フィールドに新しいセッション タイムアウトを分単位で入力し、[*保存*] をクリックします。
+
+
+
+
+== SSL 3.0の無効化によるSnapCenter Webサーバの保護
+
+SnapCenter WebサーバでSecure Socket Layer（SSL）3.0プロトコルが有効になっている場合は、セキュリティ上の理由からMicrosoft IISで無効にする必要があります。
+
+SSL 3.0プロトコルには欠陥があり、攻撃者が悪用して接続エラーを引き起こしたり、中間者攻撃を実行したり、Webサイトと訪問者の間の暗号化トラフィックを監視したりすることができます。
+
+*手順*
+
+. SnapCenter Web サーバー ホストでレジストリ エディターを起動するには、[スタート] > [実行] をクリックし、「regedit」と入力します。
+. レジストリ エディタで、HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\に移動します。
++
+** サーバー キーがすでに存在する場合:
++
+... 有効な DWORD を選択し、[編集] > [変更] をクリックします。
+... 値を 0 に変更し、[OK] をクリックします。
+
+
+** サーバーキーが存在しない場合は:
++
+... *編集* > *新規* > *キー* をクリックし、キーに Server という名前を付けます。
+... 新しいサーバー キーを選択した状態で、[編集] > [新規] > [DWORD] をクリックします。
+... 新しいDWORDに「Enabled」という名前を付け、値として「0」を入力します。
+
+
+
+
+. レジストリ エディタを閉じます。
+

@@ -1,0 +1,142 @@
+---
+permalink: protect-scsql/reference_storage_types_supported_by_snapcenter_plug_ins_for_microsoft_windows_and_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージ タイプをサポートしています。ホストに対応したパッケージをインストールする前に、ストレージ タイプがサポートされているかどうかを確認する必要があります。 
+---
+= SnapCenter Plug-in for Microsoft SQL Serverでサポートされるストレージ タイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージ タイプをサポートしています。ホストに対応したパッケージをインストールする前に、ストレージ タイプがサポートされているかどうかを確認する必要があります。
+
+Windows Serverでは、SnapCenterによるプロビジョニングとデータ保護がサポートされます。サポートされているバージョンに関する最新情報については、https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+|===
+| マシン | ストレージ タイプ | プロビジョニングを使用して | サポートノート 
+
+
+ a| 
+物理サーバ
+ a| 
+FC接続LUN
+ a| 
+SnapCenterのグラフィカル ユーザ インターフェイス（GUI）またはPowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+物理サーバ
+ a| 
+iSCSI接続LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+物理サーバ
+ a| 
+Storage Virtual Machine（SVM）上のSMB3（CIFS）共有
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+プロビジョニングのみがサポートされます。
+
+
+
+ a| 
+VMware VM
+ a| 
+FCまたはiSCSI HBAで接続されたRDM LUN
+ a| 
+PowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+iSCSIイニシエータでゲスト システムに直接接続されたiSCSI LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+仮想マシン ファイルシステム（VMFS）またはNFSデータストア
+ a| 
+VMware vSphere
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+SVM上のSMB3共有に接続されたゲスト システム
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+プロビジョニングのみがサポートされます。
+
+
+
+ a| 
+VMware VM
+ a| 
+NFSとSANの両方に存在するvVolデータストア
+ a| 
+ONTAP Tools for VMware vSphere
+ a| 
+
+
+
+ a| 
+Hyper-V VM
+ a| 
+仮想ファイバチャネル スイッチで接続された仮想FC（vFC）LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+仮想ファイバチャネル スイッチで接続された仮想FC（vFC）LUNのプロビジョニングには、Hyper-V Managerを使用する必要があります。
+
+
+NOTE: Hyper-Vのパススルー ディスク、およびNetAppストレージでプロビジョニングされたVHD（VHDX）でのデータベースのバックアップはサポートされません。
+
+
+
+ a| 
+Hyper-V VM
+ a| 
+iSCSIイニシエータでゲスト システムに直接接続されたiSCSI LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+NOTE: Hyper-Vのパススルー ディスク、およびNetAppストレージでプロビジョニングされたVHD（VHDX）でのデータベースのバックアップはサポートされません。
+
+
+
+ a| 
+Hyper-V VM
+ a| 
+SVM上のSMB3共有に接続されたゲスト システム
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+プロビジョニングのみがサポートされます。
+
+
+NOTE: Hyper-Vのパススルー ディスク、およびNetAppストレージでプロビジョニングされたVHD（VHDX）でのデータベースのバックアップはサポートされません。
+
+|===

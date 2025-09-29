@@ -1,0 +1,30 @@
+---
+permalink: protect-azure/protect-applications-azure-netapp-files.html 
+sidebar: sidebar 
+keywords: azure netapp files, ANF, back up, restore, clone, ANF backup, Azure Blob storage 
+summary: Azure NetApp Filesで実行されているアプリケーションをバックアップ、復元、複製できます。 
+---
+= Azure NetApp Filesで実行されているアプリケーションの保護
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter は、Azure NetApp Files上にある Oracle、SQL、SAP HANA などのアプリケーションの保護をサポートしています。  6.0.1 リリース以降、 SnapCenter は、長期的なリカバリ、アーカイブ、コンプライアンスのための完全に管理されたバックアップ ソリューションを提供することで、 Azure NetApp Filesのデータ保護機能を拡張するAzure NetApp Filesバックアップ機能をサポートします。
+
+Azure NetApp Files は、長期のバックアップ保持には高額になる可能性があるプレミアム ストレージ ソリューションです。コストを最適化するには、 Azure NetApp Filesストレージから Azure オブジェクト ストアにバックアップを移動できます。 SnapCenter 6.0.1 以降では、 Azure NetApp Filesにあるアプリケーションを Azure Blob Storage (オブジェクト ストア) にバックアップおよびクローンできます。データのコピーを 2 つ保持できます。短期的な回復のためにボリューム スナップショットのコピーをAzure NetApp Filesストレージに保持し、長期的な回復のために別のコピーを Azure Blob Storage に保持します。
+
+Azure NetApp Filesバックアップのポリシーが有効になっていてリソースに関連付けられている場合、 SnapCenter はボリューム スナップショットの作成と Azure Blob Storage へのバックアップを処理します。 SnapCenter はバックアップ ボールトを作成し、ボリュームのバックアップを有効にします。ボリュームのバックアップを有効にしている場合、 SnapCenter は既存のボールトを利用します。
+
+
+
+== 制限事項
+
+* FAS、 ASA、またはAFF ONTAPおよびAmazon FSx for NetApp ONTAPストレージ システムのオブジェクト ストレージ機能はサポートされていません。
+* Oracle および SAP HANA のマウントおよびカタログ ワークフローは、オブジェクト ストレージ バックアップではサポートされていませんが、スナップショットではサポートされています。
+* Oracle PDB クローンはオブジェクト ストレージ バックアップではサポートされていませんが、スナップショットではサポートされています。
+* オブジェクト ストレージからのバックアップ検証、REST API サポート、オブジェクト ストレージからのクローン ライフサイクル管理、およびオブジェクト ストレージ バックアップのレポート機能はサポートされていません。
+* Azure Blob Storage 上のバックアップからAzure NetApp Filesへの復元はサポートされていません。代わりにクローン オプションを使用することもできます。
+* クローン分割はサポートされていません。
+

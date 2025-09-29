@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_support_for_asymmetric_lun_mapping_alm_in_windows_clusters.html 
+sidebar: sidebar 
+keywords: ALM 
+summary: 'SnapCenterプラグイン (Microsoft SQL Server 用) は、SQL Server 2012 以降での検出、高可用性のための非対称 LUN マッピング (ALM) 構成、および災害復旧のための可用性グループをサポートします。リソースを検出する際、 SnapCenter はALM 構成内のローカル ホストおよびリモート ホスト上のデータベースを検出します。' 
+---
+= Windowsクラスタでの非対称LUNマッピングのサポート
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft SQL Serverは、SQL Server 2012以降、高可用性のための非対称LUNマッピング（ALM）構成、およびディザスタ リカバリのための可用性グループの検出をサポートしています。リソースを検出する際、 SnapCenter はALM 構成内のローカル ホストおよびリモート ホスト上のデータベースを検出します。
+
+ALM構成は、プライマリ データセンターとディザスタ リカバリ データセンターそれぞれに1つ以上のノードを配置した、単一のWindows Serverフェイルオーバー クラスタです。
+
+ALM構成の例を次に示します。
+
+* マルチサイト データセンター内に2つのフェイルオーバー クラスタ インスタンス（FCI）
+* ローカルの高可用性（HA）をFCIで、ディザスタ リカバリ サイトに配置したスタンドアロン インスタンスによるディザスタ リカバリを可用性グループ（AG）で実現
+
+
+image::../media/asymmetric_lun_mapping_diagram.gif[非対称LUNマッピング]
+
+プライマリ データセンター内のストレージは、プライマリ データセンター内のFCIノード間で共有されます。ディザスタ リカバリ データセンター内のストレージは、ディザスタ リカバリ データセンター内のFCIノード間で共有されます。
+
+プライマリ データセンターのストレージは、ディザスタ リカバリ データセンターのノードには認識されず、その逆も同様です。
+
+ALMアーキテクチャは、FCIで使用される2つの共有ストレージ ソリューションと、SQL AGで使用される非共有（専用）ストレージ ソリューションを組み合わせたものです。AGソリューションは、データセンター間の共有ディスク リソースに同じドライブ レターを使用します。クラスタ ディスクがWSFC内のノードのサブセット間で共有されるこのストレージ配置は、ALMと呼ばれます。

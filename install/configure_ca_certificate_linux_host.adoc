@@ -1,0 +1,73 @@
+---
+permalink: install/configure_ca_certificate_linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter, configure, CA certificate, linux, linux host 
+summary: Linux ホスト上のSnapCenter Server で CA 証明書を構成する必要があります。 
+---
+= LinuxホストのCA証明書の設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+LinuxにSnapCenter Serverをインストールすると、インストーラによって自己署名証明書が作成されます。このCA証明書を使用する場合は、nginxリバース プロキシ、監査ログ、およびSnapCenterサービスの証明書を設定する必要があります。
+
+
+
+== nginx証明書の設定
+
+.手順
+. _/etc/nginx/conf.d_ に移動します。 `cd /etc/nginx/conf.d`
+. vi または任意のテキスト エディターを使用して *snapcenter.conf* を開きます。
+. 構成ファイルのserverセクションに移動します。
+. CA 証明書を指すように _ssl_certificate_ と _ssl_certificate_key_ のパスを変更します。
+. ファイルを保存して、閉じます。
+. nginx をリロードします: `$nginx -s reload`
+
+
+
+
+== 監査ログ証明書の設定
+
+.手順
+. vi または任意のテキスト エディターを使用して、_INSTALL_DIR/ NetApp/snapcenter/SnapManagerWeb/ SnapManager.Web.UI.dll.config_ を開きます。
++
+_INSTALL_DIR_ のデフォルト値は _/opt_ です。
+
+. *AUDILOG_CERTIFICATE_PATH* キーと *AUDILOG_CERTIFICATE_PASSWORD* キーを編集して、それぞれ CA 証明書パスとパスワードを含めます。
++
+監査ログ証明書では _.pfx_ 形式のみがサポートされます。
+
+. ファイルを保存して、閉じます。
+. *snapmanagerweb* サービスを再起動します。 `$ systemctl restart snapmanagerweb`
+
+
+
+
+== SnapCenterサービス証明書の設定
+
+.手順
+. viまたは任意のテキスト エディタを使用して、次の構成ファイルを開きます。
++
+** _INSTALL_DIR/ NetApp/snapcenter/SnapManagerWeb/ SnapManager.Web.UI.dll.config_
+** _INSTALL_DIR/ NetApp/snapcenter/SMCore/SMCoreServiceHost.dll.config_
+** _INSTALL_DIR/ NetApp/snapcenter/Scheduler/Scheduler.Api.dll.config_
++
+_INSTALL_DIR_ のデフォルト値は _/opt_ です。
+
+
+
+. *SERVICE_CERTIFICATE_PATH* キーと *SERVICE_CERTIFICATE_PASSWORD* キーを編集して、それぞれ CA 証明書パスとパスワードを含めます。
++
+SnapCenterサービス証明書では、_.pfx_ 形式のみがサポートされます。
+
+. ファイルを保存して閉じます。
+. すべてのサービスを再起動します。
++
+** `$ systemctl restart snapmanagerweb`
+** `$ systemctl restart smcore`
+** `$ systemctl restart scheduler`
+
+
+

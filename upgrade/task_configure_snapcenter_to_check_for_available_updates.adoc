@@ -1,0 +1,29 @@
+---
+permalink: upgrade/task_configure_snapcenter_to_check_for_available_updates.html 
+sidebar: sidebar 
+keywords: configure, snapcenter server, updates, software updates 
+summary: SnapCenterは、NetAppサポート サイトと定期的に通信し、利用可能なソフトウェア アップデートがあればユーザに通知します。スケジュールを作成し、利用可能なアップデートに関する情報の受信間隔を指定することもできます。 
+---
+= 利用可能なアップデートを確認するためのSnapCenterの設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、NetAppサポート サイトと定期的に通信し、利用可能なソフトウェア アップデートがあればユーザに通知します。スケジュールを作成し、利用可能なアップデートに関する情報の受信間隔を指定することもできます。
+
+.手順
+. 左側のナビゲーション ペインで、[*設定*] をクリックします。
+. *設定*ページで、*ソフトウェア*をクリックします。
++
+[Available Software]ページには、利用可能なプラグイン パッケージ、利用可能なバージョン、およびインストールのステータスが表示されます。
+
+. *更新を確認* をクリックして、プラグイン パッケージの新しいバージョンが利用可能かどうかを確認します。
+. *[更新のスケジュール]* をクリックしてスケジュールを作成し、利用可能な更新に関する情報を受信する間隔を指定します。
++
+.. *更新の確認*で間隔を選択します。
+.. SnapCenter Server Admin Windows 資格情報を選択し、[*OK*] をクリックします。
+
+
+

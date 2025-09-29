@@ -1,0 +1,361 @@
+---
+permalink: install/requirements-to-install-snapcenter-server.html 
+sidebar: sidebar 
+keywords: active directory domain, workgroups, multi-domain forests, cross-domain, cross-forest domains, browsers, chrome, IE, Edge, ports, port requirements, host utilities, Microsoft DSM, Windows MPIO 
+summary: SnapCenter Serverをインストールする前に、すべての要件が満たされていることを確認する必要があります。 
+---
+= SnapCenter Server をインストールするための要件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Windows または Linux ホストにSnapCenter Server をインストールする前に、環境のすべての要件が満たされていることを確認する必要があります。
+
+
+
+== Windowsホストのドメインとワークグループの要件
+
+SnapCenter Server は、ドメインまたはワークグループ内の Windows ホストにインストールできます。
+
+管理者権限を持つユーザーは、 SnapCenterサーバーをインストールできます。
+
+* Active Directory ドメイン: ローカル管理者権限を持つドメイン ユーザーを使用する必要があります。ドメイン ユーザは、Windowsホストのローカル管理者グループのメンバーである必要があります。
+* ワークグループ: ローカル管理者権限を持つローカル アカウントを使用する必要があります。
+
+
+ドメイン トラスト、マルチドメイン フォレスト、およびクロスドメイン トラストはサポートされていますが、クロスフォレスト ドメインはサポートされません。詳細については、Active Directoryドメインと信頼に関するMicrosoftのドキュメントを参照してください。
+
+
+NOTE: SnapCenter Server をインストールした後は、 SnapCenterホストが配置されているドメインを変更しないでください。  SnapCenter Server がインストールされたときに存在していたドメインからSnapCenter Server ホストを削除し、その後SnapCenter Server をアンインストールしようとすると、アンインストール操作は失敗します。
+
+
+
+== スペースとサイジングの要件
+
+スペースとサイズの要件をよく理解しておく必要があります。
+
+|===
+| 項目 | Windowsホストの要件 | Linuxホストの要件 
+
+
+ a| 
+オペレーティング システム
+ a| 
+Microsoft Windows
+
+サポートされているのは、英語版、ドイツ語版、日本語版、簡体字中国語版のみです。
+
+サポートされているバージョンに関する最新情報については、https://imt.netapp.com/matrix/imt.jsp?components=121033;&solution=1258&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+ a| 
+* Red Hat Enterprise Linux（RHEL）8および9
+* SUSE Linux Enterprise Server（SLES）15
+
+
+サポートされているバージョンに関する最新情報については、https://imt.netapp.com/matrix/imt.jsp?components=121032;&solution=1258&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^] 。
+
+
+
+ a| 
+最小CPU数
+ a| 
+4
+ a| 
+4
+
+
+
+ a| 
+最小RAM
+ a| 
+8 GB
+
+
+NOTE: MySQL Serverのバッファ プールがRAMの20%を使用します。
+ a| 
+8 GB
+
+
+
+ a| 
+最小ハード ドライブ スペース - SnapCenter Serverソフトウェアおよびログ用
+ a| 
+7 GB
+
+
+NOTE: SnapCenter Serverがインストールされているドライブと同じドライブにSnapCenterリポジトリがある場合は、15 GBを使用することを推奨します。
+ a| 
+15 GB
+
+
+
+ a| 
+最小ハード ドライブ スペース - SnapCenterリポジトリ用
+ a| 
+8 GB
+
+
+NOTE: 注意: SnapCenterリポジトリがインストールされているドライブと同じドライブにSnapCenter Server がある場合は、15 GB を用意することをお勧めします。
+ a| 
+該当なし
+
+
+
+ a| 
+必要なソフトウェア パッケージ
+ a| 
+* ASP.NET Core ランタイム 8.0.12 (およびそれ以降のすべての 8.0.x パッチ) ホスティング バンドル
+* PowerShell 7.4.2以降
+
+
+.NET特有のトラブルシューティング情報については、以下を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["インターネットに接続できないレガシーシステムでは、 SnapCenter のアップグレードまたはインストールが失敗します。"^] 。
+ a| 
+* .NET Framework 8.0.12 (およびそれ以降のすべての 8.0.x パッチ)
+* PowerShell 7.4.2以降
+* Nginxはリバース プロキシとして使用できるWebサーバ
+* Pam-devel
++
+PAM（Pluggable Authentication Modules）は、システム管理者が、認証を行うプログラムを再コンパイルすることなく認証ポリシーを設定できるようにするシステム セキュリティ ツールです。
+
+
+
+|===
+
+NOTE: ASP.NET コアでは、Windows 上のSnapCenter Server の一時ファイル システムにアクセスするために IIS_IUSRS が必要です。
+
+
+
+== SANホストの要件
+
+SnapCenter にはホスト ユーティリティや DSM は含まれていません。  SnapCenterホストが SAN (FC/iSCSI) 環境の一部である場合は、 SnapCenter Server ホストに追加のソフトウェアをインストールして構成する必要がある場合があります。
+
+* ホスト ユーティリティ: ホスト ユーティリティは FC と iSCSI をサポートしており、Windows サーバーで MPIO を使用できるようになります。 https://docs.netapp.com/us-en/ontap-sanhost/hu_sanhost_index.html["詳細情報"^] 。
+* Microsoft DSM for Windows MPIO: このソフトウェアは Windows MPIO ドライバーと連携して、 NetAppと Windows ホスト コンピューター間の複数のパスを管理します。ハイアベイラビリティ構成にはDSMが必要です。
++
+
+NOTE: ONTAP DSMを使用していた場合は、Microsoft DSMに移行する必要があります。詳細については、以下を参照してください。  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/Data_ONTAP_DSM_for_Windows_MPIO/How_to_migrate_from_Data_ONTAP_DSM_4.1p1_to_Microsoft_native_DSM["ONTAP DSMからMicrosoft DSMへの移行方法"^] 。
+
+
+
+
+
+== ブラウザの要件
+
+SnapCenter softwareは、 Chrome 125 以降および Microsoft Edge 110.0.1587.17 以降をサポートしています。
+
+
+
+== ポート要件
+
+SnapCenter softwareでは、異なるコンポーネント間の通信に異なるポートが必要です。
+
+* 1つのポートを複数のアプリケーションで共有することはできません。
+* デフォルト ポートを使用しない場合は、インストール時にカスタム ポートを選択できます。
+* 固定ポートの場合は、デフォルトのポート番号を受け入れる必要があります。
+* ファイアウォール
++
+** ファイアウォール、プロキシ、またはその他のネットワーク デバイスによって接続が妨げられないように注意してください。
+** SnapCenter をインストールするときにカスタム ポートを指定する場合は、 SnapCenterプラグイン ローダーのそのポートのファイアウォール ルールをLoaderイン ホストに追加する必要があります。
+
+
+
+
+次の表に、各ポートとそのデフォルト値をまとめています。
+
+|===
+| ポート名 | ポート番号 | プロトコル | 送受信方向 | 説明 
+
+
+ a| 
+SnapCenterのポート
+ a| 
+8146
+ a| 
+HTTPS
+ a| 
+双方向
+ a| 
+このポートは、 SnapCenterクライアント ( SnapCenterユーザー) とSnapCenter Server 間の通信に使用され、プラグイン ホストからSnapCenter Server への通信にも使用されます。
+
+ポート番号をカスタマイズできます。
+
+
+
+ a| 
+SnapCenter SMCoreの通信ポート
+ a| 
+8145
+ a| 
+HTTPS
+ a| 
+双方向
+ a| 
+このポートは、 SnapCenter Server とSnapCenterプラグインがインストールされているホスト間の通信に使用されます。
+
+ポート番号をカスタマイズできます。
+
+
+
+ a| 
+スケジューラ サービス ポート
+ a| 
+8154
+ a| 
+HTTPS
+ a| 
+ a| 
+このポートは、SnapCenter Serverホスト内で管理されるすべてのプラグインのSnapCenterスケジューラのワークフローを一元的にオーケストレーションするために使用されます。
+
+ポート番号をカスタマイズできます。
+
+
+
+ a| 
+RabbitMQ ポート
+ a| 
+5672
+ a| 
+TCP
+ a| 
+ a| 
+これは RabbitMQ がリッスンするデフォルトのポートであり、Scheduler サービスとSnapCenter間のパブリッシャー - サブスクライバー モデル通信に使用されます。
+
+
+
+ a| 
+MySQLのポート
+ a| 
+3306
+ a| 
+HTTPS
+ a| 
+ a| 
+このポートは、 SnapCenterリポジトリ データベースとの通信に使用されます。  SnapCenterサーバーから MySQL サーバーへの安全な接続を作成できます。link:../install/concept_configure_secured_mysql_connections_with_snapcenter_server.html["詳細情報"]
+
+
+
+ a| 
+Windowsプラグイン ホスト
+ a| 
+135, 445
+ a| 
+TCP
+ a| 
+ a| 
+このポートは、 SnapCenter Server とプラグインがインストールされているホスト間の通信に使用されます。  Microsoft によって指定された追加の動的ポート範囲も開いている必要があります。
+
+
+
+ a| 
+Linux / AIXプラグイン ホスト
+ a| 
+22
+ a| 
+SSH
+ a| 
+一方向
+ a| 
+このポートは、サーバからクライアント ホストに開始される、 SnapCenterサーバとホスト間の通信に使用されます。
+
+
+
+ a| 
+Windows、Linux、AIX 用のSnapCenterプラグイン パッケージ
+ a| 
+8145
+ a| 
+HTTPS
+ a| 
+双方向
+ a| 
+このポートは、SMCore とプラグイン パッケージがインストールされているホスト間の通信に使用されます。カスタマイズ可能。
+
+ポート番号をカスタマイズできます。
+
+
+
+ a| 
+SnapCenter Plug-in for Oracle Database
+ a| 
+27216
+ a| 
+ a| 
+ a| 
+デフォルトのJDBCポートは、Oracleデータベースに接続するためにOracle用プラグインで使用されます。
+
+
+
+ a| 
+SnapCenter Plug-in for Exchange Database
+ a| 
+909
+ a| 
+ a| 
+ a| 
+デフォルトのNET.TCPポートは、Exchange VSSコールバックに接続するためにPlug-in for Windowsで使用されます。
+
+
+
+ a| 
+NetAppでサポートされるSnapCenter用プラグイン
+ a| 
+9090
+ a| 
+HTTPS
+ a| 
+ a| 
+これはプラグイン ホストでのみ使用される内部ポートであり、ファイアウォールの例外は必要ありません。
+
+SnapCenterサーバーとプラグイン間の通信は、ポート 8145 を介してルーティングされます。
+
+
+
+ a| 
+ONTAPクラスタまたはSVMの通信ポート
+ a| 
+* 443（HTTPS）
+* 80（HTTP）
+
+ a| 
+* HTTPS
+* HTTP
+
+ a| 
+双方向
+ a| 
+このポートは、SnapCenter Serverを実行するホストとSVMの間の通信のためにSAL（Storage Abstraction Layer）で使用されます。また、現在は、SnapCenterプラグイン ホストとSVMの間の通信のためにSnapCenter for Windowsプラグイン ホストのSALでも使用されます。
+
+
+
+ a| 
+SnapCenter Plug-in for SAP HANA Database
+ a| 
+* 3インスタンス番号13
+* 3インスタンス番号15
+
+ a| 
+* HTTPS
+* HTTP
+
+ a| 
+双方向
+ a| 
+マルチテナント データベース コンテナ（MDC）のシングル テナントの場合、ポート番号は13で終わります。MDC以外の場合、ポート番号は15で終わります。
+
+ポート番号をカスタマイズできます。
+
+
+
+ a| 
+SnapCenter Plug-in for PostgreSQL
+ a| 
+5432
+ a| 
+ a| 
+ a| 
+このポートは、PostgreSQL 用プラグインが PostgreSQL クラスターと通信するために使用されるデフォルトの PostgreSQL ポートです。
+
+ポート番号をカスタマイズできます。
+
+|===

@@ -1,0 +1,53 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_windows_features.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Plug-in for Windowsは、ストレージ システム上でNetAppのSnapshotテクノロジと統合されます。Plug-in for Windowsの操作には、SnapCenterのインターフェイスを使用します。 
+---
+= SnapCenter Plug-in for Windowsの特長
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for Windowsは、ストレージ システム上でNetAppのSnapshotテクノロジと統合されます。Plug-in for Windowsの操作には、SnapCenterのインターフェイスを使用します。
+
+Plug-in for Windowsの主な機能は次のとおりです。
+
+* * SnapCenterによる統合グラフィカル ユーザー インターフェイス*
++
+SnapCenterのインターフェイスは、すべてのプラグインと環境で標準化され、一貫しています。どのプラグインでも、SnapCenterのインターフェイスから、バックアップ プロセスとリストア プロセスを一貫した方法で実行できるほか、ダッシュボード ビューで概要を把握したり、ロールベース アクセス制御（RBAC）を設定したり、ジョブを監視したりすることができます。また、SnapCenterでは、バックアップとクローニングの処理に対応したスケジュールとポリシーの一元管理もサポートされます。
+
+* *自動化された中央管理*
++
+日常的なファイルシステムのバックアップのスケジュールを設定したり、ポリシーベースのバックアップ保持を設定したり、リストア処理をセットアップしたりできます。SnapCenterからのEメール アラートの送信を設定して、ファイルシステム環境をプロアクティブに監視することもできます。
+
+* *無停止のNetAppスナップショットテクノロジー*
++
+Plug-in for Windowsでは、NetAppのSnapshotテクノロジを使用しています。これにより、ファイルシステムを数秒でバックアップし、ホストをオフラインにすることなく迅速にリストアすることが可能です。Snapshotはストレージ スペースを最小限しか消費しません。
+
+
+
+Plug-in for Windowsには、上記の主要な機能以外にも次のようなメリットがあります。
+
+* バックアップ、リストア、およびクローニングのワークフローがサポートされます。
+* セキュリティがRBACでサポートされ、ロール委譲が一元化されます。
+* NetApp FlexCloneテクノロジを使用して、テストまたはデータ抽出に使用する本番環境ファイルシステムのコピー（スペース効率に優れたコピー）を作成できます。
++
+FlexCloneのライセンス情報については、以下を参照してください。link:../get-started/concept_snapcenter_licenses.html["SnapCenterのライセンス"^] 。
+
+* 複数のサーバで同時に複数のバックアップを実行できます。
+* PowerShellコマンドレットを使用してバックアップ、リストア、およびクローニングの処理のスクリプトを作成できます。
+* ファイルシステムと仮想マシン ディスク（VMDK）のバックアップがサポートされます。
+* 物理インフラと仮想インフラがサポートされます。
+* iSCSI、ファイバチャネル、FCoE、rawデバイス マッピング（RDM）、非対称LUNマッピング（ALM）、NFSおよびVMFS経由のVMDK、および仮想FCがサポートされます。
+* Windows Server 2022でNon-Volatile Memory express（NVMe）がサポートされます。
++
+** NVMe over TCP/IPで作成されたVMDKレイアウト上のバックアップ、リストア、クローニング、検証の各ワークフロー。
+** ESX 8.0 Update 2以降のNVMeファームウェア バージョン1.3をサポートします。仮想マシン ハードウェア バージョン21が必要です。
+** Windows Serverフェイルオーバー クラスタリング（WSFC）は、NVMe over TCP/IP上のVMDKを介したアプリケーションではサポートされません。
+
+
+* サイト全体の障害時でもビジネス サービスの運用を継続できるようにするSnapMirrorアクティブ シンク (当初はSnapMirror Business Continuity [SM-BC] としてリリース) をサポートし、セカンダリ コピーを使用してアプリケーションを透過的にフェイルオーバーできるようにします。SnapMirrorアクティブ同期でフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+

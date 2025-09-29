@@ -1,0 +1,22 @@
+---
+section: sc-automation
+title: REST APIを使用したSnapCenterの自動化
+entries:
+- title: REST APIの概要
+  url: "/sc-automation/overview_rest_apis.html"
+- title: SnapCenter REST APIへネイティブにアクセスする方法
+  url: "/sc-automation/concept_how_to_access_snapcenter_rest_api_natively.html"
+- title: 基盤としてのREST Webサービス
+  url: "/sc-automation/concept_rest_web_services_foundation.html"
+- title: 基本的な動作の特性
+  url: "/sc-automation/concept_basic_operational_characteristics.html"
+- title: API要求を制御する入力変数
+  url: "/sc-automation/concept_input_variables_controlling_an_api_request.html"
+- title: API応答の解釈
+  url: "/sc-automation/concept_interpreting_an_api_response.html"
+- title: SnapCenter ServerとプラグインでサポートされているREST API
+  url: "/sc-automation/reference_supported_rest_apis.html"
+- title: Swagger API WebページからREST APIにアクセスする方法
+  url: "/sc-automation/task_how to_access_rest_apis_using_the_swagger_api_web_page.html"
+- title: REST APIの使用の開始
+  url: "/sc-automation/task_get_started_with_the_rest_api.html"

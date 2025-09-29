@@ -1,0 +1,25 @@
+---
+permalink: protect-scw/reference_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: Plug-in for Windowsをインストールした環境では、SnapCenterを使用してWindowsファイルシステムをバックアップ、リストア、およびクローニングすることができます。これらの処理をサポートするタスクも実行できます。 
+---
+= SnapCenter Plug-in for Microsoft Windowsの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for Windowsをインストールした環境では、SnapCenterを使用してWindowsファイルシステムをバックアップ、リストア、およびクローニングすることができます。これらの処理をサポートするタスクも実行できます。
+
+* リソースの検出
+* Windowsファイルシステムのバックアップ
+* バックアップ処理のスケジュールの設定
+* ファイルシステムのバックアップのリストア
+* ファイルシステムのバックアップのクローニング
+* バックアップ、リストア、クローニングの各処理を監視する
+
+
+
+NOTE: Plug-in for Windowsでは、SMB共有のファイルシステムのバックアップとリストアはサポートされていません。

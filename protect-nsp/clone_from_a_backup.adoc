@@ -1,0 +1,281 @@
+---
+permalink: protect-nsp/clone_from_a_backup.html 
+sidebar: sidebar 
+keywords: clone 
+summary: SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。クローニング処理の機能は、使用するプラグインによって異なります。 
+---
+= バックアップからのクローニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してバックアップをクローニングすることができます。クローニングはプライマリとセカンダリのどちらのバックアップからも実行できます。クローニング処理の機能は、使用するプラグインによって異なります。
+
+.開始する前に
+* リソースまたはリソース グループをバックアップしておく必要があります。
+* デフォルトのクローニング処理でクローニングされるのは、ストレージ オブジェクトのみです。アプリケーション レベルのクローニング処理は、その機能がNetAppがサポートしているプラグインで提供されている場合にのみ実行できます。
+* ボリュームをホストするアグリゲートがStorage Virtual Machine（SVM）の割り当て済みアグリゲート リストに含まれていることを確認します。
+
+
+.タスク概要
+ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. *リソース* ページで、リソース タイプに基づいて *表示* ドロップダウン リストからリソースをフィルターします。
++
+リソースは、タイプ、ホストまたはクラスタ名、関連するリソース グループとポリシー、ステータスなどの情報とともに表示されます。
+
+. リソースまたはリソース グループを選択します。
++
+リソース グループを選択した場合はリソースを選択する必要があります。
+
++
+リソースまたはリソース グループのトポロジ ページが表示されます。
+
+. [コピーの管理] ビューで、プライマリまたはセカンダリ (ミラーリングまたはボールト化された) ストレージ システムから [*バックアップ*] を選択します。
+. 表からデータバックアップを選択し、クリックします。image:../media/clone_icon.gif["クローンアイコン"] 。
+. [Locations]ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+Clone server
+ a| 
+ソース ホストがデフォルトで入力されています。
+
+別のホストを指定する場合は、クローンのマウント先の、プラグインがインストールされたホストを選択します。
+
+
+
+ a| 
+Clone suffix
+ a| 
+クローン デスティネーションがソースと同じ場合は必須です。
+
+クローニングされた新しいリソース名に付けるサフィックスを入力します。サフィックスにより、クローニングされたリソースがホストで一意になります。
+
+たとえば、rs1_cloneのように指定します。元のリソースと同じホストにクローニングする場合、クローニングされたリソースを元のリソースと区別するためにサフィックスを指定する必要があります。これを行わないと処理は失敗します。
+
+|===
++
+リソースとしてLUNを選択し、セカンダリ バックアップからクローニングする場合、デスティネーション ボリュームのリストが表示されます。1つのソースについて複数のデスティネーション ボリュームを選択することができます。
+
+. *設定*ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+イニシエーター名
+ a| 
+ホスト イニシエータ名（IQDNまたはWWPN）を入力します。
+
+
+
+ a| 
+Igroup protocol
+ a| 
+[Igroup protocol]を選択します。
+
+|===
++
+
+NOTE: [Settings]ページは、ストレージ タイプがLUNの場合にのみ表示されます。
+
+. [Scripts]ページで、クローニング処理の前後に実行するプリコマンドやポストコマンドを入力します。ホストにファイルシステムをマウントするには、mountコマンドを入力します。
++
+例えば：
+
++
+** クローニング前のコマンド：同じ名前の既存のデータベースの削除
+** クローニング後のコマンド：データベースの検証やデータベースの起動
++
+Linux マシン上のボリュームまたは qtree のマウント コマンド: mount<VSERVER_NAME>:%<VOLUME_NAME_Clone /mnt>
+
+
+
+. *通知*ページの*電子メール設定*ドロップダウンリストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Get-SmBackupコマンドレットまたはGet-SmResourceGroupコマンドレットを使用して、クローニングできるバックアップのリストを表示します。
++
+この例では、使用可能なすべてのバックアップに関する情報を表示しています。
+
++
+[listing]
+----
+ C:\PS>PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+   1              Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                   Full Backup
+   2              Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+この例では、指定したリソース グループに関する情報を表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmResourceGroup
+
+    Description                 :
+    CreationTime                : 10/10/2016 4:45:53 PM
+    ModificationTime            : 10/10/2016 4:45:53 PM
+    EnableEmail                 : False
+    EmailSMTPServer             :
+    EmailFrom                   :
+    EmailTo                     :
+    EmailSubject                :
+    EnableSysLog                : False
+    ProtectionGroupType         : Backup
+    EnableAsupOnFailure         : False
+    Policies                    : {}
+    HostResourceMaping          : {}
+    Configuration               : SMCoreContracts.SmCloneConfiguration
+    LastBackupStatus            : Completed
+    VerificationServer          :
+    EmailBody                   :
+    EmailNotificationPreference : Never
+    VerificationServerInfo      :
+    SchedulerSQLInstance        :
+    CustomText                  :
+    CustomSnapshotFormat        :
+    SearchResources             : False
+    ByPassCredential            : False
+    IsCustomSnapshot            :
+    MaintenanceStatus           : Production
+    PluginProtectionGroupTypes  : {SMSQL}
+    Tag                         :
+    IsInternal                  : False
+    EnableEmailAttachment       : False
+    VerificationSettings        : {}
+    Name                        : NFS_DB
+    Type                        : Group
+    Id                          : 2
+    Host                        :
+    UserName                    :
+    Passphrase                  :
+    Deleted                     : False
+    Auth                        : SMCoreContracts.SmAuth
+    IsClone                     : False
+    CloneLevel                  : 0
+    Hosts                       :
+    StorageName                 :
+    ResourceGroupNames          :
+    PolicyNames                 :
+
+    Description                 :
+    CreationTime                : 10/10/2016 4:51:36 PM
+    ModificationTime            : 10/10/2016 5:27:57 PM
+    EnableEmail                 : False
+    EmailSMTPServer             :
+    EmailFrom                   :
+    EmailTo                     :
+    EmailSubject                :
+    EnableSysLog                : False
+    ProtectionGroupType         : Backup
+    EnableAsupOnFailure         : False
+    Policies                    : {}
+    HostResourceMaping          : {}
+    Configuration               : SMCoreContracts.SmCloneConfiguration
+    LastBackupStatus            : Failed
+    VerificationServer          :
+    EmailBody                   :
+    EmailNotificationPreference : Never
+    VerificationServerInfo      :
+    SchedulerSQLInstance        :
+    CustomText                  :
+    CustomSnapshotFormat        :
+    SearchResources             : False
+    ByPassRunAs                 : False
+    IsCustomSnapshot            :
+    MaintenanceStatus           : Production
+    PluginProtectionGroupTypes  : {SMSQL}
+    Tag                         :
+    IsInternal                  : False
+    EnableEmailAttachment       : False
+    VerificationSettings        : {}
+    Name                        : Test
+    Type                        : Group
+    Id                          : 3
+    Host                        :
+    UserName                    :
+    Passphrase                  :
+    Deleted                     : False
+    Auth                        : SMCoreContracts.SmAuth
+    IsClone                     : False
+    CloneLevel                  : 0
+    Hosts                       :
+    StorageName                 :
+    ResourceGroupNames          :
+    PolicyNames                 :
+----
+. New-SmCloneコマンドレットを使用して、クローン リソース グループまたは既存のバックアップからクローニング処理を開始します。
++
+この例では、指定したバックアップからすべてのログを含めてクローンを作成しています。
+
++
+[listing]
+----
+New-SmClone -BackupName Verify_delete_clone_on_qtree_windows_scc54_10-04-2016_19.05.48.0886 -Resources @{"Host"="scc54.sccore.test.com";"Uid"="QTREE1"}  -
+CloneToInstance scc54.sccore.test.com -Suffix '_QtreeCloneWin9'  -AutoAssignMountPoint -AppPluginCode 'DummyPlugin' -initiatorname 'iqn.1991-
+05.com.microsoft:scc54.sccore.test.com' -igroupprotocol 'mixed'
+----
+. クローニング ジョブのステータスを表示するには、Get-SmCloneReportコマンドレットを使用します。
++
+この例では、指定したジョブIDのクローン レポートを表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

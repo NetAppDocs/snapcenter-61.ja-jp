@@ -1,0 +1,175 @@
+---
+permalink: protect-nsp/restore_a_resource_backup.html 
+sidebar: sidebar 
+keywords: restore 
+summary: SnapCenterを使用してリソースをリストアすることができます。リストア処理の機能は、使用するプラグインによって異なります。 
+---
+= リソースのバックアップのリストア
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用してリソースをリストアすることができます。リストア処理の機能は、使用するプラグインによって異なります。
+
+.開始する前に
+* リソースまたはリソース グループをバックアップしておく必要があります。
+* ユーザがSnapshotをミラーまたはバックアップにレプリケートする場合は、ソース ボリュームとデスティネーション ボリューム両方のStorage Virtual Machine（SVM）をSnapCenter管理者がユーザに割り当てる必要があります。
+* リストアするリソースまたはリソース グループに対して現在実行中のバックアップ処理がある場合は、すべてキャンセルしておく必要があります。
+
+
+.タスク概要
+* デフォルトのリストア処理でリストアされるのは、ストレージ オブジェクトのみです。アプリケーション レベルのリストア処理は、その機能がNetAppがサポートしているプラグインで提供されている場合にのみ実行できます。
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [リソース] ページで、リソース タイプに基づいて [*表示*] ドロップダウン リストからリソースをフィルターします。
++
+リソースは、タイプ、ホストまたはクラスタ名、関連するリソース グループとポリシー、ステータスなどの情報とともに表示されます。
+
++
+
+NOTE: リストアの実行時は、バックアップがリストア グループに対するものであっても、リストア対象のリソースを個別に選択する必要があります。
+
++
+リソースが保護されていない場合は、[*全体的なステータス*] 列に [_保護されていません_] と表示されます。
+
++
+*全体的なステータス* 列のステータス「保護されていません」は、リソースが保護されていないか、リソースが別のユーザーによってバックアップされたことを意味します。
+
+. リソースを選択するか、リソース グループを選択してそのグループ内のリソースを選択します。
++
+リソースのトポロジ ページが表示されます。
+
+. *コピーの管理* ビューで、プライマリまたはセカンダリ (ミラーリングまたはボールト化された) ストレージ システムから *バックアップ* を選択します。
+. プライマリバックアップテーブルで、復元するバックアップを選択し、image:../media/restore_icon.gif["復元アイコン"] 。
++
+image::../media/restoring_resource.gif[資源の回復]
+
+. [復元範囲] ページで、[完全なリソース] または [ファイル レベル] のいずれかを選択します。
++
+.. *完全なリソース*を選択した場合は、リソースのバックアップが復元されます。
++
+リソースにストレージ容量としてボリュームまたはqtreeが含まれている場合、それらのボリュームまたはqtreeの以降のSnapshotは削除され、リカバリすることはできません。また、同じボリュームまたはqtreeで他のリソースがホストされている場合、そのリソースも削除されます。
+
+.. *ファイル レベル* を選択した場合は、*すべて* を選択するか、ボリュームまたは qtree を選択して、選択したボリュームまたは qtree に関連するパスをコンマで区切って入力できます。
++
+*** ボリュームとqtreeは複数選択できます。
+*** リソース タイプがLUNの場合は、LUN全体がリストアされます。複数のLUNを選択できます。+ 注意: *すべて* を選択すると、ボリューム、qtree、または LUN 上のすべてのファイルが復元されます。
+
+
+
+
+. *事前操作* ページで、復元ジョブを実行する前に実行する復元前コマンドとマウント解除コマンドを入力します。
+. *Post ops* ページで、復元ジョブを実行した後に実行するマウント コマンドと復元後のコマンドを入力します。
+. *通知*ページの*電子メール設定*ドロップダウンリストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメール アドレス、およびEメールの件名を指定する必要があります。SMTP は、[設定] > [グローバル設定] ページでも設定する必要があります。
+
+. 概要を確認し、[完了] をクリックします。
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+PS C:\> Open-Smconnection
+----
+. Get-SmBackupコマンドレットおよびGet-SmBackupReportコマンドレットを使用して、リストアする1つまたは複数のバックアップに関する情報を取得します。
++
+この例では、使用可能なすべてのバックアップに関する情報を表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+  1               Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                 Full Backup
+  2               Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+この例では、2015年1月29日から2015年2月3日までのバックアップに関する詳細な情報を示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -FromDateTime "1/29/2015" -ToDateTime "2/3/2015"
+
+   SmBackupId           : 113
+   SmJobId              : 2032
+   StartDateTime        : 2/2/2015 6:57:03 AM
+   EndDateTime          : 2/2/2015 6:57:11 AM
+   Duration             : 00:00:07.3060000
+   CreatedDateTime      : 2/2/2015 6:57:23 AM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_06.57.08
+   VerificationStatus   : NotVerified
+
+   SmBackupId           : 114
+   SmJobId              : 2183
+   StartDateTime        : 2/2/2015 1:02:41 PM
+   EndDateTime          : 2/2/2015 1:02:38 PM
+   Duration             : -00:00:03.2300000
+   CreatedDateTime      : 2/2/2015 1:02:53 PM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_13.02.45
+   VerificationStatus   : NotVerified
+----
+. Restore-SmBackupコマンドレットを使用して、バックアップからデータをリストアします。
++
+[listing]
+----
+Restore-SmBackup -PluginCode 'DummyPlugin' -AppObjectId 'scc54.sccore.test.com\DummyPlugin\NTP\DB1' -BackupId 269 -Confirm:$false
+output:
+Name                : Restore 'scc54.sccore.test.com\DummyPlugin\NTP\DB1'
+Id                  : 2368
+StartTime           : 10/4/2016 11:22:02 PM
+EndTime             :
+IsCancellable       : False
+IsRestartable       : False
+IsCompleted         : False
+IsVisible           : True
+IsScheduled         : False
+PercentageCompleted : 0
+Description         :
+Status              : Queued
+Owner               :
+Error               :
+Priority            : None
+Tasks               : {}
+ParentJobID         : 0
+EventId             : 0
+JobTypeId           :
+ApisJobKey          :
+ObjectId            : 0
+PluginCode          : NONE
+PluginName          :
+----
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+--
+====

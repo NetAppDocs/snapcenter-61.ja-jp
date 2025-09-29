@@ -1,0 +1,82 @@
+---
+permalink: protect-sco/predefined-environment-variables-prescript-postscript-restore.html 
+sidebar: sidebar 
+keywords: environment variable, predefined, prescript, postscript, restore 
+summary: SnapCenterでは、データベースのリストア時にプリスクリプトとポストスクリプトを実行する際に、事前定義された環境変数を使用できます。 
+---
+= リストア固有のプリスクリプトとポストスクリプト用に事前定義された環境変数
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでは、データベースのリストア時にプリスクリプトとポストスクリプトを実行する際に、事前定義された環境変数を使用できます。
+
+*データベースの復元にサポートされている定義済み環境変数*
+
+* *SC_JOB_ID* は操作のジョブ ID を指定します。
++
+例：257
+
+* *SC_ORACLE_SID* はデータベースのシステム識別子を指定します。
++
+複数のデータベースが処理対象となる場合、パイプで区切られたデータベース名が含まれます。
+
++
+例：NFSB31
+
+* *SC_HOST* はデータベースのホスト名を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例：scsmohost2.gdl.englabe.netapp.com
+
+* *SC_OS_USER* は、データベースのオペレーティング システムの所有者を指定します。
++
+例：Oracle
+
+* *SC_OS_GROUP* は、データベースのオペレーティング システム グループを指定します。
++
+例：oinstall
+
+* *SC_BACKUP_NAME* はバックアップの名前を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例:
+
++
+** データベースがARCHIVELOGモードで実行されていない場合: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+** データベースが ARCHIVELOG モードで実行されている場合: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1,RG2_scspr2417819002_07-21-2021_12.16.48.9267_1,RG2_scspr2417819002_07-22-2021_12.16.48.9267_1
+
+
+* *SC_BACKUP_ID* はバックアップの ID を指定します。
++
+このパラメータはアプリケーション ボリュームに対して設定されます。
+
++
+例:
+
++
+** データベースがARCHIVELOGモードで実行されていない場合: DATA@203|LOG@205
+** データベースがARCHIVELOGモードで実行されている場合: DATA@203|LOG@205,206,207
+
+
+* *SC_RESOURCE_GROUP_NAME* はリソース グループの名前を指定します。
++
+例：RG1
+
+* *SC_ORACLE_HOME* は、Oracle ホーム ディレクトリのパスを指定します。
++
+例: /ora01/app/oracle/product/18.1.0/db_1
+
+* *SC_RECOVERY_TYPE* は、回復されるファイルと回復範囲を指定します。
++
+例: RESTORESCOPE:usingBackupControlfile=false|RECOVERYSCOPE:allLogs=true,noLogs=false,untiltime=false,untilscn=false。
+
+
+
+区切り文字の詳細については、link:../protect-sco/predefined-environment-variables-prescript-postscript-backup.html#supported-delimiters["サポートされている区切り文字"^] 。

@@ -1,0 +1,85 @@
+---
+permalink: install/task_add_an_rbac_role_using_security_login_commands.html 
+sidebar: sidebar 
+keywords: RBAC roles, add, NetApp ONTAP RBAC role, storage system 
+summary: ストレージ システムでクラスタ化されたNetApp ONTAP を実行している場合は、セキュリティ ログイン コマンドを使用してNetApp ONTAP RBAC ロールを追加できます。 
+---
+= セキュリティ ログイン コマンドを使用してNetApp ONTAP RBAC ロールを追加する
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ストレージ システムでクラスタ化されたONTAP を実行している場合は、セキュリティ ログイン コマンドを使用してNetApp ONTAP RBAC ロールを追加できます。
+
+.開始する前に
+* 実行するタスク (1 つまたは複数) と、それらのタスクを実行するために必要な権限を特定します。
+* コマンドおよびコマンド ディレクトリ、またはそのいずれかに権限を付与します。
++
+コマンドおよびコマンド ディレクトリのアクセス権限には、フルアクセスと読み取り専用の2つのレベルがあります。
+
++
+フルアクセス権限は、常に最初に付与する必要があります。
+
+* ユーザにロールを割り当てます。
+* SnapCenterプラグインがクラスタ全体の Cluster Administrator IP に接続されているか、クラスタ内の SVM に直接接続されているかに応じて構成を識別します。
+
+
+.タスク概要
+ストレージ システムでのこれらのロールの構成を簡素化するには、 NetAppコミュニティ フォーラムに掲載されているNetApp ONTAPツール用の RBAC User Creator を使用できます。
+
+このツールは、ONTAPの権限の適切な設定を自動的に処理します。たとえば、 NetApp ONTAPツールの RBAC User Creator は、すべてのアクセス権限が最初に表示されるように、権限を正しい順序で自動的に追加します。読み取り専用権限を最初に追加し、次にフルアクセス権限を追加すると、ONTAPはフルアクセス権限を重複するものとしてマーキングし、無視します。
+
+
+NOTE: 後でSnapCenterまたはONTAPをアップグレードする場合は、 NetApp ONTAPツールの RBAC User Creator を再実行して、以前に作成したユーザー ロールを更新する必要があります。前のバージョンのSnapCenterまたはONTAP用に作成したユーザ ロールは、アップグレード後のバージョンでは正常に機能しません。ツールを再度実行すると、アップグレードが自動的に処理されます。ロールを再作成する必要はありません。
+
+ONTAP RBACロールの設定の詳細については、 http://docs.netapp.com/ontap-9/topic/com.netapp.doc.pow-adm-auth-rbac/home.html["ONTAP 9 管理者認証および RBAC パワーガイド"^] 。
+
+.手順
+. ストレージ システムで、次のコマンドを入力して新しいロールを作成します。
++
+`security login role create <role_name\> -cmddirname "command" -access all –vserver <svm_name\>`
+
++
+** svm_nameには、SVMの名前を指定します。これを空白のままにした場合、デフォルトでクラスタ管理者が指定されます。
+** role_nameは、ロールに指定する名前です。
+** commandは、ONTAPの機能です。
++
+
+NOTE: このコマンドは、権限ごとに実行する必要があります。フルアクセス コマンドは、読み取り専用コマンドの前にリストする必要があります。
+
++
+権限のリストについては、以下を参照してください。link:../install/task_create_an_ontap_cluster_role_with_minimum_privileges.html#ontap-cli-commands-for-creating-cluster-roles-and-assigning-permissions["ロールの作成と権限の割り当てのためのONTAP CLIコマンド"^] 。
+
+
+
+. 次のコマンドを入力して、ユーザ名を作成します。
++
+`security login create -username <user_name\> -application ontapi -authmethod <password\> -role <name_of_role_in_step_1\> –vserver <svm_name\> -comment "user_description"`
+
++
+** user_nameは、作成するユーザの名前です。
+** <password> はあなたのパスワードです。パスワードを指定しないと、パスワードの入力を求めるプロンプトが表示されます。
+** svm_nameには、SVMの名前を指定します。
+
+
+. 次のコマンドを入力して、ユーザにロールを割り当てます。
++
+`security login modify username <user_name\> –vserver <svm_name\> -role <role_name\> -application ontapi -application console -authmethod <password\>`
+
++
+** <user_name> は、手順 2 で作成したユーザーの名前です。このコマンドでは、ロールに関連付けるユーザを変更できます。
+** <svm_name> は SVM の名前です。
+** <role_name> は、手順 1 で作成したロールの名前です。
+** <password> はあなたのパスワードです。パスワードを指定しないと、パスワードの入力を求めるプロンプトが表示されます。
+
+
+. 次のコマンドを入力して、ユーザが正しく作成されたことを確認します。
++
+`security login show –vserver <svm_name\> -user-or-group-name <user_name\>`
+
++
+user_nameは、手順3で作成したユーザ名です。
+
+

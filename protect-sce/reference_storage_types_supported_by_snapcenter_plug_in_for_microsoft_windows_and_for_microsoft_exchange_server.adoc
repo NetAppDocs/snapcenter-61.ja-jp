@@ -1,0 +1,92 @@
+---
+permalink: protect-sce/reference_storage_types_supported_by_snapcenter_plug_in_for_microsoft_windows_and_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージ タイプをサポートしています。ホストに対応したパッケージをインストールする前に、ストレージ タイプがサポートされているかどうかを確認する必要があります。 
+---
+= SnapCenter Plug-in for Microsoft WindowsおよびSnapCenter Plug-in for Microsoft Exchange Serverでサポートされるストレージ タイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージ タイプをサポートしています。ホストに対応したパッケージをインストールする前に、ストレージ タイプがサポートされているかどうかを確認する必要があります。
+
+Windows Serverでは、SnapCenterによるプロビジョニングとデータ保護がサポートされます。サポートされているバージョンに関する最新情報については、 https://imt.netapp.com/matrix/imt.jsp?components=121031;&solution=1259&isHWU&src=IMT[] [NetApp相互運用性マトリックス ツール^]。
+
+|===
+| マシン | ストレージ タイプ | プロビジョニングを使用して | サポートノート 
+
+
+ a| 
+物理サーバ
+ a| 
+FC接続LUN
+ a| 
+SnapCenterのグラフィカル ユーザ インターフェイス（GUI）またはPowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+物理サーバ
+ a| 
+iSCSI接続LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+FCまたはiSCSI HBAで接続されたRDM LUN
+ a| 
+PowerShellコマンドレット
+ a| 
+物理的互換性のみ
+
+
+NOTE: VMDKはサポートされません。
+
+
+
+ a| 
+VMware VM
+ a| 
+iSCSIイニシエータでゲスト システムに直接接続されたiSCSI LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+NOTE: VMDKはサポートされません。
+
+
+
+ a| 
+Hyper-V VM
+ a| 
+仮想ファイバチャネル スイッチで接続された仮想FC（vFC）LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+仮想ファイバチャネル スイッチで接続された仮想FC（vFC）LUNのプロビジョニングには、Hyper-V Managerを使用する必要があります。
+
+
+NOTE: Hyper-Vのパススルー ディスク、およびNetAppストレージでプロビジョニングされたVHD（VHDX）でのデータベースのバックアップはサポートされません。
+
+
+
+ a| 
+Hyper-V VM
+ a| 
+iSCSIイニシエータでゲスト システムに直接接続されたiSCSI LUN
+ a| 
+SnapCenterのGUIまたはPowerShellコマンドレット
+ a| 
+
+NOTE: Hyper-Vのパススルー ディスク、およびNetAppストレージでプロビジョニングされたVHD（VHDX）でのデータベースのバックアップはサポートされません。
+
+|===

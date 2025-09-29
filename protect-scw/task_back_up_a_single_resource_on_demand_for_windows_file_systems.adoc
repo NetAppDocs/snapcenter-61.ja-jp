@@ -1,0 +1,210 @@
+---
+permalink: protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: 'リソース グループに含まれていないリソースは、[Resources]ページからオンデマンドでバックアップすることができます。' 
+---
+= Windowsファイルシステムの単一リソースのオンデマンド バックアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+リソース グループに含まれていないリソースは、[Resources]ページからオンデマンドでバックアップすることができます。
+
+.タスク概要
+セカンダリ ストレージとのSnapMirror関係を持つリソースをバックアップする場合、ストレージ ユーザーに割り当てられているロールに「`snapmirror all`」権限が含まれている必要があります。ただし、「`vsadmin`」ロールを使用している場合は、「`snapmirror all`」権限は必要ありません。
+
+
+NOTE: SnapCenterによるファイルシステムのバックアップでは、バックアップするファイルシステムのボリューム マウント ポイント（VMP）にマウントされているLUNはバックアップされません。
+
+
+IMPORTANT: Windowsファイルシステムについての作業では、データベース ファイルはバックアップしないでください。バックアップを作成しても整合性に欠け、リストア時にデータが失われる可能性があります。データベース ファイルを保護するには、データベースに適したSnapCenterプラグイン (たとえば、Microsoft SQL Server 用のSnapCenterプラグインや Microsoft Exchange Server 用のSnapCenterプラグインなど) を使用する必要があります。
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーション ペインで [*リソース*] をクリックし、リストから適切なプラグインを選択します。
+. [Resources]ページで、リソース タイプとして[File System]を選択し、バックアップするリソースを選択します。
+. ファイル システム - 保護ウィザードが自動的に起動しない場合は、[保護] をクリックしてウィザードを起動します。
++
+「リソース グループの作成」の作業の説明に従って、保護設定を指定します。
+
+. オプション: ウィザードのリソース ページで、スナップショットのカスタム名形式を入力します。
++
+たとえば、customtext_resourcegroup_policy_hostnameやresourcegroup_hostnameなどの形式です。デフォルトでは、Snapshotの名前の後ろにタイムスタンプが付加されます。
+
+. [Policies]ページで、次の作業を実行します。
++
+.. ドロップダウン リストから1つ以上のポリシーを選択します。
++
+既存のポリシーを選択し、[詳細] をクリックして、そのポリシーを使用できるかどうかを確認できます。
+
++
+既存のポリシーがいずれも要件を満たさない場合は、既存のポリシーをコピーして変更するか、image:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]をクリックしてポリシー ウィザードで新しいポリシーを作成できます。既存のポリシーがいずれも要件を満たさない場合は、既存のポリシーをコピーして変更するか、image:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]をクリックしてポリシー ウィザードで新しいポリシーを作成できます。
+
++
+選択したポリシーが[Configure schedules for selected policies]セクションの[Policy]列に表示されます。
+
+.. 選択したポリシーのスケジュールを構成するセクションで、image:../media/add_policy_from_resourcegroup.gif["ポリシーフォームリソースグループを追加する"]スケジュールを構成するポリシーの [スケジュールの構成] 列で、
+.. [ポリシー _policy_name_ のスケジュールの追加] ダイアログ ボックスで、開始日、有効期限、頻度を指定してスケジュールを構成し、[完了] をクリックします。
++
+設定したスケジュールは、[Configure schedules for selected policies]セクションの[Applied Schedules]列に表示されます。
+
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Scheduled_data_protection_operations_fail_if_the_number_of_operations_running_reaches_maximum_limit["スケジュールを設定した処理は失敗することがあります。"]
+
+
+
+. [Notification]ページで、次の作業を行います。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+メール設定
+ a| 
+バックアップ リソース グループを作成し、ポリシーを添付し、スケジュールを構成した後、受信者に電子メールを送信するには、[*常に*]、[*失敗時*]、または [*失敗または警告時*] を選択します。
+
+SMTP サーバー情報、デフォルトの電子メール件名、および「To」および「From」電子メール アドレスを入力します。
+
+
+
+ a| 
+から
+ a| 
+Eメール アドレス
+
+
+
+ a| 
+To
+ a| 
+Eメールの送信先アドレス
+
+
+
+ a| 
+Subject
+ a| 
+Eメールのデフォルトの件名
+
+|===
+. 概要を確認し、[完了] をクリックします。
++
+データベース トポロジのページが表示されます。
+
+. *今すぐバックアップ*をクリックします。
+. [Backup]ページで次の手順を実行します。
++
+.. リソースに複数のポリシーを適用した場合は、バックアップに使用するポリシーを[Policy]ドロップダウン リストから選択します。
++
+オンデマンド バックアップ用に選択したポリシーがバックアップ スケジュールに関連付けられている場合、オンデマンド バックアップは、スケジュール タイプの保持設定に基づいて保持されます。
+
+.. *バックアップ*をクリックします。
+
+
+. *モニター* > *ジョブ* をクリックして、操作の進行状況を監視します。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定のユーザでSnapCenter Serverとの接続セッションを開始します。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+ユーザ名とパスワードのプロンプトが表示されます。
+
+. Add-SmPolicyコマンドレットを使用して、バックアップ ポリシーを作成します。
++
+この例では、SQLのバックアップ タイプ「FullBackup」を指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+この例では、Windowsファイルシステムのバックアップ タイプ「CrashConsistent」を指定して新しいバックアップ ポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Get-SmResourcesコマンドレットを使用してホスト リソースを検出します。
++
+この例では、指定したホスト上でMicrosoft SQLプラグインのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+この例では、指定したホスト上でWindowsファイルシステムのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Add-SmResourceGroupコマンドレットを使用して、SnapCenterに新しいリソース グループを追加します。
++
+この例では、ポリシーとリソースを指定して新しいSQLデータベース バックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+この例では、ポリシーとリソースを指定して新しいWindowsファイルシステム バックアップ リソース グループを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. New-SmBackupコマンドレットを使用して、新しいバックアップ ジョブを開始します。
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Get-SmBackupReportコマンドレットを使用して、バックアップ ジョブのステータスを表示します。
++
+この例では、指定した日に実行されたすべてのジョブの概要レポートを表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+コマンドレットで使用できるパラメータとその説明に関する情報は、_Get-Help command_name_ を実行すると取得できます。あるいは、 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenterソフトウェア コマンドレット リファレンス ガイド"^] 。
+
+--
+====

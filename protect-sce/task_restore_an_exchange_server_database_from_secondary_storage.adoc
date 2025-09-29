@@ -1,0 +1,34 @@
+---
+permalink: protect-sce/task_restore_an_exchange_server_database_from_secondary_storage.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: バックアップしたExchange Serverデータベースは、セカンダリ ストレージ（ミラーまたはバックアップ）からリストアできます。 
+---
+= セカンダリ ストレージからのExchange Serverデータベースのリストア
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+バックアップしたExchange Serverデータベースは、セカンダリ ストレージ（ミラーまたはバックアップ）からリストアできます。
+
+プライマリ ストレージからセカンダリ ストレージにSnapshotをレプリケートしておく必要があります。
+
+.タスク概要
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLock Vault Snapshotから作成されたクローンが、SnapLock Vaultの有効期限を継承します。SnapLockの有効期限が過ぎたあと、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+* SnapMirrorアクティブ同期でリストア処理を実行するには、プライマリの場所からバックアップを選択する必要があります。
+
+
+.手順
+. 左側のナビゲーション ウィンドウで、[*リソース*] をクリックし、リストから [*Microsoft Exchange Server プラグイン*] を選択します。
+. [リソース] ページで、[表示] ドロップダウン リストから [データベース] または [リソース グループ] を選択します。
+. データベースまたはリソース グループを選択します。
++
+データベースまたはリソース グループのトポロジ ページが表示されます。
+
+. [コピーの管理] セクションで、セカンダリ ストレージ システム (ミラーまたはボールト) から [*バックアップ*] を選択します。
+. リストからバックアップを選択し、クリックしますimage:../media/restore_icon.gif["復元アイコン"]。
+. [Location]ページで、選択したリソースをリストアするデスティネーション ボリュームを選択します。
+. 復元ウィザードを完了し、概要を確認して、[完了] をクリックします。
+

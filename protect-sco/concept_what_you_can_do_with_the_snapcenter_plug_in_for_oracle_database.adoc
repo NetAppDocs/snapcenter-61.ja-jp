@@ -1,0 +1,39 @@
+---
+permalink: protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html 
+sidebar: sidebar 
+keywords: backup, restore, clone, oracle database 
+summary: 'Oracle データベース用プラグインを使用すると、Oracle データベースとそのリソースをバックアップ、検証、復元、リカバリ、マウント、アンマウント、およびクローン化できます。  Oracle Recovery Manager (RMAN) を使用して、データベース バックアップをカタログ化またはカタログ解除することもできます。' 
+---
+= Plug-in for Oracle Databaseの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Oracle Databaseは、Oracleデータベースに対してアプリケーション対応のデータ保護管理を可能にする、NetApp SnapCenterソフトウェアのホスト側コンポーネントです。
+
+Plug-in for Oracle Databaseによって、SnapCenter環境でのOracleデータベースのバックアップ、Oracle Recovery Manager（RMAN）を使用したカタログ化とカタログ化解除、検証、マウント、アンマウント、リストア、リカバリ、クローニングを自動化できます。Plug-in for Oracle Databaseは、すべてのデータ保護処理を実行するためにSnapCenter Plug-in for UNIXをインストールします。
+
+Plug-in for Oracle Databaseでは、SAPアプリケーションを実行しているOracleデータベースのバックアップを管理することもできます。ただし、SAP BR*Toolsとの統合はサポートされません。
+
+* データファイル、制御ファイル、およびアーカイブ ログ ファイルをバックアップします。
++
+バックアップは、コンテナ データベース（CDB）レベルでのみサポートされます。
+
+* データベース、コンテナ データベース（CDB）、プラガブル データベース（PDB）のリストアとリカバリを行います。
++
+PDBの不完全リカバリはサポートされていません。
+
+* ある時点までの本番環境データベースのクローンを作成します。
++
+クローニングはCDBレベルでのみサポートされます。
+
+* バックアップをすぐに検証します。
+* リカバリ処理のためにデータ バックアップとログ バックアップのマウントとアンマウントを行います。
+* バックアップ処理と検証処理をスケジュールします。
+* すべての処理を監視します。
+* バックアップ、リストア、クローニングの各処理のレポートを表示します。
+* SnapCenter環境のOracleデータベースに対するアプリケーション対応のバックアップ、リストア、リカバリ、検証、マウント、アンマウント、クローニングの各処理が自動化されます。
+* SAP用のOracleデータベースをサポートしますが、SAP BR*Toolsとの統合は提供されません。
+
