@@ -1231,7 +1231,6 @@
   <block id="6e13f804ad8be111cf6ad70744afe388" category="list-text">ONTAP ASA r2プライマリおよびセカンダリシステムにあるデータ</block>
   <block id="67387428a7e5d4e4205f94627d948f8a" category="list-text">ハイブリッド クラウド内のオンプレミスで次のものを保護します。</block>
   <block id="f5c37d824040662f50cbb8a32d77182d" category="list-text">ONTAP FAS、AFF、またはASAのプライマリ システム上にあり、Cloud Volumes ONTAPにレプリケートされているデータ</block>
-  <block id="f7b38c62b0e74d318a255bc3094cf531" category="list-text">ONTAP FAS、AFF、またはASAのプライマリ システムとセカンダリ システム上にあり、クラウドのオブジェクト ストレージとアーカイブ ストレージに保護されているデータ（BlueXPバックアップとリカバリの統合を使用）</block>
   <block id="ca5570a253e3c0a27562c65c06bb6125" category="list-text">パブリック クラウドに導入（以下のデータを保護）：</block>
   <block id="b340c2b4a7a978a510c8ebb351622143" category="list-text">Cloud Volumes ONTAP（旧称ONTAP Cloud）プライマリ システム上のデータ</block>
   <block id="b380e442ff5c6e48e283af8b6f99806f" category="list-text">Amazon FSX for ONTAP上のデータ</block>
@@ -9557,4 +9556,6 @@
   <block id="60bea4969590084ae9e74b765b209fad" category="sidebar">SnapCenterプラグイン パッケージのアンインストール</block>
   <block id="fdcd3d6f45be97e0e24b4e793a81fac0" category="sidebar">SnapCenter Serverとプラグインのアップグレード</block>
   <block id="8693aef17f2d371968a29ad0e0dff726" category="sidebar">アップグレード ワークフロー</block>
+  <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenterは、Snapshot処理の完了後に、SnapMirrorとSnapVaultに対する更新を実行します。SnapMirrorおよびSnapVault の更新は、 SnapCenterジョブの一部として実行されます。SnapMirrorアクティブ同期を使用している場合は、 SnapMirrorアクティブ同期と非同期関係の両方に対してデフォルトのSnapMirrorまたはSnapVaultスケジュールを使用します。</block>
+  <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">ONTAP FAS、 AFF、またはASAプライマリおよびセカンダリ システム上に存在し、 NetApp のバックアップおよびリカバリ統合を使用してクラウド内のオブジェクトおよびアーカイブ ストレージに保護されているデータ</block>
 </blocks>
