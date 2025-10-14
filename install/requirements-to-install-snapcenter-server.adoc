@@ -168,7 +168,7 @@ SnapCenter softwareでは、異なるコンポーネント間の通信に異な�
 
 
  a| 
-SnapCenterのポート
+SnapCenter Webポート
  a| 
 8146
  a| 
