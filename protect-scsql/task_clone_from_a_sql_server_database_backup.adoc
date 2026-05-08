@@ -162,9 +162,7 @@ EMSについては、 https://docs.netapp.com/us-en/snapcenter/admin/concept_man
 クローンの作成後は、名前を変更しないでください。
 
 .関連情報
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["デフォルトのTCP_TIMEOUT値を使用すると、クローニング処理が失敗するか所要時間が長くなる場合がある"]
-
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["フェイルオーバー クラスタ インスタンスのデータベース クローニングが失敗する"]
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["フェイルオーバー クラスタ インスタンスのデータベース クローニングが失敗する"^]
 
 --
 .PowerShellコマンドレット
